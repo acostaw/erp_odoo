@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="account_invoice_multi_select.list">
+      <field name="name">account_invoice_multi_select list</field>
+      <field name="model">account_invoice_multi_select.account_invoice_multi_select</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="account_invoice_multi_select.action_window">
+      <field name="name">account_invoice_multi_select window</field>
+      <field name="res_model">account_invoice_multi_select.account_invoice_multi_select</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="account_invoice_multi_select.action_server">
+      <field name="name">account_invoice_multi_select server</field>
+      <field name="model_id" ref="model_account_invoice_multi_select_account_invoice_multi_select"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="account_invoice_multi_select" id="account_invoice_multi_select.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="account_invoice_multi_select.menu_1" parent="account_invoice_multi_select.menu_root"/>
+    <menuitem name="Menu 2" id="account_invoice_multi_select.menu_2" parent="account_invoice_multi_select.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="account_invoice_multi_select.menu_1_list" parent="account_invoice_multi_select.menu_1"
+              action="account_invoice_multi_select.action_window"/>
+    <menuitem name="Server to list" id="account_invoice_multi_select" parent="account_invoice_multi_select.menu_2"
+              action="account_invoice_multi_select.action_server"/>
+    -->
+  </data>
+</odoo>

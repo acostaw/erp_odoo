@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="portal_breadcrumbs" name="Portal layout : solicitudes de servicio" inherit_id="portal.portal_breadcrumbs" >
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'solicitud' or solicitud_servicio and solicitud_servicio.state in ('pending','draft','sent', 'cancel')" t-attf-class="breadcrumb-item #{'active ' if not solicitud_servicio else ''}">
+                <a t-if="solicitud_servicio" t-attf-href="/my/solicitudes?{{ keep_query() }}">Solicitudes de Servicio</a>
+                <t t-else="">Solicitudes de Servicio</t>
+            </li>
+        </xpath>
+    </template>
+
+
+    <template id="portal_my_home_sale" name="Portal My Home : solicitudes de servicio" inherit_id="portal.portal_my_home" priority="10">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <!--            <t t-if="solicitud_count">-->
+            <a class="list-group-item list-group-item-action d-flex align-items-center justify-content-between" href="/my/solicitudes" title="Solicitudes de Servicio">
+                Solicitudes de Servicio
+                <t t-if="solicitud_count" >
+                    <span class="badge badge-secondary badge-pill"><t t-esc="solicitud_count"/></span>
+                </t>
+            </a>
+            <!--            </t>-->
+        </xpath>
+    </template>
+
+    <template id="portal_my_solicitudes" name="Mis Solicitudes">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Solicitudes</t>
+            </t>
+            <a role="button" class="btn btn-primary" href="/new/solicitud"><i class="fa fa-plus-square-o"/> Nueva Solicitud</a>
+            <t t-if="not quotations">
+                <p>Actualmente no tiene solicitudes.</p>
+            </t>
+            <t t-if="quotations" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Solicitud de Servicio #</th>
+                        <th class="text-right">Fecha de solicitud</th>
+                        <th class="text-right">Organismo</th>
+                        <th class="text-center"/>
+                        <!--                        <th class="text-right">Total</th>-->
+                    </tr>
+                </thead>
+                <t t-foreach="quotations" t-as="solicitud">
+                    <tr>
+                        <td><a t-att-href="solicitud.get_portal_url()"><t t-esc="solicitud.name"/></a></td>
+                        <td class="text-right"><span t-field="solicitud.fecha_solicitud"/></td>
+                        <td class="text-right"><span t-field="solicitud.organismo_id.name"/></td>
+                        <td class="text-center">
+                            <span t-if="solicitud.state == 'cancel'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-remove"/> Cancelado</span>
+                            <span t-if="solicitud.state == 'done'" class="badge badge-pill badge-success"><i class="fa fa-fw fa-check-square-o"/> Confirmado</span>
+                            <span t-if="solicitud.state == 'pending'" class="badge badge-pill badge-primary"><i class="fa fa-fw fa-clock-o"/> Pendiente</span>
+                        </td>
+                        <!--                        <td class="text-right">-->
+                        <!--                            <span t-field="quotation.amount_total"/>-->
+                        <!--                        </td>-->
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <template id="solicitud_servicio_portal_template" name="Solicitudes de Servicio Portal Template" inherit_id="portal.portal_sidebar" primary="True">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+            <t t-set="o_portal_fullwidth_alert" groups="sales_team.group_sale_salesman">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (solicitud_servicio._name, solicitud_servicio.id)"/>
+                </t>
+            </t>
+
+            <div class="row mt16 o_portal_sale_sidebar">
+                <!-- Sidebar -->
+                <t t-call="portal.portal_record_sidebar">
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+
+                    <!--                    <t t-set="title">-->
+                    <!--                        <h2 class="mb-0"><b t-field="sale_order.amount_total" data-id="total_amount"/> </h2>-->
+                    <!--                    </t>-->
+                    <t t-set="entries">
+                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <t t-if="solicitud_servicio.state in ['pending','draft', 'done','cancel']">
+                                <li class="list-group-item">
+                                    <div class="card-body text-center pb-2 pt-3">
+
+                                        <h3><t t-esc="solicitud_servicio.name"/> </h3>
+
+                                        <p>
+                                            Fecha de Solicitud
+                                        </p>
+                                        <p>
+                                            <i class="fa fa-clock-o" aria-title="Fecha de Solicitud" title="Fecha de solicitud"></i>
+                                            <t t-esc="solicitud_servicio.fecha_solicitud"/>
+                                        </p>
+                                        <span t-if="solicitud_servicio.state == 'cancel'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-remove"/> Cancelado</span>
+                                        <span t-if="solicitud_servicio.state == 'done'" class="badge badge-pill badge-success"><i class="fa fa-fw fa-check-square-o"/> Confirmado</span>
+                                        <span t-if="solicitud_servicio.state == 'pending'" class="badge badge-pill badge-primary"><i class="fa fa-fw fa-clock-o"/> Pendiente</span>
+                                    </div>
+                                </li>
+                            </t>
+
+                            <li class="list-group-item flex-grow-1">
+                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_download_btn" t-att-href="solicitud_servicio.get_portal_url(report_type='pdf', download=True)" title="Download"><i class="fa fa-download"/> Descargar</a>
+                                    </div>
+                                    <div class="btn-group flex-grow-1 mb-1">
+                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" t-att-href="solicitud_servicio.get_portal_url(report_type='pdf')" id="print_invoice_report" title="Print" target="_blank"><i class="fa fa-print"/> Imprimir</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="navspy list-group-item pl-0 flex-grow-1" t-ignore="true" role="complementary">
+                                <ul class="nav flex-column bs-sidenav"></ul>
+                            </li>
+
+
+                            <li t-if="solicitud_servicio.tecnico_id" class="list-group-item flex-grow-1">
+                                <div class="small mb-1"><strong class="text-muted">Su Contacto</strong></div>
+                                <div class="row flex-nowrap">
+                                    <div class="col flex-grow-0 pr-2">
+                                        <img class="rounded-circle mr4 float-left o_portal_contact_img" t-if="solicitud_servicio.tecnico_id.image" t-att-src="image_data_uri(solicitud_servicio.tecnico_id.image)" alt="Contacto"/>
+                                        <img class="rounded-circle mr4 float-left o_portal_contact_img" t-if="not solicitud_servicio.tecnico_id.image" src="/web/static/src/img/placeholder.png" alt="Contacto"/>
+                                    </div>
+                                    <div class="col pl-0" style="min-width: tecnico_id">
+                                        <span t-field="solicitud_servicio.tecnico_id" t-options='{"widget": "contact", "fields": ["name", "phone"], "no_marker": True}'/>
+                                        <a href="#discussion" class="small"><i class="fa fa-comment"></i> Enviar mensaje</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+
+                <!-- Page Content -->
+                <div id="invoice_content" class="o_portal_page_content col-12 col-lg d-flex flex-column align-items-end">
+                    <div class="o_portal_page_size">
+                        <t t-if="error or warning" t-call="account.portal_invoice_error"/>
+                        <t t-if="success and (not error and not warning)" t-call="account.portal_invoice_success"/>
+
+                        <div class="o_portal_html_view shadow">
+                            <div class="o_portal_html_loader text-center">
+                                <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw text-black-50"/>
+                            </div>
+                            <iframe style="min-height:800px;" id="invoice_html" class="mt8 mb8" width="100%" height="100%" frameborder="0" scrolling="no" t-att-src="solicitud_servicio.get_portal_url(report_type='html')"/>
+
+                        </div>
+
+                        <div id="sale_order_communication" class="mt-4">
+                            <h2>Comunicación</h2>
+                            <t t-call="portal.message_thread">
+                                <t t-set="object" t-value="solicitud_servicio"/>
+                            </t>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </xpath>
+    </template>
+
+    <template id="nueva_solicitud_servicio" name="Nueva Solicitud">
+        <t t-call="portal.portal_layout">
+            <script>
+
+                function getBasculas() {
+                d = document.getElementById("sucursal").value;
+                url = 'http://erptest.intn.gov.py/get-basculas/' + d;
+
+                fetch(url)
+                .then(function(response) {
+                return response.json();
+                })
+                .then(function(myJson) {
+                var items = '';
+                items = myJson;
+
+                var x = document.getElementById("bascula");
+                x.innerHTML = 'No hay básculas que mostrar';
+
+                for (var i of this.Object.keys(items)){
+                var option = document.createElement("option");
+                option.text = items[i].name;
+                option.value = items[i].id;
+                x.add(option);
+                }
+                });
+                }
+
+                var editableProducts = {
+
+                options: {
+                table: "#tableSocProducts"
+                },
+                initialize: function() {
+                this
+                .setVars()
+                .events();
+                },
+                setVars: function() {
+                this.$table = $(this.options.table);
+                this.$totalLines = $(this.options.table).find('tr').length - 1;
+                return this;
+                },
+                updateLines: function() {
+                var totalLines = $(this.options.table).find('tr').length - 1;
+                if (totalLines &lt;= 1) {
+                $('.remove').hide();
+                $('.add').show();
+                }
+
+                return this;
+                },
+                events: function() {
+                var _self = this;
+
+                _self.updateLines();
+
+                this.$table
+                .on('click', 'button.add', function(e) {
+                e.preventDefault();
+                //---------------------------------------
+
+                var $tr = $(this).closest('tr');
+                var $clone = $tr.clone();
+                $clone.find(':text').val('');
+                $tr.after($clone);
+
+                if (_self.setVars().$totalLines > 1) {
+                $('.remove').show();
+                }
+
+                $tr.find('.add').hide();
+
+                })
+                .on('click', 'button.remove', function(e) {
+                e.preventDefault();
+                //---------------------------------------
+
+                var $tr = $(this).closest('tr')
+                $tr.remove();
+
+                if (_self.setVars().$totalLines &lt;= 1) {
+                $('.remove').hide();
+                $('.add').show();
+                }
+                //if have delete last button with button add visible, add another button to last tr
+                if (_self.setVars().$totalLines > 1) {
+                _self.$table.find('tr:last').find('.add').show();
+                }
+
+                });
+
+                return this;
+                }
+                };
+
+                $(function() {
+                editableProducts.initialize();
+                });
+
+
+
+            </script>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Solicitudes</t>
+            </t>
+
+            <div class="o_portal_page_content col-12 col-lg d-flex flex-column shadow" style="padding:0 !important;background:white;">
+                <div class="o_portal_page_size">
+                    <div class="container" style="padding:15px !important;margin-left:auto;margin-right:auto;">
+
+                        <h1 style="text-align:center">Nueva Solicitud de Servicio</h1>
+                        <br></br>
+                        <form id="formServicio" action="/save/solicitud">
+                            <table style="width:100%;font-size:16px">
+                                <tr>
+                                    <td style="font-weight:bold;width:15%">
+                                        Cliente:
+                                    </td>
+                                    <td>
+                                        <t t-esc="partner.name"/>
+                                    </td>
+                                    <t t-if="sucursales">
+                                        <td style="font-weight:bold;width:15%">
+                                            Sucursal:
+                                        </td>
+                                        <td>
+                                            <select name="sucursal" id="sucursal" class="sucursal" onchange="getBasculas()">
+                                                <option value="0"></option>
+                                                <t t-foreach="sucursales" t-as="o">
+                                                    <option t-att-value="o.id" t-esc="o.name"/>
+                                                </t>
+                                            </select>
+                                        </td>
+                                    </t>
+                                    <td style="font-weight:bold;width:15%">
+                                        Báscula:
+                                    </td>
+                                    <td>
+                                        <select name="bascula" id="bascula">
+                                            <option value="0"></option>
+                                            <t t-foreach="basculas" t-as="b">
+                                                <option t-att-value="b.id" t-esc="b.name"/>
+                                            </t>
+                                        </select>
+                                    </td>
+                                    <t t-if="not sucursales">
+                                        <input type="text" readonly="1" style="display:none" value="0" name="sucursal" id="sucursal"/>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;width:15%" colspan="1">
+                                        Fecha de solicitud:
+                                    </td>
+                                    <t t-if="sucursales">
+                                        <td colspan="3">
+                                            <t t-esc="fecha_actual"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="not sucursales">
+                                        <td colspan="3">
+                                            <t t-esc="fecha_actual"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </table>
+
+                            <br></br>
+
+                            <input type="text" readonly="1" style="display:none" t-att-value="partner.id" name="partner" id="partner"/>
+                            <div class="table-responsive">
+                                <table class="table" id="tableSocProducts">
+                                    <thead>
+                                        <tr>
+                                            <td class="text-weight-semibold" style="font-weight:bold;font-size:16px">Servicio</td>
+                                            <td class="text-weight-semibold" style="font-weight:bold;font-size:16px">Cantidad</td>
+                                            <!--                                        <td class="text-weight-semibold">Precio Unitario</td>-->
+                                            <!--                                        <td class="text-weight-semibold">Total</td>-->
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select name="servicio" id="servicio">
+                                                    <option value="0">Servicio</option>
+                                                    <t t-foreach="servicios" t-as="s">
+                                                        <option t-att-value="s.id" t-esc="s.name"/>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" value="1" min="1" id="cantidad" name="cantidad"/>
+                                            </td>
+                                            <!--                                        <td>-->
+                                            <!--                                            <input type="text" value="" readonly="1" id="precio_unitario" name="precio_unitario"/>-->
+                                            <!--                                        </td>-->
+                                            <!--                                        <td>-->
+                                            <!--                                            <input type="text" value="" readonly="1"/>-->
+                                            <!--                                        </td>-->
+                                            <!--                                            <td>-->
+                                            <!--                                                <div class="">-->
+                                            <!--                                                    <button id="addNewItem" name="addNewItem" type="button" class="btn btn-success add"><i style="color:#fff" class="fa fa-plus-circle"></i></button>-->
+                                            <!--                                                    <button id="removeItem" name="removeItem" type="button" class="btn btn-danger remove"><i style="color:#fff;" class="fa fa-trash-o"></i></button>-->
+                                            <!--                                                </div>-->
+                                            <!--                                            </td>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h4 style="text-align:center">Detalle del Servicio</h4>
+                                <div style="text-align:center">
+                                    <textarea rows="10" cols="100%" name="detalle_servicio" id="detalle_servicio"/>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button id="guardarSolicitud" name="guardarSolicitud" type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="solicitud_creada" name="Solicitud Creada">
+        <t t-call="portal.portal_layout"><t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Solicitudes</t>
+            </t>
+
+            <div class="o_portal_page_content col-12 col-lg d-flex flex-column shadow" style="padding:0 !important;background:white;">
+                <div class="o_portal_page_size">
+                    <div class="container" style="padding:15px !important;margin-left:auto;margin-right:auto;">
+
+                        <h3 style="text-align:center">SE HA CREADO CORRECTAMENTE LA SOLICITUD DE SERVICIO
+                            <a t-att-href="solicitud.get_portal_url()">
+                                <t t-esc="solicitud.name"/>
+                            </a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+</odoo>

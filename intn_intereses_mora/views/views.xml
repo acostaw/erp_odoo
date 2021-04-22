@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="intn_intereses_mora.list">
+      <field name="name">intn_intereses_mora list</field>
+      <field name="model">intn_intereses_mora.intn_intereses_mora</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="intn_intereses_mora.action_window">
+      <field name="name">intn_intereses_mora window</field>
+      <field name="res_model">intn_intereses_mora.intn_intereses_mora</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="intn_intereses_mora.action_server">
+      <field name="name">intn_intereses_mora server</field>
+      <field name="model_id" ref="model_intn_intereses_mora_intn_intereses_mora"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="intn_intereses_mora" id="intn_intereses_mora.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="intn_intereses_mora.menu_1" parent="intn_intereses_mora.menu_root"/>
+    <menuitem name="Menu 2" id="intn_intereses_mora.menu_2" parent="intn_intereses_mora.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="intn_intereses_mora.menu_1_list" parent="intn_intereses_mora.menu_1"
+              action="intn_intereses_mora.action_window"/>
+    <menuitem name="Server to list" id="intn_intereses_mora" parent="intn_intereses_mora.menu_2"
+              action="intn_intereses_mora.action_server"/>
+    -->
+  </data>
+</odoo>

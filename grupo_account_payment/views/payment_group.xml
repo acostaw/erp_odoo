@@ -1,0 +1,349 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <!--Recibos-->
+        <record model="ir.ui.view" id="grupo_account_payment_tree_view">
+            <field name="name">grupo_account_payment_form_view</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="arch" type="xml">
+
+                <tree decoration-muted="state=='cancel'" decoration-info="state=='draft'">
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="partner_id" string="Cliente"/>
+
+                    <field name="amount_total"/>
+                    <field name="memo"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="grupo_account_payment_search_view">
+            <field name="name">grupo_account_payment_search_view</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="fecha"/>
+                    <field name="state"/>
+                    <field name="payment_ids" string="Nro. cheque o Nro. documento" filter_domain="['|',('payment_ids.nro_cheque','ilike',self),('payment_ids.nro_documento','ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!--Se comenta porque se valida el grupo en la funcion create-->
+        <!--record id="grupo_account_payment_tree_view_cobrador" model="ir.ui.view">
+            <field name="name">grupo_account_payment_tree_view_cobrador</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="inherit_id" ref="grupo_account_payment_tree_view"/>
+            <field name="groups_id" eval="[(6,0,[ref('grupo_account_payment.grupo_cobrador')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">true</attribute>
+                </xpath>
+            </field>
+        </record-->
+
+        <record model="ir.ui.view" id="grupo_account_payment_form_view">
+            <field name="name">grupo_account_payment_form_view</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="arch" type="xml">
+                <form >
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight"
+                                attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button string="Cancelar" type="object" name="button_cancelar"
+                                attrs="{'invisible':[('state','!=','done')]}"/>
+                        <button string="Convertir a borrador" type="object" name="button_draft"
+                                attrs="{'invisible':[('state','!=','cancel')]}"/>
+                    </header>
+                    <sheet>
+                        <field name="diferencia_menor" invisible="1"/>
+                        <group>
+                            <span style="color:DarkRed;font-style:italic;font-size:16px;"
+                                  attrs="{'invisible':[('diferencia_menor','=',False)]}">
+                                SE REALIZARÁ UN COBRO PARCIAL. EL MONTO TOTAL DE LAS FACTURAS SUPERA EL MONTO TOTAL DE LOS PAGOS.
+                            </span>
+                        </group>
+                        <h2>
+                            <field name="name" class="oe_title" readonly="True"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="payment_type" invisible="True"
+                                       attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="partner_id" attrs="{'readonly':[('state','!=','draft')]}" domain="[('parent_id','=',False)]"/>
+                                <field name="fecha" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <group>
+                                <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="currency_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="memo" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="amount_total_selected" readonly="True"/>
+                                <field name="amount_total" readonly="True"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+
+                            <page string="Lineas de pago">
+                                <field name="currency_id" invisible="True"/>
+
+                                <field name="payment_ids" attrs="{'readonly':[('state','!=','draft')]}"
+                                       context="{'default_payment_type':payment_type,'default_partner_id':partner_id,'default_payment_date':fecha,'default_currency_id':currency_id,'default_invoice_ids':[(6,0,invoice_ids)]}">
+                                    <tree>
+                                        <field name="payment_date"/>
+                                        <field name="journal_id"/>
+                                        <field name="tipo_pago"/>
+                                        <field name="bank_id"/>
+                                        <field name="nro_cheque"/>
+                                        <field name="fecha_cheque"/>
+                                        <field name="fecha_venc_cheque"/>
+                                        <field name="nro_documento"/>
+                                        <field name="amount"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Notas de Crédito">
+                                <field name="currency_id" invisible="True"/>
+
+                                <field name="refund_ids" context="{'type':'out_refund','default_type':'out_refund'}" domain="[('state','=','open'),('partner_id','=',partner_id),('type','in',['out_refund'])]" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="partner_id" string="Cliente"/>
+                                        <field name="date_invoice"/>
+                                        <field name="number"/>
+                                        <field name="currency_id" invisible="True"/>
+                                        <field name="origin"/>
+                                        <field name="amount_total" string="Total"/>
+                                        <field name="residual" string="Saldo"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Facturas a pagar" attrs="{'invisible':[('state','!=','draft')]}">
+                                <field name="invoice_ids" context="{'type':'out_invoice','default_type':'out_invoice'}" domain="['|',('partner_id','=',partner_id),('partner_id.parent_id','=',partner_id),('state','=','open'),('type','in',['out_invoice'])]" attrs="{'readonly':[('state','!=','draft')]}">
+                                    <tree>
+                                        <field name="partner_id" string="Cliente"/>
+                                        <field name="date_invoice"/>
+                                        <field name="number"/>
+                                        <field name="currency_id" invisible="True"/>
+                                        <field name="date_due"/>
+                                        <field name="origin"/>
+                                        <field name="amount_total" string="Total"/>
+                                        <field name="residual" string="Saldo"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Facturas pagadas" attrs="{'invisible':[('state','=','draft')]}">
+                                <field name="paid_invoice_ids">
+                                    <tree>
+                                        <field name="partner_id" string="Cliente"/>
+                                        <field name="date_invoice"/>
+                                        <field name="number"/>
+                                        <field name="currency_id" invisible="True"/>
+                                        <field name="date_due"/>
+                                        <field name="origin"/>
+                                        <field name="amount_total" string="Total"/>
+                                        <field name="residual" string="Saldo"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--Se comenta porque se valida el grupo en la funcion create-->
+        <!--record id="grupo_account_payment_form_view_cobrador" model="ir.ui.view">
+            <field name="name">grupo_account_payment_form_view_cobrador</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="inherit_id" ref="grupo_account_payment_form_view"/>
+            <field name="groups_id" eval="[(6,0,[ref('grupo_account_payment.grupo_cobrador')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">true</attribute>
+                    <attribute name="edit">true</attribute>
+                </xpath>
+            </field>
+        </record-->
+        <!--Ordenes de pago-->
+        <record model="ir.ui.view" id="grupo_account_payment_orden_tree_view">
+            <field name="name">grupo_account_payment_orden_tree_view</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="arch" type="xml">
+                <tree decoration-muted="state=='cancel'" decoration-info="state=='draft'">
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="partner_id" string="Proveedor"/>
+                    <field name="amount_total"/>
+                    <field name="memo"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="grupo_account_payment_orden_form_view">
+            <field name="name">grupo_account_payment_orden_form_view</field>
+            <field name="model">grupo_account_payment.payment.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight"
+                                attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button string="Cancelar" type="object" name="button_cancelar"
+                                attrs="{'invisible':[('state','!=','done')]}"/>
+                        <button string="Convertir a borrador" type="object" name="button_draft"
+                                attrs="{'invisible':[('state','!=','cancel')]}"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="name" class="oe_title" readonly="True"/>
+                        </h2>
+                        <group>
+                            <group>
+                                <field name="payment_type" invisible="True"
+                                       attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="partner_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="fecha" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="invoice_ids" invisible="True"/>
+
+                            </group>
+                            <group>
+                                <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="currency_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="memo" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="amount_total" readonly="True"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lineas de pago">
+                                <field name="payment_ids" attrs="{'readonly':[('state','!=','draft')]}"
+                                       context="{'default_payment_type':payment_type,'default_partner_id':partner_id,'default_payment_date':fecha,'default_currency_id':currency_id,'default_invoice_ids':[(6,0,invoice_ids)]}">
+                                    <tree>
+                                        <field name="payment_date"/>
+                                        <field name="journal_id"/>
+                                        <field name="tipo_pago"/>
+                                        <field name="bank_id"/>
+                                        <field name="nro_cheque"/>
+                                        <field name="fecha_cheque"/>
+                                        <field name="fecha_venc_cheque"/>
+                                        <field name="nro_documento"/>
+                                        <field name="amount"/>
+                                        <field name="state"/><field name="currency_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Facturas" attrs="{'invisible':[('state','!=','draft')]}">
+                                <field name="invoice_ids" context="{'type':'in_invoice','default_type':'in_invoice'}" domain="[('state','=','open'),('partner_id','=',partner_id),('type','in',['in_invoice'])]">
+                                    <tree>
+                                        <field name="partner_id" string="Proveedor"/>
+                                        <field name="date_invoice"/>
+                                        <field name="reference"/>
+                                        <field name="date_due"/>
+                                        <field name="currency_id" invisible="True"/>
+                                        <field name="origin"/>
+                                        <field name="amount_total" string="Total"/>
+                                        <field name="residual" string="Saldo"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Facturas pagadas" attrs="{'invisible':[('state','=','draft')]}">
+                                <field name="paid_invoice_ids">
+                                    <tree>
+                                         <field name="partner_id" string="Proveedor"/>
+                                        <field name="date_invoice"/>
+                                        <field name="reference"/>
+                                        <field name="date_due"/>
+                                        <field name="currency_id" invisible="True"/>
+                                        <field name="origin"/>
+                                        <field name="amount_total" string="Total"/>
+                                        <field name="residual" string="Saldo"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="grupo_account_payment.payment_group_action_window">
+            <field name="name">Recibo de cliente</field>
+            <field name="res_model">grupo_account_payment.payment.group</field>
+            <field name="context">{'default_payment_type':'inbound'}</field>
+            <field name="view_id" ref="grupo_account_payment.grupo_account_payment_tree_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('payment_type','=','inbound')]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="grupo_account_payment.payment_group_orden_action_window">
+            <field name="name">Orden de pago</field>
+            <field name="res_model">grupo_account_payment.payment.group</field>
+            <field name="context">{'default_payment_type':'outbound'}</field>
+            <field name="view_id" ref="grupo_account_payment.grupo_account_payment_orden_tree_view"/>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('payment_type','=','outbound')]</field>
+        </record>
+
+
+        <!-- server action to the one above -->
+        <!--
+    <record model="ir.actions.server" id="grupo_account_payment.action_server">
+      <field name="name">grupo_account_payment server</field>
+      <field name="model_id" ref="model_grupo_account_payment_grupo_account_payment"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+        <!-- Top menu item -->
+        <!--
+    <menuitem name="grupo_account_payment" id="grupo_account_payment.menu_root"/>
+    -->
+        <!-- menu categories -->
+        <!--
+    <menuitem name="Menu 1" id="grupo_account_payment.menu_1" parent="grupo_account_payment.menu_root"/>
+    <menuitem name="Menu 2" id="grupo_account_payment.menu_2" parent="grupo_account_payment.menu_root"/>
+    -->
+        <!-- actions -->
+
+        <menuitem name="Recibos de clientes" id="grupo_account_payment.menu_recibos"
+                  parent="account.menu_finance_receivables" action="grupo_account_payment.payment_group_action_window"/>
+        <menuitem name="Ordenes de pago" id="grupo_account_payment.menu_ordenes" parent="account.menu_finance_payables"
+                  action="grupo_account_payment.payment_group_orden_action_window"/>
+        <!--menuitem name="Server to list" id="grupo_account_payment" parent="grupo_account_payment.menu_2" action="grupo_account_payment.action_server"/-->
+
+    </data>
+</odoo>

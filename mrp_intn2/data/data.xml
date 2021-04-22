@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record model="ir.actions.server" id="mrp_intn2.batch_start_orders_action">
+            <field name="name">Iniciar órdenes de trabajo</field>
+            <field name="model_id" ref="model_mrp_workorder"/>
+            <field name="state">code</field>
+            <field name="code">records.batch_start_orders()</field>
+        </record>
+        <record model="ir.actions.server" id="mrp_intn2.batch_conclude_orders_action">
+            <field name="name">Finalizar órdenes de trabajo</field>
+            <field name="model_id" ref="model_mrp_workorder"/>
+            <field name="state">code</field>
+            <field name="code">records.batch_conclude_orders()</field>
+        </record>
+        <record id="grupo_expedientes_consulta" model="res.groups">
+            <field name="name">Visualizar expedientes en modo consulta</field>
+        </record>
+        <record id="grupo_solicitud_interna" model="res.groups">
+            <field name="name">Crear Solicitud Interna</field>
+        </record>
+        <record id="exonerar_pago_manual" model="res.groups">
+            <field name="name">Exonera pagos de expedientes</field>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="secuencia_solicitud_interna" model="ir.sequence">
+            <field name="name">Secuencia Solicitud Interna</field>
+            <field name="code">seq_solicitud_interna</field>
+            <field name="implementation">no_gap</field>
+            <field name="use_date_range">False</field>
+            <field name="padding">5</field>
+            <field name="prefix">SI-</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="metodos_pago_form_view" model="ir.ui.view">
+            <field name="name">
+                metodos_pago_form_view
+            </field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside" >
+                    <page name="Métodos de Pago" string="Métodos de Pago" groups="presupuestos_intn.grupo_modificar_costos">
+                        <group>
+                            <field name="metodos_pago_ids" nolabel="1" widget="section_and_note_one2many" mode="tree">
+                                <label for="Etapa" attrs="{'invisible': [('display_type', '!=', 'line_section')]}"/>
+                                <tree string="Etapas" editable="bottom">
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="sub_etapas"/>
+                                    <field name="monto"/>
+                                    <field name="name" attrs="{'invisible': [('display_type', 'not in',('line_section','line_note'))]}" widget="section_and_note_text"/>
+                                    <control>
+                                        <create string="Agregar una sub etapa" context="{'default_display_type': 'False'}"/>
+                                        <create string="Agregar una etapa" context="{'default_display_type': 'line_section'}"/>
+                                        <create string="Agregar una nota" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+                                </tree>
+                            </field>
+                        </group>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

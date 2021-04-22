@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meta_departamentos,access_meta_departamentos,listado_servicios_departamento_report.model_meta_departamentos,,1,1,1,1

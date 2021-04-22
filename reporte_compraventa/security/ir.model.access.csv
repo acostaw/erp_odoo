@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_reporte_compraventa_reporte_compraventa,reporte_compraventa.reporte_compraventa,model_reporte_compraventa_reporte_compraventa,,1,0,0,0

@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="interfaces_facturas.journal_form_view" model="ir.ui.view">
+            <field name="name">interfaces_facturas.journal_form_view</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='advanced_settings']/group" position="inside">
+                    <group string="Control de Origen" groups="base.group_system" attrs="{'invisible':[('type','!=','sale')]}">
+                        <field name="facturas_sueltas"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

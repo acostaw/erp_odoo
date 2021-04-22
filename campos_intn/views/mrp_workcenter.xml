@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="campos_intn.mrp_workcenter_action">
+            <field name="name">Centro de Producción
+            </field>
+            <field name="res_model">mrp.workcenter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Cree un nuevo Centro de Producción
+                </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="campos_intn.mrp_workcenter_tree_view">
+            <field name="name">Centro de Producción</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="complete_name"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+        <!--________________________MENU____________________________________-->
+        <menuitem id="campos_intn.mrp_workcenter_menu" name="Centros de Producción" parent="mrp.menu_mrp_root"
+                  action="campos_intn.mrp_workcenter_action"/>
+    </data>
+
+</odoo>

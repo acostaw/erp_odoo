@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="intn_flotas.view_partner_form">
+            <field name="name">intn_flotas.view_partner_form
+            </field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="groups" eval="[(4, ref('fleet.fleet_group_manager'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='street']" position="before">
+                    <field name="es_chofer"/>
+                </xpath>
+                <xpath expr="//page[@name='internal_notes']" position="after">
+                    <page name="sales_purchases" string="Datos Adicionales del Chofer" attrs="{'invisible': [('es_chofer', '=', False)]}">
+                            <group>
+                                <group>
+                                    <field name="ci_num"/>
+                                    <field name="nro_registro"/>
+                                    <field name="municipio"/>
+                                    <field name="categoria_registro_id"/>
+                                </group>
+                            </group>
+                        </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+
+</odoo>
+
+

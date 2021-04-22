@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="reporte_servicios_jerarquia.list">
+      <field name="name">reporte_servicios_jerarquia list</field>
+      <field name="model">reporte_servicios_jerarquia.reporte_servicios_jerarquia</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="reporte_servicios_jerarquia.action_window">
+      <field name="name">reporte_servicios_jerarquia window</field>
+      <field name="res_model">reporte_servicios_jerarquia.reporte_servicios_jerarquia</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="reporte_servicios_jerarquia.action_server">
+      <field name="name">reporte_servicios_jerarquia server</field>
+      <field name="model_id" ref="model_reporte_servicios_jerarquia_reporte_servicios_jerarquia"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="reporte_servicios_jerarquia" id="reporte_servicios_jerarquia.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="reporte_servicios_jerarquia.menu_1" parent="reporte_servicios_jerarquia.menu_root"/>
+    <menuitem name="Menu 2" id="reporte_servicios_jerarquia.menu_2" parent="reporte_servicios_jerarquia.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="reporte_servicios_jerarquia.menu_1_list" parent="reporte_servicios_jerarquia.menu_1"
+              action="reporte_servicios_jerarquia.action_window"/>
+    <menuitem name="Server to list" id="reporte_servicios_jerarquia" parent="reporte_servicios_jerarquia.menu_2"
+              action="reporte_servicios_jerarquia.action_server"/>
+    -->
+  </data>
+</odoo>

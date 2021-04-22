@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_intn_constancias_intn_constancias,intn_constancias.intn_constancias,intn_constancias.model_intn_constancias,intn_constancias.grupo_constancias,1,1,1,1
+access_intn_constancias_constancias_line,intn_constancias.constancias_line,intn_constancias.model_constancia_lineas,intn_constancias.grupo_constancias,1,1,1,1

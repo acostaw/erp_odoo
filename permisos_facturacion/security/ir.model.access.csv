@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_group_romper_conciliaciones,access_group_romper_conciliaciones,account.model_account_full_reconcile,group_romper_conciliaciones,,,,1

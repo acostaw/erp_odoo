@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="intn_flotas.habilitacion_choferes_list_view">
+        <field name="name">Habilitación de choferes
+        </field>
+        <field name="res_model">habilitacion.choferes</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crea un nuevo chofer habilitado
+            </p>
+        </field>
+    </record>
+
+    <!--<menuitem id="menu_ideas" parent="menu_root" name="Ideas" sequence="10"-->
+    <!--          action="action_list_ideas"/>-->
+
+    <record model="ir.ui.view" id="intn_flotas.habilitacion_choferes_tree_view">
+        <field name="name">intn_flotas.habilitacion_choferes_tree_view</field>
+        <field name="model">habilitacion.choferes</field>
+        <field name="arch" type="xml">
+            <tree string="Habilitación de choferes">
+                <field name="year"/>
+                <field name="nro_resolucion"/>
+                <field name="driver_id"/>
+                <field name="active"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_flotas.habilitacion_choferes_form_view">
+        <field name="name">intn_flotas.habilitacion_choferes_form_view</field>
+        <field name="model">habilitacion.choferes</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="year"/>
+                            <field name="nro_resolucion"/>
+                            <field name="driver_id"  domain="[('es_chofer','=',True)]"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_flotas.habilitacion_choferes_search_view">
+        <field name="name">intn_flotas.habilitacion_choferes_search_view</field>
+        <field name="model">habilitacion.choferes</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="year"/>
+                <field name="nro_resolucion"/>
+                <field name="driver_id"/>
+                <field name="active"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!--________________________MENU____________________________________-->
+    <menuitem id="intn_flotas.habilitacion_choferes_menu" sequence="110" name="Habilitación de choferes" parent="fleet.fleet_configuration" action="intn_flotas.habilitacion_choferes_list_view"/>
+
+</odoo>

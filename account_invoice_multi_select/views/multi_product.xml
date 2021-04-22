@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="account_invoice_multi_select.multi_product_form_view" model="ir.ui.view">
+        <field name="name">account_invoice_multi_select.multi_product_form_view</field>
+        <field name="model">multi.product.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Seleccionar múltiples productos">
+                <group>
+                    <field name="product_ids" nolabel="1">
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button class="btn-primary" name="add_product" type="object" string="Aceptar"/>
+                    <button string="Cancelar" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="account_invoice_multi_select.action_select_multi_product_wizard" model="ir.actions.act_window">
+        <field name="name">Seleccionar Múltiples Servicios</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">multi.product.invoice</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

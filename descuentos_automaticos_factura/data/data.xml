@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record model="ir.config_parameter" id="descuentos_automaticos_factura.activado">
+            <field name="key">descuentos_automaticos</field>
+            <field name="value">False</field>
+        </record>
+        <record model="ir.config_parameter" id="descuentos_automaticos_factura.product">
+            <field name="key">producto_descuentos_automaticos</field>
+            <field name="value"></field>
+        </record>
+        <record model="ir.config_parameter" id="descuentos_automaticos_factura.porcentaje">
+            <field name="key">porcentaje_descuentos_automaticos</field>
+            <field name="value">10</field>
+        </record>
+        <record model="ir.config_parameter" id="descuentos_automaticos_factura.nombre">
+            <field name="key">nombre_descuentos_automaticos</field>
+            <field name="value">Descuento por promoción activa</field>
+        </record>
+    </data>
+</odoo>

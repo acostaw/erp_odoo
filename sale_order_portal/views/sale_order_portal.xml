@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="sale_order_portal.sale_order_portal_content" model="ir.ui.view">
+            <field name="name">sale_order_portal.sale_order_portal_content</field>
+            <field name="inherit_id" ref="sale.sale_order_portal_content"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='introduction']" position="replace">
+                    <div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <h2 class="my-0">
+                            <span>SOLICITUD DE SERVICIO AL INTN</span>
+                            <em t-esc="sale_order.name"/>
+                        </h2>
+                        <span style="text-align:right;"><strong>RUC:</strong></span><em t-esc="sale_order.partner_id.vat"/>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@id='informations']" position="replace">
+                    <div id="informations">
+                        <div t-if="sale_order.transaction_ids and not invoices and sale_order.state in ('sent', 'sale') and portal_confirmation == 'pay' and not success and not error" t-att-data-order-id="sale_order.id">
+                            <t t-if="sale_order.transaction_ids">
+                                <t t-call="payment.payment_confirmation_status">
+                                    <t t-set="payment_tx_id" t-value="sale_order.get_portal_last_transaction()"/>
+                                    <t t-set="reference" t-value="sale_order.reference"/>
+                                </t>
+                            </t>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <strong>Nombre y Apellido / Razón Social: </strong>
+                                <address t-field="sale_order.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                                <strong>Dirección: </strong>
+                                <address t-field="sale_order.partner_invoice_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/>
+                                <strong>Por la presente, solicito a la Dirección General del INTN, se sirva ordenar por donde corresponda la realización de los sgts. trabajos:</strong>
+                                <p><span t-field="sale_order.descripcion_trabajos"/></p>
+                                <strong style="text-align:center;">Cantidad y detalle del Material Entregado</strong>
+                                <p><span t-field="sale_order.materiales_entregados"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//section[@id='details']" position="replace">
+                    <section id="details" style="page-break-inside: auto;" class="mt32">
+                        <h3 id="details">PROGRAMA DE TRABAJO</h3>
+
+                        <t t-set="display_discount" t-value="True in [line.discount &gt; 0 for line in sale_order.order_line]"/>
+
+                        <table class="table table-sm" id="sales_order_table">
+                            <thead class="bg-100">
+                                <tr>
+                                    <t t-set="colspan" t-value="6"/>
+                                    <th class="text-left">DETERMINACIÓN</th>
+                                    <th class="text-right">CANT.</th>
+                                    <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">PRECIO UNI.</th>
+                                    <th t-if="display_discount" t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                        <span>Discount</span>
+                                        <t t-set="colspan" t-value="colspan+1"/>
+                                    </th>
+                                    <th class="text-right">
+                                        <span>SUBTOTAL</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="sale_tbody">
+
+                                <t t-set="current_subtotal" t-value="0"/>
+
+                                <t t-foreach="sale_order.order_line" t-as="line">
+
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                    <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                        <t t-if="not line.display_type">
+                                            <td id="product_name"><span t-field="line.name"/></td>
+                                            <td class="text-right">
+                                                <div id="quote_qty">
+                                                    <span t-field="line.product_uom_qty"/>
+                                                    <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                                </div>
+                                            </td>
+                                            <td t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                                <div t-if="line.discount &gt;= 0" t-field="line.price_unit" t-att-style="line.discount and 'text-decoration: line-through' or None" t-att-class="(line.discount and 'text-danger' or '') + ' text-right'"/>
+                                                <div t-if="line.discount">
+                                                    <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;decimal_precision&quot;: &quot;Product Price&quot;}"/>
+                                                </div>
+                                            </td>
+                                            <td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                                <strong t-if="line.discount &gt; 0" class="text-info">
+                                                    <t t-esc="((line.discount % 1) and '%s' or '%d') % line.discount"/>% discount
+                                                </strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <span class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <span class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                            </td>
+                                        </t>
+                                        <t t-if="line.display_type == 'line_section'">
+                                            <td colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <t t-set="current_section" t-value="line"/>
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                        </t>
+                                        <t t-if="line.display_type == 'line_note'">
+                                            <td colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+
+                                    <t t-if="current_section and (line_last or sale_order.order_line[line_index+1].display_type == 'line_section')">
+                                        <tr class="is-subtotal text-right">
+                                            <td colspan="99">
+                                                <strong class="mr16">Subtotal</strong>
+                                                <span t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: sale_order.pricelist_id.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div id="total" class="row" name="total" style="page-break-inside: avoid;">
+                            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                    <tr class="border-black">
+                                        <td><strong>Costo</strong></td>
+                                        <td class="text-right">
+                                            <span data-id="total_amount" t-field="sale_order.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: sale_order.pricelist_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </xpath>
+                <xpath expr="//section[@id='details']" position="after">
+                    <t t-if="sale_order.notas_especiales">
+                        <div style="page-break-inside: avoid;">
+                            <p class="bold">
+                                NOTAS ESPECIALES
+                            </p>
+                            <p class="text-justify">
+                                <span t-field="sale_order.notas_especiales"/>
+                            </p>
+                        </div>
+                    </t>
+                    <br></br>
+                    <t t-if="sale_order.fecha_entrega">
+                        <table class="table table-sm">
+                            <tr>
+                                <th style="width:60mm">
+                                    <span class="bold">Tiempo estimado de entrega:</span>
+                                </th>
+                                <th style="width:30mm">
+                                    <span t-field="sale_order.fecha_entrega"/>
+                                </th>
+                            </tr>
+                        </table>
+                    </t>
+
+                    <table style="page-break-inside: avoid;" class="table table-sm">
+                        <tr>
+                            <th style="padding-left:5px;">
+                                <span class="bold">Responsable:</span>
+                            </th>
+                            <th colspan="3">
+                                <span t-field="sale_order.departamento_responsable"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="padding-left:5px;">
+                                <span class="bold">Llamar a:</span>
+                            </th>
+                            <th colspan="3">
+                                <span t-field="sale_order.partner_id"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="width:20mm;padding-left:5px;">
+                                <span class="bold ">Telef:</span>
+                            </th>
+                            <th style="width:40mm">
+                                <span t-field="sale_order.partner_id.phone"/>
+                            </th>
+                            <th style="width:20mm">
+                                <span class="bold izquierda">Cel:</span>
+                            </th>
+                            <th style="width:40mm">
+                                <span t-field="sale_order.partner_id.mobile"/>
+                            </th>
+                        </tr>
+                    </table>
+                    <br></br>
+                    <div style="page-break-inside: avoid;">
+                        <p class="fs-12 bold" style="text-align:justify;"><strong>
+                            NOTA: Los materiales serán sometidos a ensayos destructivos, por lo que a partir de
+                            la entrega de los
+                            resultados, el recurrente renuncia a todo reclamo en propiedad y el INTN queda
+                            autorizado a disponer de los
+                            mismos, a excepción de los equipos de medición y los materiales que por expreso
+                            pedido en la solicitud serán
+                            reutilizados.
+                            <br></br>
+                            <t t-if="sale_order.fecha_entrega">
+                                El tiempo estimado de entrega empieza a contarse desde el día de confirmación del
+                                presupuesto.
+                            </t></strong>
+                        </p>
+                    </div>
+                    <br></br>
+                    <div>
+                        <div class="row" style="page-break-inside: avoid;margin-left:10px;">
+                            <div class="column1" >
+                                <table class="table table-sm">
+                                    <tr>
+                                        <th colspan="2" class="text-center bold" style="width:40mm">INTN</th>
+                                        <th colspan="2" style="width:70mm" class="bold text-center">RETIRADO</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="text-center bold">PTYF</th>
+                                        <th colspan="1" style="padding-left:5px;border-right:1px solid white">
+                                            <span class="bold">TOTAL (      )</span>
+                                        </th>
+                                        <th colspan="1" style="padding-left:5px;">
+                                            <span class="bold">PARCIAL (    )</span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" style="padding:5px;" class="bold">Nro. Entrada:
+                                            <span t-field="sale_order.name"/>
+                                        </th>
+                                        <th colspan="2" style="padding-left:5px;">Por:</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" style="padding-left:5px;" class="bold">Fecha:
+                                            <span t-field="sale_order.create_date" t-options='{"format":"dd/MM/yyyy"}'/>
+                                        </th>
+                                        <th colspan="2" style="padding-left:5px;">C.I:</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="td">
+                                            <span></span>
+                                        </th>
+                                        <th colspan="2" style="padding-left:5px;">Fecha:</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="td">
+                                            <span></span>
+                                        </th>
+                                        <th colspan="2" style="padding-left:5px;">Hora:</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2" class="td">
+                                            <span></span>
+                                        </th>
+                                        <th colspan="2" style="padding-left:5px;">Firma:</th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="column2" style="padding-left:5px;">
+                                <table style="border: 1px solid white !important;" class="table table-sm">
+                                    <tr style="border: 1px solid white !important;">
+                                        <th>
+                                            <br></br>
+                                            <hr></hr>
+                                            <p class="text-center bold">
+                                                Firma y Alcaración
+                                            </p>
+                                            <p class="text-left bold">
+                                                Conformidad y Aceptación del Solicitante
+                                            </p>
+                                            <p class="text-left " >
+                                                <span t-field="sale_order.solicitante"/>
+                                            </p>
+                                            <p class="text-left bold" >
+                                                C.I.
+                                            </p>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br></br>
+                        <t t-if="sale_order.termsAdministrativos != '' ">
+                            <p style="page-break-before:always;">
+                                <div name="condiciones_tecnicas" style="padding-bottom:20px;">
+                                    <t t-if="sale_order.termsAdministrativos != '' ">
+                                        <p class="bold text-center">CONDICIONES TECNICAS PARA EL SERVICIO</p>
+                                        <hr></hr>
+                                        <t t-if="sale_order.termsAdministrativos != '' ">
+                                            <div class="terms text-justify">
+                                                <p class="text-justify" style="white-space: pre-wrap;" t-field="sale_order.termsAdministrativos"/>
+                                            </div>
+                                            <hr></hr>
+                                        </t>
+                                    </t>
+                                </div>
+                                <t t-if="sale_order.state == 'draft'">
+                                    <div name="condiciones_administrativas">
+                                        <p class="bold text-center">CONDICIONES ADMINISTRATIVAS PARA EL SERVICIO</p>
+                                        <hr></hr>
+                                        <table>
+                                            <tr>
+                                                <td class="text-justify" style="padding:5px;">
+                                                    El costo de servicios solicitados al INTN deberá ser abonado por adelantado. El cliente podrá solicitar y realizar las gestiones para la emisión de una factura crédito al Departamento de Tesorería,
+                                                    siempre y cuando no tenga facturas pendientes de pago.
+                                                    <p class="bold">FORMAS DE PAGO:</p>
+                                                    <p>
+                                                        - VENTANILLA (CAJA) en nuestras instalaciones Avda. Artigas 3973 c/ Gral. Roa en efectivo o en cheque a nombre del INTN
+                                                    </p>
+                                                    <p>
+                                                        - DEPÓSITO O TRANSFERENCIAS BANCARIAS A LA CTA. CTE. <span class="bold"> INTN N° 438360/3 CARGO BANCO NACIONAL DE FOMENTO</span> y comunicar del mismo enviando la copia del comprobante de depósito mencionando el número de factura abonada,
+                                                        al correo <span class="bold">facturacion@intn.gov.py </span> .En caso de depósitos previa facturación, remitir copia del presupuesto abonado y del comprobante del depósito a dicho correo del departamento de tesorería habilitado.
+                                                    </p>
+                                                    <p>
+                                                        - RED AQUÍ PAGO de todo el país, la factura deberá ser cancelada durante el plazo establecido en el vencimiento. La falta de pago de la misma ocasionará la mora automática del cliente generándose un interés mensual del 2%.
+                                                    </p>
+                                                    <p class="bold">
+                                                        CONTACTOS EN EL DEPARTAMENTO DE TESORERÍA
+                                                    </p>
+                                                    <p>
+                                                        - Número Telefónico: +595 21 288 60000 internos: 1316 - 1317 -1318 -1319
+                                                    </p>
+                                                    <p>
+                                                        - Personal: Nelson Villalba: nvillalba@intn.gov.py, Rebeca Sartorio: rsartorio@intn.gov.py, Gisella Gamarra: ggamarra@intn.gov.py
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </t>
+                            </p>
+                        </t>
+                    </div>
+
+                    <div class="footer" style="padding-top:10px;" >
+                        <div class="row">
+                            <div style="width:30%">
+                                <t t-if="sale_order.es_metrologia">
+                                    <span class="fs-12 text-left"><span t-esc="version_metrologia"/> / <span t-field="sale_order.confirmation_date" t-options='{"format":"dd/MM/yyyy"}'/></span>
+                                </t>
+                            </div>
+                            <div style="width:70%;text-align:right">
+                                <span class="fs-12 text-right">Elaborado por: <span t-field="sale_order.user_id"/></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

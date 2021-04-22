@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+
+        <record id="view_price_unit_readonly" model="ir.ui.view">
+            <field name="name">Modificacion de Presupuestos</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_draft']" position="replace">
+                    <button name="action_draft" states="cancel" type="object" string="Convertir a presupuesto" groups="presupuestos_intn.group_convertir_presupuesto"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='discount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="presupuestos_intn.intn_resExpediente" model="ir.ui.view">
+            <field name="name">Modificacion de Presupuestos</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="campos_intn.intn_resExpediente"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='materiales_entregados']" position="after">
+                    <field name="lpi"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="view_price_unit_readonly_group" model="ir.ui.view">
+            <field name="name">Modificacion de Presupuestos</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="presupuestos_intn.view_price_unit_readonly" />
+            <field name="groups_id" eval="[(6, 0, [ref('presupuestos_intn.grupo_modificar_costos')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="presupuestos_intn.view_sales_order_filter" model="ir.ui.view">
+            <field name="name">presupuestos_intn.view_sales_order_filter</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="before">
+                    <field name="descripcion_trabajos"/>
+                    <field name="lpi"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+
+</odoo>

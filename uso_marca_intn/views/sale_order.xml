@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="uso_marca_sale_order">
+            <field name="name">
+                Modificacion de vista Presupuestos para Uso de Marca
+            </field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//field[@name='contrato_id']" position="after">-->
+<!--                    <field name="saleorder_type"/>-->
+<!--                </xpath>-->
+                <xpath expr="//notebook" position="inside" >
+                    <page string="Descripción Uso de Marcas" groups="presupuestos_intn.grupo_modificar_costos">
+                        <group>
+                            <field name="solicitante_id" groups="uso_marca_intn.puede_asignar_solicitante"/>
+                        </group>
+                        <group>
+                            <field name="producto"/>
+                        </group>
+                        <group>
+                            <field name="alcance" />
+                        </group>
+
+                    </page>
+                </xpath>
+                <xpath expr="//notebook" position="inside" >
+                    <page string="Notas Especiales" groups="presupuestos_intn.grupo_modificar_costos">
+                        <group>
+                            <field name="notas_especiales" style='height:400px;'/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

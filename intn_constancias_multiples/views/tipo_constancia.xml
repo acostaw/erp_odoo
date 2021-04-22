@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="tipo_constancia_list_view">
+        <field name="name">Tipos de Constancias
+        </field>
+        <field name="res_model">tipo.constancias</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree un nuevo tipo de Constancia
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="tipo_constancia_tree_view">
+        <field name="name">tipo_constancia_tree_view</field>
+        <field name="model">tipo.constancias</field>
+        <field name="arch" type="xml">
+            <tree string="Tipos de Constancias">
+                <field name="name"/>
+                <field name="plantilla_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="tipo_constancia_form_view">
+        <field name="name">tipo_constancia_form_view</field>
+        <field name="model">tipo.constancias</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="plantilla_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Cuerpo">
+                            <field name="cuerpo" nolabel="1" widget="html"/>
+                        </page>
+                         <page string="Generador Dinámico de Expresiones">
+                                <group>
+                                     <field name="model_id" readonly="1"/>
+                                    <field name="model_object_field"
+                                            domain="[('model_id','=',model_id),('ttype','!=','one2many'),('ttype','!=','many2many')]"/>
+                                    <field name="sub_object" readonly="1"/>
+                                    <field name="sub_model_object_field"
+                                            domain="[('model_id','=',sub_object),('ttype','!=','one2many'),('ttype','!=','many2many')]"
+                                            attrs="{'readonly':[('sub_object','=',False)],'required':[('sub_object','!=',False)]}"/>
+                                    <field name="null_value"/>
+                                    <field name="copyvalue"/>
+                                </group>
+                            </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="tipo_constancia_search_view">
+        <field name="name">tipo_constancia_search_view</field>
+        <field name="model">tipo.constancias</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="plantilla_id"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!--________________________MENU____________________________________-->
+    <menuitem id="intn_constancias_multiples.tipo_constancia_menu" name="Tipos de Constancias" parent="mrp.menu_mrp_manufacturing" action="tipo_constancia_list_view"/>
+
+</odoo>

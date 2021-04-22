@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record id="fleet_vehicle_log_services_view_form" model="ir.ui.view">
+            <field name="name">trade_inventario.fleet_vehicle_log_services_view_form</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[3]" position="replace">
+                    <notebook>
+                        <page string="Servicios incluidos">
+                            <field name="cost_ids" nolabel="1">
+                                <tree string="Servicios incluidos" editable="bottom">
+                                    <field name="cost_subtype_id" string="Servicio" domain="[('category','=','service')]"/>
+                                    <field name="amount" sum="Price" string="Costo indicativo"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Próximo Servicio">
+                            <group>
+                                <group>
+                                    <field name="next_service_date"/>
+                                </group>
+                            </group>
+                            <field name="next_services_ids" nolabel="1">
+                                <tree string="Servicios incluidos" editable="bottom" create="1" delete="1">
+                                    <field name="service_id" string="Servicio" domain="[('category','=','service')]" readonly="0"/>
+                                    <field name="km_aplicado" readonly="0"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

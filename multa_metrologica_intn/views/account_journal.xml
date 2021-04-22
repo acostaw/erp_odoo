@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="multa_metrologica_intn.view_account_journal_form">
+            <field name="name">multa_metrologica_intn.view_account_journal_form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='diario_caja']" position="after">
+                        <field name="diario_multa"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

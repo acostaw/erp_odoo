@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="intn_resoluciones_viatico_lista">
+        <field name="name">Resoluciones de Viaticos
+        </field>
+        <field name="res_model">campos_intn.resoluciones_viatico</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crea una nueva resolucion de viatico
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_resoluciones_viatico_tree_view">
+        <field name="name">resoluciones_viatico_tree_view</field>
+        <field name="model">campos_intn.resoluciones_viatico</field>
+        <field name="arch" type="xml">
+            <tree string="Resoluciones de Viatico">
+                <field name="state_id"/>
+                <field name="name" />
+                <field name="monto"/>
+                <field name="fecha_vigencia"/>
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="intn_resoluciones_viatico_form_view">
+        <field name="name">resoluciones_viatico.form</field>
+        <field name="model">campos_intn.resoluciones_viatico</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    <button string="Confirmar" type="object" name="confirmarResolucion" class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','draft')]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="state_id" attrs="{'readonly':[('state','!=','draft')]}" options="{'no_create': True}"/>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}" />
+                            <field name="monto" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="fecha_vigencia" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_resoluciones_viatico_search_view">
+        <field name="name">resoluciones_viatico.search</field>
+        <field name="model">campos_intn.resoluciones_viatico</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="state_id"/>
+                <field name="name"/>
+                <field name="monto"/>
+                <field name="fecha_vigencia"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="resoluciones_viatico_menu" name="Resoluciones Viatico" parent="contacts.menu_localisation"
+              action="intn_resoluciones_viatico_lista"/>
+</odoo>
+
+
+

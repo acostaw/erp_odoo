@@ -1,0 +1,309 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_pedido_materiales_equipos" model="report.paperformat">
+            <field name="name">Pedidos de materiales y/o equipos</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="reporte_pedido_materiales_equipos" string="Pedidos de materiales y/o equipos" model="stock.picking" report_type="qweb-pdf" name="intn_flotas.pedido_materiales_equipos" paperformat="paperformat_pedido_materiales_equipos" />
+        <template id="pedido_materiales_equipos">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="s">
+                        <style>
+                            table {
+                            width: 100%;
+
+                            }
+
+                            .fs-12 {
+                            font-size: 14px;
+                            margin: 2px;
+                            }
+
+                            .text-center {
+                            text-align: center;
+                            }
+
+                            .text-right {
+                            text-align: right;
+                            }
+
+                            .bold {
+                            font-weight: bold;
+                            }
+
+                            .text-justify {
+                            text-align: justify;
+                            }
+
+                            table,
+                            th,
+                            tr {
+                            border: 1px solid white;
+                            border-collapse: collapse;
+                            margin:5px;
+                            line-height:20px;
+                            }
+
+                            .td {
+                            border-right: 1px solid white;
+                            }
+
+                            .centrado {
+                            margin-left: 20%;
+                            }
+
+                            .izquierda {
+                            margin-left: 45%;
+                            }
+                            tr{
+                            height:10px;
+                            }
+                            .ml-5{
+                            margin-left:5x;
+                            }
+
+
+                            p{
+                            margin-top:0;
+                            margin-bottom:2px;
+                            margin-left:2px;
+                            }
+                            .w-90{
+                            width:100mm;
+                            }
+                            .w-15{
+                            width:20mm;
+                            }
+                            .t-detalle {
+                            border: 1px solid black !important;
+                            border-collapse: collapse;
+                            }
+                            .t-detalle td {
+                            border: 1px solid black !important;
+                            border-collapse: collapse;
+                            }
+                            .t-detalle tr {
+                            border: 1px solid black !important;
+                            border-collapse: collapse !important;
+                            }
+                            .t-detalle td:empty {
+                            border: 1px solid black !important;
+                            border-collapse: collapse;
+                            }
+
+                            .terms {
+                            <!--                                    white-space: -pre-wrap;-->
+                            max-width:800px;
+                            }
+
+                            .column1 {
+                            float: left;
+                            width: 60%;
+                            padding: 10px;
+                            }
+                            .column2 {
+                            float: left;
+                            width: 40%;
+                            padding: 10px;
+                            }
+
+                            .rows:after {
+                            content: "";
+                            display: table;
+                            clear: both;
+                            }
+                            span:before {
+                            content: '\n';
+                            white-space: pre;
+                            }
+                            .especial{
+                            height:10px;
+                            }
+
+
+                        </style>
+                        <div class="page">
+                            <t t-foreach="docs" t-as="doc">
+                                <table>
+                                    <tr>
+                                        <td style="width:20%;padding:10px" >
+                                            <img src='/web/binary/company_logo' style="width:100px;margin-left:0 !important"/>
+                                            <p class="bold text-left fs-12">
+                                                Instituto Nacional de Tecnología, Normalización y Metrología
+                                            </p>
+                                        </td>
+                                        <td class="text-right bold" style="margin-top:0;font-size:20px;width:15%">
+                                            <p>USO INTERNO
+                                            </p>
+                                            <p> N° <span t-field="doc.name"/></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p class="text-center">
+                                    <span class="bold text-center">
+                                        PEDIDO DE MATERIALES Y/O EQUIPOS
+                                    </span>
+                                </p>
+                                <br/>
+                                <p class="text-right">
+                                    Asunción, <span t-field="doc.fecha_letras"/>
+                                </p>
+                                <br/>
+                                <p>
+                                    <span class="bold">Dependencia solicitante: </span>
+                                    <span t-field="doc.organismo_solicitante_id"/> / <span t-field="doc.unidad_solicitante_id"/> / <span t-field="doc.dpto_solicitante_id"/>
+                                </p>
+                                <br/>
+                                <table class="t-detalle">
+                                    <tr>
+                                        <td class="text-center bold" colspan="2">
+                                            <span style="padding:5px;">
+                                                CANTIDAD
+                                            </span>
+                                        </td>
+                                        <td class="text-center bold" rowspan="2">
+                                            <span style="padding:5px;">
+                                                U. MEDIDA
+                                            </span>
+                                        </td>
+                                        <td class="text-center bold" rowspan="2">
+                                            <span style="padding:5px;">
+                                                DESCRIPCIÓN
+                                            </span>
+                                        </td>
+                                        <td class="text-center bold" rowspan="2">
+                                            <span style="padding:5px;">TIPO PRESUPUESTO<br/>
+                                                N° PRODUCTO
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center bold">
+                                            <span style="padding:5px;"> N°</span>
+                                        </td>
+                                        <td class="text-center bold">
+                                            <span style="padding:5px;">LETRAS</span>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="doc.move_ids_without_package" t-as="move">
+                                        <tr>
+                                            <td class="text-center">
+                                                <span style="padding:5px;" t-esc="move.quantity_done"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="padding:5px;" t-esc="doc.amount_to_text_esp(move.quantity_done)"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="padding:5px;" t-esc="move.product_uom.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="padding:5px;" t-esc="move.product_id.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span style="padding:5px;" t-esc="move.actividad_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                                <br/>
+                                <p>
+                                    <span class="bold">
+                                        JUSTIFICACIÓN DEL PEDIDO
+                                    </span>
+                                    <span t-field="doc.justificacion_pedido"/>
+                                </p>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <table>
+                                    <tr>
+                                        <td/>
+                                        <td class="text-justify fs-12">
+                                            <span class="bold text-justify">
+                                                LA RESPONSABLE DEL DEPÓSITO CERTIFICA QUE NO SE CUENTA EN STOCK CON LO SOLICITADO
+                                            </span>
+                                        </td>
+                                        <td class="bold text-center fs-12">
+                                            <span class="bold">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                FIRMA Y ACLARACIÓN<br/>
+                                                Resp. del depósito
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td class="text-center fs-12">
+                                            <span class="bold text-center">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                FIRMA Y ACLARACIÓN<br/>
+                                                Solicitante
+                                            </span>
+                                        </td>
+                                        <td class="bold text-center fs-12">
+                                            <span class="bold text-center" style="padding-left:5px;padding-right:5px;">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                FIRMA Y ACLARACIÓN<br/>
+                                                Jefe de Departamento
+                                            </span>
+                                        </td>
+                                        <td class="bold text-center fs-12">
+                                            <span class="bold text-center">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                FIRMA Y ACLARACIÓN<br/>
+                                                Director del área
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td class="text-center fs-12">
+                                            <span class="bold text-center">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                FIRMA Y ACLARACIÓN<br/>
+                                                Dirección Adm. y Financiera
+                                            </span>
+                                        </td>
+                                        <td/>
+                                        <td class="bold text-center fs-12">
+                                            <span class="bold text-center">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                FIRMA Y ACLARACIÓN<br/>
+                                                Dpto. Adquis. Bienes y Serv.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

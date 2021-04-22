@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="intn_vehiculo_action">
+        <field name="name">Vehiculos</field>
+        <field name="res_model">intn.vehiculo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Cree un vehículo
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_vehiculo_tree">
+        <field name="name">intn_vehiculo_tree</field>
+        <field name="model">intn.vehiculo</field>
+        <field name="arch" type="xml">
+            <tree string="Vehículos">
+                <field name="name"/>
+                <field name="consumo_con_carga"/>
+                <field name="consumo_sin_carga"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_vehiculo_form">
+        <field name="name">intn_vehiculo_form</field>
+        <field name="model">intn.vehiculo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="consumo_sin_carga"/>
+                            <field name="consumo_con_carga"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_vehiculo_search">
+        <field name="name">intn_vehiculo_search</field>
+        <field name="model">intn.vehiculo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="intn_vehiculo_menu" name="Vehículos" parent="sale.menu_sale_config"
+              action="intn_vehiculo_action"/>
+
+</odoo>

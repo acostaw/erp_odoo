@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="numeracion_informe_tecnicos_action_view">
+        <field name="name">Registro de numeración de informe por técnico
+        </field>
+        <field name="res_model">numeracion.informe.tecnicos</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree una nueva asignación de numeración de informes
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="numeracion_informe_tecnicos_tree_view">
+        <field name="name">Registro de numeración de informe por técnico</field>
+        <field name="model">numeracion.informe.tecnicos</field>
+        <field name="arch" type="xml">
+            <tree string="Registro de numeración de informe por técnico">
+                <field name="numeracion_id"/>
+                <field name="tecnico_id"/>
+                <field name="nro_inicial"/>
+                <field name="nro_final"/>
+                <field name="sgte_numero"/>
+                <field name="active"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="numeracion_informe_tecnicos_form_view">
+        <field name="name">Registro de numeración de informe por técnico</field>
+        <field name="model">numeracion.informe.tecnicos</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="numeracion_id" />
+                            <field name="tecnico_id" />
+                            <field name="nro_inicial" force_save="1"/>
+                            <field name="nro_final"/>
+                            <field name="sgte_numero"/>
+                        </group>
+                    </group>
+
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="numeracion_informe_tecnicos_search_view">
+        <field name="name">numeracion_informe_tecnicos_search_view</field>
+        <field name="model">numeracion.informe.tecnicos</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="numeracion_id"/>
+                <field name="tecnico_id"/>
+                <field name="nro_inicial"/>
+                <field name="nro_final"/>
+                <field name="sgte_numero"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!--________________________MENU____________________________________-->
+    <menuitem id="intn_informe_bascula.numeracion_informe_tecnicos_menu" name="Registro de numeración de informe por técnico" parent="mrp.menu_mrp_manufacturing" action="numeracion_informe_tecnicos_action_view"/>
+
+</odoo>
+

@@ -1,0 +1,241 @@
+<odoo>
+    <data>
+        <!--record id="grupo_cuentas.g10" model="account.group">
+            <field name="name">Activos</field>
+            <field name="code_prefix">1</field>
+            <field name="parent_id" ref=""/>
+        </record>
+        <record id="grupo_cuentas.g20" model="account.group">
+            <field name="name">Pasivos</field>
+            <field name="code_prefix">2</field>
+            <field name="parent_id" ref=""/>
+        </record>
+        <record id="grupo_cuentas.g30" model="account.group">
+            <field name="name">Patrimonio Neto</field>
+            <field name="code_prefix">3</field>
+            <field name="parent_id" ref=""/>
+        </record>
+        <record id="grupo_cuentas.g40" model="account.group">
+            <field name="name">Ingresos</field>
+            <field name="code_prefix">4</field>
+            <field name="parent_id" ref=""/>
+        </record>
+        <record id="grupo_cuentas.g50" model="account.group">
+            <field name="name">Egresos</field>
+            <field name="code_prefix">5</field>
+            <field name="parent_id" ref=""/>
+        </record>
+        
+        <record id="grupo_cuentas.g40_10" model="account.group">
+            <field name="name">Ingresos operativos</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g40"/>
+        </record>
+        <record id="grupo_cuentas.g10_10" model="account.group">
+            <field name="name">Activos corrientes</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10" model="account.group">
+            <field name="name">Pasivo corriente</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g20"/>
+        </record>
+        <record id="grupo_cuentas.g50_10" model="account.group">
+            <field name="name">Costos</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g50"/>
+        </record>
+        <record id="grupo_cuentas.g30_10" model="account.group">
+            <field name="name">Capital</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g30"/>
+        </record>
+        <record id="grupo_cuentas.g30_20" model="account.group">
+            <field name="name">Fondos y Reservas</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g30"/>
+        </record>
+        <record id="grupo_cuentas.g40_20" model="account.group">
+            <field name="name">Ingresos no operativos</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g40"/>
+        </record>
+        <record id="grupo_cuentas.g20_20" model="account.group">
+            <field name="name">Pasivo no corriente</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g20"/>
+        </record>
+        <record id="grupo_cuentas.g50_20" model="account.group">
+            <field name="name">Gastos operativos</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g50"/>
+        </record>
+        <record id="grupo_cuentas.g10_20" model="account.group">
+            <field name="name">Activos no corrientes</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g10"/>
+        </record>
+        <record id="grupo_cuentas.g30_30" model="account.group">
+            <field name="name">Resultados</field>
+            <field name="code_prefix">30</field>
+            <field name="parent_id" ref="grupo_cuentas.g30"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_10" model="account.group">
+            <field name="name">Disponibilidades</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_10_10" model="account.group">
+            <field name="name">Cajas</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_10_20" model="account.group">
+            <field name="name">Bancos</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_20" model="account.group">
+            <field name="name">Créditos</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_20_10" model="account.group">
+            <field name="name">Créditos por ventas</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_20"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_20_20" model="account.group">
+            <field name="name">Creditos fiscales</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_20"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_20_30" model="account.group">
+            <field name="name">Anticipos</field>
+            <field name="code_prefix">30</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_20"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_20_40" model="account.group">
+            <field name="name">Otros creditos</field>
+            <field name="code_prefix">40</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_20"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_30" model="account.group">
+            <field name="name">Bienes de cambio</field>
+            <field name="code_prefix">30</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_30_10" model="account.group">
+            <field name="name">Mercaderías</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_30"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_40" model="account.group">
+            <field name="name">Otros activos</field>
+            <field name="code_prefix">40</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_10_40_10" model="account.group">
+            <field name="name">Cargos diferidos</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_10_40"/>
+        </record>
+        <record id="grupo_cuentas.g10_20_10" model="account.group">
+            <field name="name">Bienes de uso</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_20"/>
+        </record>
+        <record id="grupo_cuentas.g10_20_10_10" model="account.group">
+            <field name="name">Bienes de uso</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_20_10"/>
+        </record>
+        <record id="grupo_cuentas.g10_20_20" model="account.group">
+            <field name="name">Activo intangible</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g10_20"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_10" model="account.group">
+            <field name="name">Acreedores comerciales</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_10_10" model="account.group">
+            <field name="name">Proveedores</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10_10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_10_20" model="account.group">
+            <field name="name">Obligaciones bancarias</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10_10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_10_30" model="account.group">
+            <field name="name">Provisiones</field>
+            <field name="code_prefix">30</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10_10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_10_40" model="account.group">
+            <field name="name">Deudas fiscales</field>
+            <field name="code_prefix">40</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10_10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_20" model="account.group">
+            <field name="name">Otros pasivos</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10"/>
+        </record>
+        <record id="grupo_cuentas.g20_10_20_10" model="account.group">
+            <field name="name">Creditos a favor del Cliente</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_10_20"/>
+        </record>
+        <record id="grupo_cuentas.g20_20_10" model="account.group">
+            <field name="name">Obligaciones a largo plazo</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_20"/>
+        </record>
+        <record id="grupo_cuentas.g20_20_10_10" model="account.group">
+            <field name="name">Obligaciones bancarias</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g20_20_10"/>
+        </record>
+        <record id="grupo_cuentas.g40_10_10" model="account.group">
+            <field name="name">Ventas</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g40_10"/>
+        </record>
+        <record id="grupo_cuentas.g40_20_10" model="account.group">
+            <field name="name">Ingresos extraordinarios</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g40_20"/>
+        </record>
+        <record id="grupo_cuentas.g50_10_10" model="account.group">
+            <field name="name">Costos de ventas</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g50_10"/>
+        </record>
+        <record id="grupo_cuentas.g50_20_10" model="account.group">
+            <field name="name">Gastos de ventas</field>
+            <field name="code_prefix">10</field>
+            <field name="parent_id" ref="grupo_cuentas.g50_20"/>
+        </record>
+        <record id="grupo_cuentas.g50_20_20" model="account.group">
+            <field name="name">Gastos de administración</field>
+            <field name="code_prefix">20</field>
+            <field name="parent_id" ref="grupo_cuentas.g50_20"/>
+        </record>
+        <record id="grupo_cuentas.g50_20_30" model="account.group">
+            <field name="name">Gastos financieros</field>
+            <field name="code_prefix">30</field>
+            <field name="parent_id" ref="grupo_cuentas.g50_20"/>
+        </record>
+        <record id="grupo_cuentas.g50_20_40" model="account.group">
+            <field name="name">Otros egresos</field>
+            <field name="code_prefix">40</field>
+            <field name="parent_id" ref="grupo_cuentas.g50_20"/>
+        </record>
+        -->
+    </data>
+</odoo>

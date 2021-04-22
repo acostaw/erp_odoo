@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="grupo_modificar_costos" model="res.groups">
+            <field name="name">Modificar costos de servicios</field>
+        </record>
+         <record id="group_convertir_presupuesto" model="res.groups">
+            <field name="name">Puede convertir a presupuesto</field>
+        </record>
+
+    </data>
+</odoo>

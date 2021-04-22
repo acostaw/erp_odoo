@@ -1,0 +1,125 @@
+<odoo>
+    <data>
+        <record id="fleet_vehicle_view_kanban" model="ir.ui.view">
+            <field name="name">intn_flotas.fleet_vehicle_view_kanban</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//ul" position="replace">
+                    <div>
+                        <field name="desperfecto_mecanico_grave" invisible="1"/>
+                        <span style="color:red" t-if="record.desperfecto_mecanico_grave.raw_value">Desperfecto mecanico grave</span>
+                        <t t-else=""/>
+                        <t t-if="record.fecha_disponibilidad">
+                            <span style="color:green">
+                                <field name="disponibilidad" invisible="0"/>
+                            </span>
+                        </t>
+                        <t t-else="">
+                            <span style="color:red">
+                                <field name="disponibilidad" invisible="0"/>
+                            </span>
+                        </t>
+                        <span style="color:green">
+                            <field name="fecha_disponibilidad" invisible="0"/>
+                        </span>
+                        <h2>Último viaje</h2>
+                        <label for="last_workorder_date">Fecha:</label>
+                        <field name="last_workorder_date"/><br/>
+                        <label for="last_workorder_driver_id">Conductor:</label>
+                        <field name="last_workorder_driver_id"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="fleet_vehicle_view_form" model="ir.ui.view">
+            <field name="name">intn_flotas.fleet_vehicle_view_form</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_see_wo_vehicle" type="object" class="oe_stat_button" icon="fa-file-text-o">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="wo_vehicle_count"/></span>
+                            <span class="o_stat_text">OT vehiculos</span>
+                        </div>
+                    </button>
+                    <button name="action_see_devolucion_vehiculo" type="object" class="oe_stat_button" icon="fa-calendar-check-o">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="devolucion_vehiculo_count"/></span>
+                            <span class="o_stat_text">Devolución de Vehiculo</span>
+                        </div>
+                    </button>
+                     <button name="action_see_pipa" type="object" class="oe_stat_button" icon="fa-book">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="pipa_count"/></span>
+                            <span class="o_stat_text">P.I.P.A.</span>
+                        </div>
+                    </button>
+                </xpath>
+                <xpath expr="//field[@name='vin_sn']" position="replace"/>
+                <xpath expr="//field[@name='color']" position="replace">
+                    <field name="color_id"/>
+                </xpath>
+                <xpath expr="//field[@name='first_contract_date']" position="replace"/>
+                <xpath expr="//field[@name='car_value']" position="replace"/>
+                <xpath expr="//field[@name='residual_value']" position="replace"/>
+                <xpath expr="//field[@name='horsepower_tax']" position="replace"/>
+                <xpath expr="//button[@name='return_action_to_open']" position="replace"/>
+
+                <xpath expr="//field[@name='acquisition_date']" position="after">
+                    <field name="next_service_date"/>
+                    <field name="desperfecto_mecanico_grave" readonly="1" force_save="1" attrs="{'invisible':[('desperfecto_mecanico_grave','!=',True)]}"/>
+                    <field name="disponibilidad"/>
+                    <field name="fecha_disponibilidad" attrs="{'invisible':[('disponibilidad','!=','disponible')]}" force_save="1"/>
+                </xpath>
+
+
+                <xpath expr="//field[@name='driver_id']" position="replace">
+                    <field name="driver_id" domain="[('es_chofer','=',True)]"/>
+                </xpath>
+                <xpath expr="//label[@for='tag_ids']" position="before">
+                    <label for="nro_movil" class="oe_edit_only"/>
+                    <h2>
+                        <field name="nro_movil" class="oe_inline"/>
+                    </h2>
+                </xpath>
+                <xpath expr="//field[@name='model_year']" position="after">
+                    <field name="nro_registro"/>
+                    <field name="chasis"/>
+                    <field name="raspn"/>
+                </xpath>
+                <xpath expr="//field[@name='fuel_type']" position="after">
+                    <field name="capacidad_tanque"/>
+                    <field name="consumo_promedio"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Pólizas">
+                            <field name="polizas_ids" nolabel="1" >
+                                <tree string="Pólizas" editable="bottom" create="1" delete="1">
+                                    <field name="name"/>
+                                    <field name="partner_id"/>
+                                    <field name="fecha_vencimiento"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Desperfecto mecánico grave">
+                            <field name="desperfecto_mecanico_grave_ids" nolabel="1">
+                                <tree string="Desperfecto mecánico grave" editable="bottom" create="1" delete="1">
+                                    <field name="name"/>
+                                    <field name="fecha_inicio"/>
+                                    <field name="fecha_fin"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

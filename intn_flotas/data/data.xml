@@ -1,0 +1,316 @@
+<odoo>
+    <data noupdate="1">
+        <record model="ir.ui.menu" id="fleet.fleet_vehicle_log_contract_menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+        <record model="ir.ui.menu" id="fleet.fleet_vehicle_contract_types_menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system')])]"/>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record model="fleet.vehicle.state" id="activo">
+            <field name="name">Activo</field>
+        </record>
+        <record model="fleet.vehicle.state" id="inactivo">
+            <field name="name">Inactivo</field>
+        </record>
+        <record model="fleet.vehicle.state" id="desuso">
+            <field name="name">Desuso</field>
+        </record>
+        <record model="fleet.vehicle.state" id="subastado">
+            <field name="name">Subastado</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="seq_wo_vehicle" model="ir.sequence">
+            <field name="name">Secuencia Solicitud Interna de trabajo</field>
+            <field name="code">seq_wo_vehicle</field>
+            <field name="implementation">no_gap</field>
+            <field name="use_date_range">False</field>
+            <field name="padding">7</field>
+            <field name="prefix"></field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+        </record>
+        <record id="seq_informe_provisional_averia" model="ir.sequence">
+            <field name="name">Secuencia INFORME PROVISIONAL DE AVERIA EN MOVIL INSITUCIONAL</field>
+            <field name="code">seq_pipa</field>
+            <field name="implementation">no_gap</field>
+            <field name="use_date_range">False</field>
+            <field name="padding">7</field>
+            <field name="prefix"></field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+        </record>
+    </data>
+    <data>
+        <record model="situacion.general.items" id="medidas_seguridad">
+            <field name="name">Medidas de seguridad</field>
+            <field name="sequence">17</field>
+        </record>
+        <record model="situacion.general.items" id="rueda_auxilio">
+            <field name="name">Rueda de auxilio</field>
+            <field name="sequence">18</field>
+        </record>
+        <record model="situacion.general.items" id="llave_rueda">
+            <field name="name">Llave de rueda</field>
+            <field name="sequence">19</field>
+        </record>
+        <record model="situacion.general.items" id="gato">
+            <field name="name">Gato</field>
+            <field name="sequence">20</field>
+        </record>
+        <record model="situacion.general.items" id="juego_herramientas">
+            <field name="name">Juego de herramientas</field>
+            <field name="sequence">21</field>
+        </record>
+        <record model="situacion.general.items" id="balizas">
+            <field name="name">Balizas</field>
+            <field name="sequence">22</field>
+        </record>
+        <record model="situacion.general.items" id="extingidor">
+            <field name="name">Extingidor de incendios</field>
+            <field name="sequence">22</field>
+        </record>  <record model="situacion.general.items" id="cinturon_delantero">
+        <field name="name">a)Cinturón delantero</field>
+        <field name="sequence">23</field>
+    </record>
+        <record model="situacion.general.items" id="cinturon_trasero">
+            <field name="name">b) Cinturón trasero</field>
+            <field name="sequence">24</field>
+        </record>
+        <record model="situacion.general.items" id="botiquin">
+            <field name="name">Botiquín p. auxilios</field>
+            <field name="sequence">25</field>
+        </record>
+        <record model="situacion.general.items" id="juego_herramientas">
+            <field name="name">Juego de herramientas</field>
+            <field name="sequence">21</field>
+        </record>
+        <record model="situacion.general.items" id="radio_receptor">
+            <field name="name">Radio receptor</field>
+            <field name="sequence">21</field>
+        </record>
+        <record model="situacion.general.items" id="am_fm">
+            <field name="name">AM       FM</field>
+            <field name="sequence">25</field>
+        </record>
+        <record model="situacion.general.items" id="casetero">
+            <field name="name">Casetero</field>
+            <field name="sequence">26</field>
+        </record>
+        <record model="situacion.general.items" id="digital_manual">
+            <field name="name">Digital      Manual</field>
+            <field name="sequence">27</field>
+        </record>
+        <record model="situacion.general.items" id="parlantes">
+            <field name="name">Parlantes</field>
+            <field name="sequence">27</field>
+        </record>
+        <record model="situacion.general.items" id="antena">
+            <field name="name">Antena</field>
+            <field name="sequence">27</field>
+        </record>
+        <record model="situacion.general.items" id="acondicionador_aire">
+            <field name="name">Acondicionador de aire</field>
+            <field name="sequence">28</field>
+        </record>
+        <record model="situacion.general.items" id="suspension">
+            <field name="name">Suspensión</field>
+            <field name="sequence">29</field>
+        </record>
+        <record model="situacion.general.items" id="sus_delantera">
+            <field name="name">a) Delantera</field>
+            <field name="sequence">29</field>
+        </record>
+        <record model="situacion.general.items" id="sus_trasera">
+            <field name="name">b) Trasera</field>
+            <field name="sequence">29</field>
+        </record>
+        <record model="situacion.general.items" id="frenos">
+            <field name="name">Frenos</field>
+            <field name="sequence">30</field>
+        </record>
+        <record model="situacion.general.items" id="frenos_delanteros">
+            <field name="name">a) Delanteros</field>
+            <field name="sequence">30</field>
+        </record>
+        <record model="situacion.general.items" id="frenos_traseros">
+            <field name="name">b) Traseros</field>
+            <field name="sequence">30</field>
+        </record>
+        <record model="situacion.general.items" id="freno_mano">
+            <field name="name">c) Freno de mano</field>
+            <field name="sequence">30</field>
+        </record>
+        <record model="situacion.general.items" id="tablero">
+            <field name="name">Tablero</field>
+            <field name="sequence">31</field>
+        </record>
+        <record model="situacion.general.items" id="velocimetro">
+            <field name="name">Velocimetro</field>
+            <field name="sequence">31</field>
+        </record>
+        <record model="situacion.general.items" id="marcador_temperatura">
+            <field name="name">Marcador de temperatura</field>
+            <field name="sequence">31</field>
+        </record>
+        <record model="situacion.general.items" id="cuenta_kilometraje">
+            <field name="name">Cuenta kilometraje</field>
+            <field name="sequence">31</field>
+        </record>
+        <record model="situacion.general.items" id="marcador_combustible">
+            <field name="name">Marcador de combustible</field>
+            <field name="sequence">31</field>
+        </record>
+        <record model="situacion.general.items" id="otros">
+            <field name="name">Otros</field>
+            <field name="sequence">32</field>
+        </record>
+        <record model="situacion.general.items" id="diferencial">
+            <field name="name">Diferencial</field>
+            <field name="sequence">32</field>
+        </record>
+        <record model="situacion.general.items" id="soporte_motor">
+            <field name="name">Soporte motor</field>
+            <field name="sequence">32</field>
+        </record>
+        <record model="situacion.general.items" id="espejo_retrovisor_in">
+            <field name="name">Espejo retrovisor int.</field>
+            <field name="sequence">33</field>
+        </record>
+        <record model="situacion.general.items" id="espejo_retrovisor_ext">
+            <field name="name">Espejo retrovisor ext.</field>
+            <field name="sequence">34</field>
+        </record>
+        <record model="situacion.general.items" id="tapa_tanque">
+            <field name="name">Tapa tanque</field>
+            <field name="sequence">35</field>
+        </record>
+        <record model="situacion.general.items" id="limpia_parabrisas">
+            <field name="name">Limpia parabrisas</field>
+            <field name="sequence">36</field>
+        </record>
+        <record model="situacion.general.items" id="paragolpe_delantero">
+            <field name="name">Paragolpe delantero</field>
+            <field name="sequence">37</field>
+        </record>
+        <record model="situacion.general.items" id="paragolpe_trasero">
+            <field name="name">Paragolpe trasero</field>
+            <field name="sequence">38</field>
+        </record>
+        <record model="situacion.general.items" id="sistema_luces">
+            <field name="name">Sistema de luces</field>
+            <field name="sequence">39</field>
+        </record>
+        <record model="situacion.general.items" id="faros_delanteros">
+            <field name="name">Faros delanteros</field>
+            <field name="sequence">39</field>
+        </record>
+        <record model="situacion.general.items" id="faros_traseros">
+            <field name="name">Faros traseros</field>
+            <field name="sequence">39</field>
+        </record>
+        <record model="situacion.general.items" id="senaleros">
+            <field name="name">Señaleros</field>
+            <field name="sequence">40</field>
+        </record>
+        <record model="situacion.general.items" id="senaleros_delanteros">
+            <field name="name">Delanteros</field>
+            <field name="sequence">40</field>
+        </record>
+        <record model="situacion.general.items" id="senaleros_traseros">
+            <field name="name">Traseros</field>
+            <field name="sequence">40</field>
+        </record>
+        <record model="situacion.general.items" id="estado_chaperia">
+            <field name="name">Estado de chaperia</field>
+            <field name="sequence">41</field>
+        </record>
+        <record model="situacion.general.items" id="estado_tapizado">
+            <field name="name">Estado de tapizado</field>
+            <field name="sequence">42</field>
+        </record>
+        <record model="situacion.general.items" id="estado_cubiertas">
+            <field name="name">Estado de cubiertas</field>
+            <field name="sequence">43</field>
+        </record>
+        <record model="situacion.general.items" id="pintura">
+            <field name="name">Pintura</field>
+            <field name="sequence">44</field>
+        </record>
+        <record model="situacion.general.items" id="bloqueo_puerta">
+            <field name="name">Bloqueo de puertas</field>
+            <field name="sequence">45</field>
+        </record>
+        <record model="situacion.general.items" id="vidrio_parabrisa">
+            <field name="name">Vidrio de parabrisa</field>
+            <field name="sequence">46</field>
+        </record>
+        <record model="situacion.general.items" id="vidrio_parabrisa_delantero">
+            <field name="name">Delantero</field>
+            <field name="sequence">46</field>
+        </record>
+        <record model="situacion.general.items" id="vidrio_parabrisa_trasero">
+            <field name="name">Trasero</field>
+            <field name="sequence">46</field>
+        </record>
+        <record model="situacion.general.items" id="levantavidrio">
+            <field name="name">Levantavidrio</field>
+            <field name="sequence">47</field>
+        </record>
+        <record model="situacion.general.items" id="levantavidrio_manual">
+            <field name="name">a) Manual</field>
+            <field name="sequence">47</field>
+        </record>
+        <record model="situacion.general.items" id="levantavidrio_automatico">
+            <field name="name">b) Automático</field>
+            <field name="sequence">47</field>
+        </record>
+        <record model="situacion.general.items" id="otros_2">
+            <field name="name">Otros</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="caja_velocidad">
+            <field name="name">Caja de velocidad</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="sistema_electrico">
+            <field name="name">Sistema eléctrico</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="bateria">
+            <field name="name">Bateria</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="canao_escape">
+            <field name="name">Caño de escape</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="radiador">
+            <field name="name">Radiador</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="soporte_caja">
+            <field name="name">Soporte de caja</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="motor">
+            <field name="name">Motor</field>
+            <field name="sequence">48</field>
+        </record>
+        <record model="situacion.general.items" id="estado_gral">
+            <field name="name">Estado gral. del vehiculo</field>
+            <field name="sequence">48</field>
+        </record>
+    </data>
+    <!--data>
+        <record id="intn_flotas.group_fleet" model="res.groups">
+            <field name="name">Administra Flotas</field>
+        </record>
+
+        <record model='ir.ui.menu' id='fleet.menu_root'>
+            <field name="groups_id" eval="[(4,ref('intn_flotas.group_fleet'))]"/>
+        </record>
+    </data-->
+</odoo>

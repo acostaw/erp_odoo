@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="intn_intereses_mora.account_invoice_from">
+            <field name="name">intn_intereses_mora.account_invoice_from</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="dias_atraso"/>
+                    <field name="monto_interes"/>
+                    <field name="interes_diario_base"/>
+                    <field name="factura_mora" string="Factura por mora" readonly="True" attrs="{'invisible':[('factura_mora', '=',False)]}"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button string="Crear factura por mora" type="object" name="button_wizard_pago" class="oe_highlight" attrs="{'invisible':['|',('monto_interes','=',0),('factura_mora','!=',False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="action_pagos_intereses_batch" model="ir.actions.server">
+            <field name="name">Pagar múltiples facturas por intereses</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="state">code</field>
+            <field name="code">
+not_pendientes=records.filtered(lambda x:x.state != 'open')
+if not_pendientes:
+    raise Warning('Sólo se pueden pagar facturas pendientes de pago')
+if records:
+    partner=records[0].partner_id
+for i in records:
+    if i.partner_id!=partner:
+        raise Warning('Sólo puede elegir facturas de una misma empresa')
+action=model.button_pago_multi_intereses(records)
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

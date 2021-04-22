@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="interfaces_timbrado.journal_form_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.journal_form_view</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Timbrado" attrs="{'invisible':[('type','!=','sale')]}">
+                        <field name="timbrados_ids" context="{'default_journal_id':id}" />
+                    </page>
+
+                </xpath>
+                <xpath expr="//field[@name='update_posted']" position="replace">
+                    <field name="update_posted" groups="base.group_system"/>
+                </xpath>
+
+                <xpath expr="//page[@name='advanced_settings']/group/group[@groups='base.group_no_one']" position="replace">
+                    <group string="Control de accesos" groups="base.group_system">
+                        <div class="text-muted" colspan="2">Dejar en blanco para no establecer un control</div>
+                        <field name="type_control_ids" widget="many2many_tags"/>
+                        <field name="account_control_ids" widget="many2many_tags"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="diario_notas_credito" attrs="{'invisible':[('type','!=','sale')]}"/>
+                </xpath>
+                <xpath expr="//page[@name='advanced_settings']/group" position="inside">
+                    <group string="Impresión de facturas" groups="base.group_system" attrs="{'invisible':[('type','!=','sale')]}">
+                        <field name="max_lineas"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

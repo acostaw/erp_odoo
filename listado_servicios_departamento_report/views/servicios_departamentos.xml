@@ -1,0 +1,242 @@
+<odoo>
+    <record model="report.paperformat" id="paperformat_recap_report">
+        <field name="name">paperformat.recap.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">70</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="recap_report"
+            model="listado_servicios_departamento.report.wizard"
+            string="Servicios Facturados por Departamentos del Pais"
+            report_type="qweb-pdf"
+            name="listado_servicios_departamento_report.recap_report_view"
+            paperformat="paperformat_recap_report"
+            menu="False"/>
+
+    <template id="recap_report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+
+                    table {
+                    width: 100%;
+
+                    }
+
+                    .fs-12 {
+                    font-size: 14px;
+                    margin: 2px;
+                    }
+
+                    .text-center {
+                    text-align: center;
+                    }
+
+                    .text-right {
+                    text-align: right;
+                    }
+
+                    .bold {
+                    font-weight: bold;
+                    }
+
+                    .text-justify {
+                    text-align: justify;
+                    }
+
+                    table,
+                    th,
+                    tr{
+                    border: 1px solid black;
+                    border-collapse: collapse;
+
+                    }
+
+                    .td {
+                    border-right: 1px solid black;
+                    }
+
+                    .tr{
+                    border-collapse: collapse
+                    }
+                    .ml-5{
+                    margin-left:5x;
+                    }
+
+                    p{
+                    margin-top:0;
+                    margin-bottom:2px;
+                    margin-left:2px;
+                    }
+                    .w-90{
+                    width:100mm;
+                    }
+                    .w-15{
+                    width:20mm;
+                    }
+
+                    span:before {
+                    white-space: pre;
+                    }
+
+                    tr {
+                    page-break-inside: avoid;
+                    }
+
+
+                </style>
+                <table>
+                    <tr>
+                        <td style="width:20%;padding-left:60px;padding-top:10px;" class="text-left">
+                            <img src='/detalle_cobros_report/static/src/img/logo.png' style="max-height: 20%;"/>
+                        </td>
+                        <td class="text-center" style="margin-top:0;padding:10px;font-size:20px;">
+                            INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                            <p class="bold text-center" style="padding:15px;">INFORME DE METAS</p>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <table>
+                    <tr>
+                        <td colspan="2" style="padding:10px;" >
+                            <span class="bold"> Fecha Inicio: </span>
+                            <t t-esc="date_start"/>
+                        </td>
+                        <td colspan="2" style="padding:10px;" class="text-right">
+                            <span class="bold"> Fecha Fin: </span>
+                            <t t-esc="date_end"/>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td colspan="1" style="padding:10px;" >
+                            <span class="bold text-center"> Acción: </span>
+                        </td>
+                        <td colspan="3" style="padding:10px;">
+                            <span class="bold" t-esc="organismo.accion"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" style="padding:10px;" >
+                            <span class="bold text-center"> Tarea/Especificaciones: </span>
+                        </td>
+                        <td colspan="3" style="padding:10px;">
+                            <span t-esc="organismo.tareas_especificas"/>
+                        </td>
+                    </tr>
+                </table>
+                 <br/>
+                <table>
+                    <t t-set="departamentos" t-value="[]"/>
+                    <t t-set="totalMetas" t-value="0"/>
+                    <t t-set="totalAlcanzado" t-value="0"/>
+                    <t t-foreach="docs" t-as="lista">
+                        <t t-if="lista['departamento'] not in departamentos">
+                            <t t-set="departamentos" t-value="departamentos + [lista['departamento']]"/>
+                        </t>
+                    </t>
+                    <thead>
+                        <tr>
+                            <td colspan="8" class="text-center bold" style="font-size:20px;padding:5px;">
+                                Informe de Metas
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-center bold" style="padding-top:5px;padding-bottom:5px">
+                                Departamento
+                            </td>
+                            <td colspan="2" class="text-center bold" style="padding-top:5px;padding-bottom:5px">
+                                Cantidad Planificada
+                            </td>
+                            <td colspan="2" class="text-center bold" style="padding-top:5px;padding-bottom:5px">
+                                Cantidad Alcanzada
+                            </td>
+                            <td colspan="2" class="text-center bold" style="padding-top:5px;padding-bottom:5px">
+                                Diferencia
+                            </td>
+                        </tr>
+                    </thead>
+                    <t t-foreach="departamentos" t-as="departamento">
+                        <t t-set="totalDepartamento" t-value="0"/>
+                        <t t-foreach="docs" t-as="lista">
+                            <t t-if="lista['departamento'] == departamento">
+                                <t t-set="totalDepartamento" t-value="totalDepartamento + int(lista['cantidad'])"/>
+                            </t>
+                        </t>
+                        <t t-set="metaDepartamento" t-value="Indefinido"/>
+                        <t t-set="diferencia" t-value="0"/>
+                        <t t-if="organismo">
+                            <t t-foreach="organismo.meta_departamento_ids" t-as="meta">
+                                <t t-if="meta.state_id.name == departamento">
+                                    <t t-set="metaDepartamento" t-value="meta.cantidad"/>
+                                    <t t-set="diferencia" t-value="metaDepartamento-totalDepartamento"/>
+                                    <t t-set="totalMetas" t-value="totalMetas + metaDepartamento"/>
+                                </t>
+                            </t>
+                        </t>
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                                    <t t-esc="departamento"/>
+                                </td>
+                                <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                                    <t class="text-right" t-esc="metaDepartamento"/>
+                                </td>
+                                <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                                    <t class="text-right" t-esc="totalDepartamento"/>
+                                    <t t-set="totalAlcanzado" t-value="totalAlcanzado + totalDepartamento"/>
+                                </td>
+                                <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                                    <t class="text-right" t-esc="diferencia"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </t>
+                    <tr>
+                        <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                            <t t-esc="departamento"/>
+                        </td>
+                        <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                            <t class="text-right" t-esc="totalMetas"/>
+                        </td>
+                        <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                            <t class="text-right" t-esc="totalAlcanzado"/>
+                        </td>
+                        <td colspan="2" class="text-center " style="padding-top:5px;padding-bottom:5px">
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer">
+                    <div class="row text-center" style="border-top: 1px solid black;">
+                        <div class="col col-3">
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                        </div>
+                        <div class="col col-3 offset-6 text-right">
+                            <ul class="list-inline mt-2">
+                                <li class="list-inline-item">Página:</li>
+                                <li class="list-inline-item">
+                                    <span class="page"/>
+                                </li>
+                                <li class="list-inline-item">/</li>
+                                <li class="list-inline-item">
+                                    <span class="topage"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>2
+                </div>
+            </t>
+
+        </t>
+    </template>
+</odoo>

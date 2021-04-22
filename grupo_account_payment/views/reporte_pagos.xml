@@ -1,0 +1,574 @@
+<odoo>
+    <data>
+        <template id="grupo_account_payment.template_orden_pago">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+                    <style>
+                        hr{
+                        border-top:1px solid black;
+                        }
+                        th,tr,td{
+                        padding:3px;
+                        }
+                        th{
+                        text-align:center;
+                        }
+                        .numero{
+                        text-align:right;
+                        }
+                        .izquierda{
+                        text-align:left;
+                        }
+
+
+                    </style>
+                    <t t-foreach="range(1)" t-as="l">
+                        <div class="page" id="original">
+                            <div>
+                                <h3 style="text-align:center">Orden de pago</h3>
+                                <table style="width:100%;border:2px solid;border-radius:12px">
+                                    <td class="izquierda" style="width:50%">
+                                        <strong>Número:</strong>
+                                        <span t-field="o.name"/>
+                                        <br/>
+                                        <strong>Fecha:</strong>
+                                        <span t-field="o.fecha"/>
+                                        <br/>
+                                        <strong>Proveedor:</strong>
+                                        <span t-field="o.partner_id.name"/>
+                                        <br/>
+                                        <strong>RUC:</strong>
+                                        <span t-field="o.partner_id.vat"/>
+                                        <br/>
+                                    </td>
+                                    <td style="width:50%">
+                                        <strong>Monto a pagar:</strong>
+                                        <span t-field="o.amount_total"/>
+                                        <br/>
+                                        <strong>Usuario:</strong>
+                                        <span t-field="o.user_id"/>
+                                        <br/>
+                                    </td>
+                                </table>
+                            </div>
+                            <br/>
+                            <br/>
+                            <table style="width:60%;margin-right:100%;">
+                                <tr>
+                                    <td colspan="4" style="text-align:center">
+                                        <strong>Facturas</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border:1px solid black;border-radius:12px">
+                                    <th>Fecha</th>
+                                    <th>Proveedor</th>
+                                    <th>Nro. Factura</th>
+                                    <th>Monto</th>
+                                </tr>
+
+                                <t t-foreach="o.paid_invoice_ids" t-as="i">
+                                    <tr>
+                                        <td>
+                                            <span t-field="i.date_invoice"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.partner_id.name"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span t-field="i.reference"/>
+                                        </td>
+                                        <td class="numero">
+                                            <span t-field="i.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <br/>
+                            <br/>
+
+                            <table style="width:100%">
+                                <tr>
+                                    <td colspan="6" style="text-align:center">
+                                        <strong>Líneas de pago</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border:1px solid black;border-radius:12px">
+                                    <th>Tipo</th>
+                                    <th>Metodo de pago</th>
+                                    <th>Referencia</th>
+                                    <th>Monto</th>
+                                </tr>
+
+                                <t t-foreach="o.payment_ids" t-as="l">
+                                    <tr>
+                                        <td style="text-align:center">
+                                            <span t-field="l.journal_id"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <span t-field="l.payment_method_id"/>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <span t-field="l.communication"/>
+                                        </td>
+                                        <td class="numero">
+                                            <span t-field="l.amount"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div>
+                                <table style="width:100%">
+                                    <td style="width:33%;text-align:center">
+                                        Firma
+                                    </td>
+                                    <td style="width:33%;text-align:center">
+                                        Aclaración
+                                    </td>
+                                    <td style="width:33%;text-align:center">
+                                        Nro. documento
+                                    </td>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="grupo_account_payment.template_recibo">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+                    <style type="text/css">
+                        .filas{
+                        height:33%;
+                        max-height:150mm;
+                        font-size:12px;
+                        }
+
+
+                        .detalleFacturas {
+                        float: left;
+                        width: 30%;
+                        padding: 5px;
+                        }
+
+                        .detallePago {
+                        float: left;
+                        width: 70%;
+                        padding: 5px;
+                        }
+
+                        .row::after {
+                        content: "";
+                        clear: both;
+                        display: table;
+                        }
+
+                        h2{
+                        font-size:18px;
+                        font-weight: bold;
+                        text-align:center;
+                        }
+
+                        h4{
+                        font-size:14px;
+                        font-weight: bold;
+                        text-align:center;
+                        }
+
+                        .t-titulo{
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                        }
+
+                        .t-titulo tr td{
+                        border: 1px solid black;
+                        }
+
+                        .t-detalle {
+                        border: 1px solid black;
+                        height: 50mm;
+                        border-collapse: collapse;
+                        }
+                        .t-detalle td {
+                        border: 1px solid black;
+                        }
+                        .t-detalle tr {
+                        border: 1px solid black;
+                        }
+                        .t-detalle td:empty {
+                        border: 1px solid black;
+                        }
+                        .lineaDetalle{
+                        font-size:12px;
+                        line-height: 5mm;
+                        height: 5mm;
+                        }
+
+                        hr{
+                        border: 1px solid black;
+                        }
+                        .pie{
+                        margin-left:70%;
+                        }
+                        p{
+                        height:2mm;
+                        line-height:2mm;
+                        }
+
+
+                    </style>
+                    <div class="page">
+
+                        <t t-foreach="range(1,(o.cantRecibos+1))" t-as="n">
+                            <t t-set="tope_max" t-value="8*n"/>
+                            <t t-set="tope_min" t-value="tope_max-8"/>
+                            <t t-set="subtotal" t-value="0"/>
+                            <t t-foreach="range(0,3)" t-as="t">
+                                <div class="filas" id="original">
+                                    <table width="100%">
+                                        <tr>
+                                            <td style="width:20mm;">
+                                                <span></span>
+                                                <img src='/web/binary/company_logo' style="width:100%"/>
+                                            </td>
+                                            <td colspan="3" style="width:100mm;">
+                                                <h2>INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA</h2>
+                                                <h4 style="text-center">Avda. Gral. Artigas N° 3973 y Gral. Roa -
+                                                    Teléfono: +595 21 288 6000
+                                                </h4>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <t t-set="total" t-value="o.amount_total"/>
+                                    <table width="100%">
+                                        <tr>
+                                            <td rowspan="2" style="width:20%;padding-left:15px">
+
+                                            </td>
+                                            <td style="width:30%;">
+                                                <h4 style="font-weight:bold">
+                                                    RECIBO DE DINERO
+                                                </h4>
+                                                <span style="font-weight:bold;text-align:center;">RUC: 80000638-0</span>
+                                            </td>
+                                            <td style="text-align:center;width:45%;font-weight:bold">
+                                                <h4>N°
+                                                    <span t-field="o.name"/>
+                                                    /
+                                                    <span t-esc="n"/>
+                                                </h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="margin-top:10px;text-align:right;font-weight:bold">
+                                                Asunción,
+                                                <span t-field="o.fecha"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:50%">
+                                                <table class="t-titulo">
+                                                    <tr>
+                                                        <td colspan="4" style="text-align:center;font-weight:bold;">
+                                                            DETALLE
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;font-weight:bold;width:20mm">
+                                                            Fecha
+                                                        </td>
+                                                        <td style="text-align:center;font-weight:bold;width:40mm">
+                                                            Factura
+                                                        </td>
+                                                        <td style="text-align:center;font-weight:bold;width:20mm">
+                                                            Importe
+                                                        </td>
+                                                        <td style="text-align:center;font-weight:bold;width:20mm">
+                                                            Saldo
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table class="t-detalle">
+                                                    <t t-if="subtotalAnterior">
+                                                        <tr>
+                                                            <td></td>
+                                                            <td style="width:40mm;text-align:right" class="lineaDetalle">
+                                                                Transporte:
+                                                            </td>
+                                                            <td style="width:20mm;text-align:left" class="lineaDetalle">
+                                                                <span t-esc="'{0:,.0f}'.format(int(subtotalAnterior)).replace(',','.')"/>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </t>
+                                                    <t t-foreach="range(0,len(o.paid_invoice_ids))" t-as="i">
+                                                        <t t-if="o.paid_invoice_ids[i].state != 'cancel'">
+                                                            <t t-if="i &gt;= tope_min and i &lt; tope_max">
+                                                                <t t-set="factura_actual" t-value="o.paid_invoice_ids[i]"/>
+                                                                <!--                                                                <t t-set="pagos" t-value="json.loads(factura_actual.payments_widget)['content']"/>-->
+                                                                <!--                                                                <t t-foreach="pagos" t-as="p">-->
+                                                                <!--                                                                    <t t-if="p.get('name') == o.name">-->
+                                                                <tr>
+                                                                    <td class="lineaDetalle" style="width:20mm">
+                                                                        <span t-field="factura_actual.date_invoice"/>
+                                                                    </td>
+                                                                    <td class="lineaDetalle" style="width:40mm">
+                                                                        <span t-field="factura_actual.fake_number"/>
+                                                                    </td>
+                                                                    <td class="lineaDetalle"
+                                                                        style="width:20mm;text-align:right">
+                                                                        <span t-esc="'{0:,.0f}'.format(int(factura_actual.amount_total)).replace(',','.')"/>
+                                                                        <t t-if="t==0">
+                                                                            <t t-set="subtotal"
+                                                                               t-value="subtotal + int(factura_actual.amount_total)"/>
+                                                                        </t>
+                                                                    </td>
+                                                                    <td class="lineaDetalle"
+                                                                        style="width:20mm;text-align:right">
+                                                                        <span t-esc="'{0:,.0f}'.format(int(factura_actual.residual)).replace(',','.')"/>
+                                                                    </td>
+                                                                </tr>
+                                                                <!--                                                                    </t>-->
+                                                                <!--                                                                </t>-->
+
+                                                            </t>
+                                                        </t>
+                                                    </t>
+                                                    <tr>
+                                                        <td style="width:20mm">
+                                                            <span></span>
+                                                        </td>
+                                                        <td style="width:40mm">
+                                                            <span></span>
+                                                        </td>
+                                                        <td style="width:20mm">
+                                                            <span></span>
+                                                        </td>
+                                                        <td style="width:20mm">
+                                                            <span></span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td style="width:40mm;text-align:right" class="lineaDetalle">
+                                                            Subtotal:
+                                                        </td>
+                                                        <td style="width:20mm;text-align:right" class="lineaDetalle">
+                                                            <t t-if="subtotalAnterior">
+                                                                <t t-if="t == 0">
+                                                                    <t t-set="subtotal" t-value="subtotal+subtotalAnterior"/>
+                                                                </t>
+                                                            </t>
+                                                            <span t-esc="'{0:,.0f}'.format(int(subtotal)).replace(',','.')"/>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2" style=" padding-left:5px;border: 1px solid black">
+                                                <p style="font-weight:bold;text-align:right;">
+                                                    GS.
+                                                    <t t-if="o.refund_ids">
+                                                        <t t-foreach="o.refund_ids" t-as="c">
+                                                            <t t-set="total" t-value="int(o.amount_total-c.residual)"/>
+                                                        </t>
+                                                    </t>
+                                                    <span t-esc="'{0:,.0f}'.format(int(total)).replace(',','.')"/>
+                                                </p>
+                                                <p>
+                                                    <span style="font-weight:bold;">Recibí de</span>
+                                                    <t t-if="o.partner_id.parent_id">
+                                                        <span t-field="o.partner_id.parent_id.name"/>
+                                                    </t>
+                                                    <t t-if="not o.partner_id.parent_id">
+                                                        <span t-field="o.partner_id.name"/>
+                                                    </t>
+                                                </p>
+                                                <p>
+                                                    <span style="font-weight:bold;">la suma de Gs.</span>
+                                                    <span style="line-height:16px;text-transform:uppercase;"
+                                                          t-esc="o.amount_to_text(total, o.currency_id)"/>
+                                                </p>
+                                                <br></br>
+                                                <p>
+                                                    <span style="font-weight:bold;">en concepto de pago de factura
+                                                        crédito según detalle
+                                                    </span>
+                                                </p>
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td colspan="6" style="text-align:center">
+                                                            <strong>Líneas de pago</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border:1px solid black;border-radius:12px;text-align:center;">
+                                                        <th>Tipo</th>
+                                                        <th>Banco</th>
+                                                        <th>Nro. cheque</th>
+                                                        <th>Nro. documento</th>
+                                                        <th>Monto</th>
+                                                    </tr>
+                                                    <t t-set="total_pagos" t-value="0"/>
+                                                    <t t-foreach="o.payment_ids" t-as="l">
+                                                        <tr style="font-size:10px">
+                                                            <td style="text-align:center">
+                                                                <span t-field="l.tipo_pago"/>
+                                                            </td>
+                                                            <td style="text-align:center">
+                                                                <span t-field="l.bank_id"/>
+                                                            </td>
+                                                            <td style="text-align:center">
+                                                                <t t-if="l.nro_cheque">
+                                                                    <span t-field="l.nro_cheque"/>
+                                                                </t>
+                                                            </td>
+                                                            <td style="text-align:center">
+                                                                <t t-if="l.nro_documento">
+                                                                    <span t-field="l.nro_documento"/>
+                                                                </t>
+                                                            </td>
+                                                            <td class="numero" style="text-align:right">
+                                                                <t t-set="total_pagos" t-value="total_pagos + l.amount"/>
+                                                                <span t-esc="'{0:,.0f}'.format(int(l.amount)).replace(',','.')"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+<!--                                                    <t t-if="o.refund_ids">-->
+<!--                                                        <t t-foreach="o.refund_ids" t-as="c">-->
+<!--                                                            <t t-set="total_nc" t-value="0"/>-->
+<!--                                                            <t t-foreach="o.paid_invoice_ids" t-as="inv">-->
+<!--                                                                <t t-foreach="inv.payment_move_line_ids" t-as="pay">-->
+<!--                                                                    <t t-if="pay.invoice_id == c">-->
+<!--                                                                        <t t-set="total_nc" t-value="total_nc+pay.credit"/>-->
+<!--                                                                    </t>-->
+<!--                                                                </t>-->
+
+<!--                                                            </t>-->
+<!--                                                            <tr>-->
+<!--                                                                <td style="text-align:center">-->
+<!--                                                                    Nota de Crédito-->
+<!--                                                                </td>-->
+<!--                                                                <td style="text-align:center">-->
+<!--                                                                    <span/>-->
+<!--                                                                </td>-->
+<!--                                                                <td style="text-align:center">-->
+<!--                                                                    <span/>-->
+<!--                                                                </td>-->
+<!--                                                                <td style="text-align:center">-->
+<!--                                                                    <span t-esc="c.fake_number"/>-->
+<!--                                                                </td>-->
+<!--                                                                <td class="numero" style="text-align:right">-->
+<!--                                                                    <span t-esc="'{0:,.0f}'.format(int(total_nc)).replace(',','.')"/>-->
+<!--                                                                </td>-->
+<!--                                                            </tr>-->
+<!--                                                        </t>-->
+<!--                                                    </t>-->
+
+                                                    <t t-if="notasdeCredito">
+                                                        <t t-foreach="notasdeCredito" t-as="nc">
+                                                            <tr style="font-size:10px">
+                                                                <td style="text-align:center">
+                                                                    Nota de Crédito
+                                                                </td>
+                                                                <td style="text-align:center">
+                                                                    <span/>
+                                                                </td>
+                                                                <td style="text-align:center">
+                                                                    <span/>
+                                                                </td>
+                                                                <td style="text-align:center">
+                                                                    <span t-esc="nc['nro_documento']"/>
+                                                                </td>
+                                                                <td class="numero" style="text-align:right">
+                                                                    <span t-esc="'{0:,.0f}'.format(int(nc['amount'])).replace(',','.')"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <p style="font-size:12px;">
+                                        <t t-if="t==0">
+                                            Original
+                                        </t>
+                                        <t t-if="t==1">
+                                            Duplicado
+                                        </t>
+                                        <t t-if="t==2">
+                                            Triplicado
+                                        </t>
+                                    </p>
+                                    <div class="pie" style="text-align:right">
+                                        <br></br>
+                                        <hr></hr>
+                                        <span style="font-size:10px;text-align:right;font-weight:bold">FIRMA
+                                            AUTORIZADA
+                                        </span>
+                                    </div>
+                                    <t t-if="t==1">
+                                        <br></br>
+                                    </t>
+                                </div>
+
+                            </t>
+                            <t t-if="n &lt; (o.cantRecibos)">
+                                <p style="page-break-before:always;"></p>
+                                <t t-set="subtotalAnterior" t-value="subtotal"/>
+                            </t>
+
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <template id="grupo_account_payment.template_pagos">
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o.payment_type == 'outbound'" t-call="grupo_account_payment.template_orden_pago"
+                   t-lang="o.partner_id.lang"/>
+                <t t-if="o.payment_type == 'inbound'" t-call="grupo_account_payment.template_recibo"
+                   t-lang="o.partner_id.lang"/>
+            </t>
+        </template>
+
+        <record id="grupo_account_payment.papel_pago" model="report.paperformat">
+            <field name="name">Papel Orden de Pago</field>
+            <field name="format">custom</field>
+            <field name="page_height">340</field>
+            <field name="page_width">216</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">4</field>
+            <field name="margin_bottom">1</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+        <report id="grupo_account_payment.reporte_pagos" model="grupo_account_payment.payment.group" string="Pago"
+                report_type="qweb-pdf" name="grupo_account_payment.template_pagos"
+                paperformat="grupo_account_payment.papel_pago"/>
+
+    </data>
+</odoo>
+

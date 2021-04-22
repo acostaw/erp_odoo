@@ -1,0 +1,194 @@
+<odoo>
+    <data noupdate="1">
+        <record model="res.country.state" id="cordillera">
+            <field name="name">Cordillera</field>
+            <field name="code">03</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+        <record model="res.country.state" id="alto_paraguay">
+            <field name="name">Alto Paraguay</field>
+            <field name="code">16</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">350000</field>
+        </record>
+        <record model="res.country.state" id="alto_parana">
+            <field name="name">Alto Paraná</field>
+            <field name="code">10</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">470000</field>
+        </record>
+        <record model="res.country.state" id="amambay">
+            <field name="name">Amambay</field>
+            <field name="code">13</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+        <record model="res.country.state" id="boqueron">
+            <field name="name">Boqueron</field>
+            <field name="code">17</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">470000</field>
+        </record>
+        <record model="res.country.state" id="caaguazu">
+            <field name="name">Caaguazú</field>
+            <field name="code">05</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">350000</field>
+        </record>
+        <record model="res.country.state" id="caazapa">
+            <field name="name">Caazapá</field>
+            <field name="code">06</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">350000</field>
+        </record>
+        <record model="res.country.state" id="canindeyu">
+            <field name="name">Canindeyú</field>
+            <field name="code">14</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+        <record model="res.country.state" id="central">
+            <field name="name">Central</field>
+            <field name="code">11 </field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+        <record model="res.country.state" id="concepcion">
+            <field name="name">Concepción</field>
+            <field name="code">01 </field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">470000</field>
+        </record>
+        <record model="res.country.state" id="guaira">
+            <field name="name">Guairá</field>
+            <field name="code">04</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+        <record model="res.country.state" id="itapua">
+            <field name="name">Itapúa</field>
+            <field name="code">07 </field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">470000</field>
+        </record>
+        <record model="res.country.state" id="misiones">
+            <field name="name">Misiones</field>
+            <field name="code">08</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">350000</field>
+        </record>
+        <record model="res.country.state" id="ñeembucu">
+            <field name="name">Ñeembucú</field>
+            <field name="code">12</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+        <record model="res.country.state" id="paraguari">
+            <field name="name">Paraguarí</field>
+            <field name="code">09</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">300000</field>
+        </record>
+        <record model="res.country.state" id="pte_hayes">
+            <field name="name">Pte. Hayes</field>
+            <field name="code">15</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">350000</field>
+        </record>
+        <record model="res.country.state" id="san_pedro">
+            <field name="name">San Pedro</field>
+            <field name="code">02</field>
+            <field name="country_id" ref="base.py"/>
+            <field name="departamento_paraguay" eval="True"/>
+            <field name="viatico_monto">400000</field>
+        </record>
+
+        <record model="intn.costo.traslado.muestreo" id="cde">
+            <field name="name">Ciudad del Este</field>
+            <field name="monto">752000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="minga_guazu">
+            <field name="name">Minga Guazú</field>
+            <field name="monto">731000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="salto_guaira">
+            <field name="name">Salto del Guairá</field>
+            <field name="monto">953000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="encarnacion">
+            <field name="name">Encarnación</field>
+            <field name="monto">845000</field>
+        </record><record model="intn.costo.traslado.muestreo" id="dpto_itapua">
+            <field name="name">Dpto. Itapúa</field>
+            <field name="monto">845000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="dpto_alto_parana">
+            <field name="name">Dpto. Alto Paraná</field>
+            <field name="monto">752000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="pte_franco">
+            <field name="name">Pte. Franco - Dpto. Alto Paraná</field>
+            <field name="monto">773000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="dpto_concepcion">
+            <field name="name">Dpto. Concepción</field>
+            <field name="monto">955000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="san_antonio">
+            <field name="name">San Antonio (Chaco'i)</field>
+            <field name="monto">100000</field>
+        </record><record model="intn.costo.traslado.muestreo" id="ayolas">
+            <field name="name">Ayolas - Dpto. Misiones</field>
+            <field name="monto">719000</field>
+        </record>
+        <record model="intn.costo.traslado.muestreo" id="dpto_central">
+            <field name="name">Dpto. Central</field>
+            <field name="monto">773000</field>
+        </record>
+
+
+        <record model="product.template" id="multa_metrologica">
+            <field name="name">Multa Metrológica</field>
+            <field name="list_price">84340</field>
+            <field name="sequence">1</field>
+            <field name="categ_id/id">product.product_category_all</field>
+            <field name="active" eval="True"/>
+            <field name="lst_price">84340</field>
+            <field name="taxes_id/id" ref="l10n_py.1_ITAX_EX" />
+            <field name="type">service</field>
+        </record>
+
+        <record model="product.template" id="costos_administrativos_envio">
+            <field name="name">Costos Administrativos por envío</field>
+            <field name="list_price">0</field>
+            <field name="sequence">1</field>
+            <field name="categ_id/id">product.product_category_all</field>
+            <field name="active" eval="True"/>
+            <field name="lst_price">84340</field>
+            <field name="taxes_id/id" ref="l10n_py.1_ITAX_EX" />
+            <field name="type">service</field>
+        </record>
+
+        <record id="campos_intn.costos_administatrivos_onn" model="res.groups">
+            <field name="name">Puede cargar costos adicionales de ONN</field>
+        </record>
+
+    </data>
+</odoo>

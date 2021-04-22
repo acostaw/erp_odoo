@@ -1,0 +1,376 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_solicitud_trabajo" model="report.paperformat">
+            <field name="name">Solicitud interna de trabajo</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="reporte_solicitud" string="Solicitud interna de trabajo" model="solicitud.trabajo" report_type="qweb-pdf" name="intn_flotas.solicitud" paperformat="paperformat_solicitud_trabajo" />
+        <template id="solicitud">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <t t-foreach="docs" t-as="s">
+                        <style>
+                            table {
+                            width: 100%;
+
+                            }
+
+                            .fs-12 {
+                            font-size: 14px;
+                            margin: 2px;
+                            }
+
+                            .text-center {
+                            text-align: center;
+                            }
+
+                            .text-right {
+                            text-align: right;
+                            }
+
+                            .bold {
+                            font-weight: bold;
+                            }
+
+                            .text-justify {
+                            text-align: justify;
+                            }
+
+                            table,
+                            th,
+                            tr {
+                            border: 1px solid white;
+                            border-collapse: collapse;
+                            margin:5px;
+                            line-height:20px;
+                            }
+
+                            .td {
+                            border-right: 1px solid black;
+                            }
+
+                            .centrado {
+                            margin-left: 20%;
+                            }
+
+                            .izquierda {
+                            margin-left: 45%;
+                            }
+                            tr{
+                            height:10px;
+                            }
+                            .ml-5{
+                            margin-left:5x;
+                            }
+
+
+                            p{
+                            margin-top:0;
+                            margin-bottom:2px;
+                            margin-left:2px;
+                            }
+                            .w-90{
+                            width:100mm;
+                            }
+                            .w-15{
+                            width:20mm;
+                            }
+                            .t-detalle {
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                            }
+                            .t-detalle td {
+                            border-left: 1px solid black;
+                            border-right: 1px solid black;
+                            border-bottom: 0.5px solid black;
+                            border-top: 0.5px solid black;
+                            border-collapse: collapse;
+                            }
+                            .t-detalle td:empty {
+                            border-left: 1px solid black;
+                            border-right: 1px solid black;
+                            border-top: 0.5px solid black;
+                            border-collapse: collapse;
+                            }
+
+                            .terms {
+                            <!--                                    white-space: -pre-wrap;-->
+                            max-width:800px;
+                            }
+
+                            .column1 {
+                            float: left;
+                            width: 60%;
+                            padding: 10px;
+                            }
+                            .column2 {
+                            float: left;
+                            width: 40%;
+                            padding: 10px;
+                            }
+
+                            .rows:after {
+                            content: "";
+                            display: table;
+                            clear: both;
+                            }
+                            span:before {
+                            content: '\n';
+                            white-space: pre;
+                            }
+                            .especial{
+                            height:10px;
+                            }
+
+
+                        </style>
+                        <div class="page">
+                            <t t-foreach="docs" t-as="doc">
+                                <table>
+                                    <tr>
+                                        <td style="width:20%;padding:10px" class="text-center">
+                                            <img src='/web/binary/company_logo' style="width:50%"/>
+                                        </td>
+                                        <td class="text-center bold" style="margin-top:0;font-size:20px">
+                                            <p>SOLICITUD INTERNA DE TRABAJO
+                                            </p>
+                                        </td>
+                                        <td style="font-size:18px">
+                                            <p><span t-field="doc.name"/></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br></br>
+                                <p>
+                                    <span class="bold">
+                                        SOLICITUD N°
+                                    </span>
+                                    <span t-field="doc.name"/>
+                                </p>
+                                <table>
+                                    <tr>
+                                        <td style="width:80%">
+                                            <span class="bold">Organismo/Dpto Solicitante:</span>
+                                            <span t-field="doc.organismo_solicitante_id"/> / <span t-field="doc.dpto_solicitante_id"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span class="bold">Fecha:</span>
+                                            <span t-field="doc.date"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="especial"/>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span class="bold">Organismo/Dpto Receptor:</span>
+                                            <span t-field="doc.organismo_solicitante_id"/> / <span t-field="doc.dpto_solicitante_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="especial"/>
+                                    <tr>
+                                        <td colspan="2">
+                                            <span class="bold">Descripción de lo solicitado:</span>
+                                            <t t-raw="doc.descripcion"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="row" style="padding-top:80px">
+                                    <div style="width:33%" class="text-center">
+                                        <span class="bold">
+                                            ___________________<br></br>
+                                            Solicitante
+                                        </span>
+                                    </div>
+                                    <div style="width:33%" class="text-center">
+                                        <span class="bold">
+                                            ___________________<br></br>
+
+                                            Jefe de Dto.
+                                        </span>
+                                    </div>
+                                    <div style="width:33%" class="text-center">
+                                        <span class="bold">
+                                            ___________________<br></br>
+                                            Dirección
+                                        </span>
+                                    </div>
+                                </div>
+                                <br></br>
+                                <table>
+                                    <tr>
+                                        <td class="bold">
+                                            Recibido por:___________________
+                                        </td>
+                                        <td class="bold">
+                                            Fecha:___________________
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br></br>
+                                <br></br>
+                                <p class="text-center bold">
+                                    USO EXCLUSIVO DEL ORGANISMO/DIRECCION/DPTO. RECEPTOR
+                                </p>
+                                <p>
+                                    <span class="bold">
+                                        Nro:
+                                    </span>
+                                    <span t-field="doc.name"/>
+                                </p>
+                                <p>
+                                    <span class="bold">
+                                        Programa y/o descripción de lo solicitado:
+                                    </span>
+                                    <t t-raw="doc.descripcion"/>
+                                </p>
+                                <br/>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span class="bold">
+                                                Responsable:
+                                            </span>
+                                            <span t-field="doc.responsable_receptor"/>
+                                        </td>
+                                        <td>
+                                            <span class="bold">
+                                                Fecha:
+                                            </span>
+                                            <span t-field="doc.fecha_recepcion"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" class="bold">
+                                            Documento Interno:
+                                        </td>
+                                        <td>
+                                            <span class="bold">
+                                                Talonario de pedido N°:
+                                            </span>
+                                            <span t-field="doc.talonario_pedido_nro"/><br></br>
+                                        </td>
+                                        <td rowspan="2">
+                                            <span class="bold">
+                                                Costo aprox.:
+                                            </span>
+                                            <span t-field="doc.costo_aprox"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="bold">
+                                                Talonario de retiro N°:
+                                            </span>
+                                            <span t-field="doc.talonario_retiro_nro"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span class="bold text-center">
+                                                <br/><br/><br/><br/>
+                                                ______________________________<br/>
+                                                Coordinación
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="bold">
+                                                <br/><br/><br/><br/>
+                                                Fecha: ______________________________
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr >
+                                        <td class="text-center">
+                                            <span class="bold text-center">
+                                                <br/><br/><br/><br/>
+                                                ______________________________
+                                                <br/>
+                                                Autorizado por D.A.F
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="bold">
+                                                <br/><br/><br/><br/>
+                                                Fecha: ______________________________
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <br/>
+                                <p class=" bold">
+                                    CONCLUSIÓN
+                                </p>
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" style="width:10%">
+                                            <span class="bold">
+                                                Realizado:
+                                            </span>
+                                        </td>
+                                        <td style="width:10%">
+                                            Si [
+                                            <t t-if="doc.realizado == 'si'">
+                                                x
+                                            </t>
+                                            ]
+                                        </td>
+                                        <td>
+                                            por:
+                                            <span t-field="doc.realizado_por"/>
+                                        </td>
+                                        <td>
+                                            Fecha:
+                                            <span t-field="doc.fecha_realizacion"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="especial"/>
+                                    <tr>
+                                        <td/>
+                                        <td>
+                                            No [
+                                            <t t-if="doc.realizado == 'no'">
+                                                x
+                                            </t>
+                                            ]
+                                        </td>
+                                        <td colspan="2">
+                                            Motivo
+                                            <span t-field="doc.motivo_no_realizado"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td colspan="4">
+                                            <span class="bold">
+                                                Observaciones y/o comentarios:
+                                            </span>
+                                            <span t-field="doc.observaciones"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

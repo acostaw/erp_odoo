@@ -1,0 +1,38 @@
+<odoo>
+    <record model="ir.ui.view" id="recap_report_wizard">
+        <field name="name">Listado de servicios de verificacón de báscula</field>
+        <field name="model">informes_bascula.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Listado de servicios de verificacón de báscula">
+                <group>
+                    <group>
+                        <field name="user_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Imprimir" type="object" class="oe_highlight"/>
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_recap_report_wizard"
+                name="Listado de servicios de verificacón de báscula"
+                res_model="informes_bascula.report.wizard"
+                view_mode="form"
+                target="new"/>
+
+    <menuitem action="action_recap_report_wizard"
+              id="menu_informes_bascula_report_wizard"
+              parent="mrp.menu_mrp_manufacturing"/>
+</odoo>

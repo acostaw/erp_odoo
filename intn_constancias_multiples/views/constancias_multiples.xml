@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="constancias_multiples_list_view">
+        <field name="name">Constancias
+        </field>
+        <field name="res_model">constancias.multiples</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree una nueva constancia
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="constancias_multiples_form_view">
+        <field name="name">Constancias</field>
+        <field name="model">constancias.multiples</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <header name="header">
+                    <field name="state" widget="statusbar"/>
+                    <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <!--                    <button string="Convertir a Borrador" type="object" name="button_draft" class="oe_highlight"-->
+                    <!--                            attrs="{'invisible':[('state','!=','cancel')]}"/>-->
+                    <button string="Cancelar" type="object" name="button_cancelar"
+                            attrs="{'invisible':[('state','!=','done')]}"/>
+                </header>
+                <style>
+                    .not_display{
+                    display:none;
+                    }
+                </style>
+                <sheet>
+                    <h2 name="titulo">
+                        <field name="name" class="oe_title" readonly="True"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="tipo_constancia_id" readonly="1"/>
+                            <field name="order_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="embed_code" widget="video_preview" nolabel="1" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group name="grupo">
+
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <sheet string="Detalle">
+                            <page string="Detalle">
+                                <field name="line_ids">
+                                    <tree string="Task Detail" create="0" editable="0" delete="0">
+                                        <field name="product_id" readonly="1" force_save="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </sheet>
+                        <sheet string="Constancia">
+                            <page string="Constancia">
+                                <!--                            <button string="Reemplazar campos" type="object" name="computeContenido" class="oe_highlight"/>-->
+                                <field name="cuerpo_original" nolabel="1" widget="html" readonly="1"/>
+                            </page>
+                        </sheet>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="constancias_multiples_tree_view">
+        <field name="name">constancias_multiples_tree_view</field>
+        <field name="model">constancias.multiples</field>
+        <field name="arch" type="xml">
+            <tree string="Constancias" create="false">
+                <field name="name"/>
+                <field name="tipo_constancia_id"/>
+                <field name="order_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <menuitem id="intn_constancias_multiples.constancias_multiples_menu" name="Constancias" parent="mrp.menu_mrp_manufacturing" action="constancias_multiples_list_view"/>
+
+
+
+</odoo>

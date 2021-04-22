@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cuentas_cobrar_pagar_community_cuentas_cobrar_pagar_community,cuentas_cobrar_pagar_community.cuentas_cobrar_pagar_community,model_cuentas_cobrar_pagar_community_cuentas_cobrar_pagar_community,,1,0,0,0

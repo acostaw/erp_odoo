@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="listado_servicios_departamento_report.organismo_form_view">
+            <field name="name">listado_servicios_departamento_report.organismo_form_view
+            </field>
+            <field name="model">intn.organismos</field>
+            <field name="inherit_id" ref="campos_intn.organismo_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page name="meta_departamentos" string="Metas por Departamento">
+                            <group>
+                                <field name="meta_departamento_ids" nolabel="1" mode="tree">
+                                    <tree string="Metas por Departamento" editable="bottom">
+                                        <field name="organismo_id" invisible="1"/>
+                                        <field name="state_id" string="Departamento"/>
+                                        <field name="cantidad"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page name="informe_metas" string="Informe de Metas">
+                            <group>
+                                <field name="accion"/>
+                                <field name="tareas_especificas"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

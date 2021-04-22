@@ -1,0 +1,41 @@
+<odoo>
+    <record model="ir.ui.view" id="recap_report_wizard">
+        <field name="name">Detalle de Cobros</field>
+        <field name="model">detalle_cobros.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Detalle de Cobros">
+                <group>
+                    <group>
+                        <field name="partner_id"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                    <group>
+                        <field name="aqui_pago"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Imprimir" type="object" class="oe_highlight"/>
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_recap_report_wizard"
+                name="Detalle de Cobros"
+                res_model="detalle_cobros.report.wizard"
+                view_mode="form"
+                target="new"/>
+
+    <menuitem action="action_recap_report_wizard"
+              id="menu_detalle_cobros_report_wizard"
+              parent="account.menu_finance_receivables"/>
+</odoo>

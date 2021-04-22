@@ -1,0 +1,408 @@
+<odoo>
+    <data>
+        <record id="paperformat_reporte_sesion" model="report.paperformat">
+            <field name="name">Sesion de caja INTN</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">35</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">60</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <template id="account_cajas.template_reporte_sesion_caja">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            body{
+                            font-size:12px;
+                            }
+                            .fs-12{
+                            font-size:12px;
+                            }
+                            .table{
+                            line-height:10px;
+                            }
+                            .table td{
+                            padding-top:6px;
+                            padding-bottom:6px;
+                            }
+                            .list-inline{
+                            font-size:10px;
+                            }
+                        </style>
+                        <table style="border:none;width:100%">
+                            <tr style="border:none">
+                                <td style="width:20%;padding:5px" class="text-center">
+                                    <img src='/web/binary/company_logo' style="max-width:50px"/>
+                                </td>
+                                <td style="padding-top:15px">
+                                    <p class="bold" style="padding-top:-15px;margin-top:-15px;margin-bottom:2px;padding-left:5px;font-size:14px;">
+                                        INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                                    </p>
+                                    <p class="fs-12" style="margin-top:2px;margin-bottom:2px;;padding-left:5px">
+                                        Avda. Gral. Artigas 3973 c/ Gral. Roa - Asunción, Paraguay
+                                    </p>
+                                    <p class="fs-12" style="margin-top:2px;margin-bottom:2px;;padding-left:5px">
+                                        Teléfonos: +595 21 288 6000
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <strong><h2 style="font-size:14px;">Extracto de caja: <span t-field="docs.name"/>
+                        </h2>
+                        </strong>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Caja: </strong>
+                        <span class="fs-12" t-field="docs.caja_id"/>
+                        <br/>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Cajero: </strong>
+                        <span class="fs-12" t-field="docs.user_id"/>
+                        <br/>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Estado: </strong>
+                        <span class="fs-12" t-field="docs.state"/>
+                        <br/>
+                        <strong class="fs-12" style="width:15%;display:inline-block">Apertura: </strong>
+                        <span class="fs-12" t-field="docs.fecha_hora_inicio"/>
+                        <br/>
+                        <strong class="fs-12"  style="width:15%;display:inline-block">Cierre: </strong>
+                        <span class="fs-12" t-field="docs.fecha_hora_fin"/>
+                        <br/> <br/>
+                        <strong><h2 style="font-size:14px;">Diario de pago</h2></strong>
+                        <br/>
+                        <t t-foreach="docs.statement_ids" t-as="statement">
+                            <t t-set="total_contado" t-value="0"/>
+                            <t t-set="total_credito" t-value="0"/>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8">
+                                            <span t-field="statement.journal_id"/>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="tipo_factura" t-value="set(statement.mapped('line_ids.journal_entry_ids.payment_id.tipo_recibo'))"/>
+                                    <t t-foreach="set(tipo_factura)" t-as="tipo">
+                                        <tr>
+                                            <td colspan="8" style="text-align:center;">
+                                                <strong t-esc="tipo" style="text-transform:uppercase;text-align:center;"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Fecha
+                                            </th>
+                                            <t t-if="tipo == 'contado'">
+                                                <th>
+                                                    Comprobante de Pago
+                                                </th>
+                                            </t>
+                                            <t t-if="tipo == 'credito'">
+                                                <th>
+                                                    Nro Recibo
+                                                </th>
+                                            </t>
+                                            <th>
+                                                Factura
+                                            </th>
+                                            <th>
+                                                Tipo de Pago
+                                            </th>
+                                            <th>
+                                                Banco
+                                            </th>
+                                            <th>
+                                                Nro Cheque
+                                            </th>
+                                            <th>
+                                                Nro Documento
+                                            </th>
+                                            <th>
+                                                Monto
+                                            </th>
+                                        </tr>
+                                        <t t-foreach="statement.line_ids" t-as="line">
+                                            <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                <t t-foreach="entry.payment_id" t-as="payment">
+                                                    <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                        <t t-foreach="entry.payment_id" t-as="payment">
+                                                            <t t-if="payment.paid_invoice_ids">
+                                                                <t t-foreach="payment.paid_invoice_ids[0]" t-as="invoice">
+                                                                    <t t-if="invoice.date_due != invoice.date_invoice">
+                                                                        <t t-if="tipo == 'credito'">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <span t-field="line.date"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="line.name"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                                                        <t t-foreach="entry.payment_id" t-as="payment">
+                                                                                            <t t-foreach="payment.paid_invoice_ids" t-as="invoice">
+                                                                                                <t t-set="etiqueta" t-value="invoice.fake_number"/>
+                                                                                                <t t-esc="etiqueta"/>
+
+                                                                                            </t>
+                                                                                        </t>
+                                                                                    </t>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.tipo_pago"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.bank_id"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.nro_cheque"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.nro_documento"/>
+                                                                                </td>
+                                                                                <td style="text-align:right">
+                                                                                    <span t-field="line.amount"/>
+                                                                                    <t t-set="total_credito" t-value="total_credito+line.amount"/>
+                                                                                    <t t-foreach="payment.invoice_ids" t-as="invoice">
+                                                                                        <t t-if="invoice.factura_origen_mora">
+                                                                                            <br></br><br></br>
+                                                                                            <span>
+                                                                                                Interés
+                                                                                            </span>
+                                                                                        </t>
+                                                                                        <t t-if="invoice.facturas_origen_mora">
+                                                                                            <br></br><br></br>
+                                                                                            <span>
+                                                                                                Interés
+                                                                                            </span>
+                                                                                        </t>
+                                                                                    </t>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-if="invoice.date_due == invoice.date_invoice">
+                                                                        <t t-if="tipo == 'contado'">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <span t-field="line.date"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="line.name"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                                                        <t t-foreach="entry.payment_id" t-as="payment">
+                                                                                            <t t-foreach="payment.paid_invoice_ids" t-as="invoice">
+                                                                                                <t t-set="etiqueta" t-value="invoice.fake_number"/>
+                                                                                                <t t-esc="etiqueta"/>
+
+                                                                                            </t>
+                                                                                        </t>
+                                                                                    </t>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.tipo_pago"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.bank_id"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.nro_cheque"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <span t-field="payment.nro_documento"/>
+                                                                                </td>
+                                                                                <td style="text-align:right">
+                                                                                    <span t-field="line.amount"/>
+                                                                                    <t t-set="total_contado" t-value="total_contado+line.amount"/>
+                                                                                    <t t-foreach="payment.invoice_ids" t-as="invoice">
+                                                                                        <t t-if="invoice.factura_origen_mora">
+                                                                                            <br></br><br></br>
+                                                                                            <span>
+                                                                                                Interés
+                                                                                            </span>
+                                                                                        </t>
+                                                                                        <t t-if="invoice.facturas_origen_mora">
+                                                                                            <br></br><br></br>
+                                                                                            <span>
+                                                                                                Interés
+                                                                                            </span>
+                                                                                        </t>
+                                                                                    </t>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </t>
+                                                                    </t>
+                                                                </t>
+                                                            </t>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+
+                                        <tr>
+                                            <t t-foreach="set(statement.mapped('line_ids.journal_entry_ids.payment_id').filtered(lambda x : x.tipo_recibo == tipo and x.journal_id == statement.journal_id).mapped('tipo_pago'))" t-as="tt_pago">
+                                                <td style="width:20%">
+                                                    <strong> Total <t t-esc="tt_pago"/> :
+                                                        <t t-set="total_tipo" t-value="sum(statement.mapped('line_ids.journal_entry_ids.payment_id').filtered(lambda x : x.tipo_recibo == tipo and x.journal_id == statement.journal_id and x.tipo_pago == tt_pago).mapped('amount'))"/>
+                                                        <span t-esc="'{0:,.0f}'.format(int(total_tipo)).replace(',','.')"/> GS. </strong>
+                                                </td>
+                                            </t>
+                                        </tr>
+
+                                        <t t-if="tipo == 'contado'">
+                                            <tr>
+                                                <td colspan="8" style="text-align:right;">
+                                                    <strong>SUBTOTAL
+                                                        <span t-esc="'{0:,.0f}'.format(int(total_contado)).replace(',','.')"/> GS. </strong>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="tipo == 'credito'">
+                                            <tr>
+                                                <td colspan="8" style="text-align:right;">
+                                                    <strong>SUBTOTAL
+                                                        <span t-esc="'{0:,.0f}'.format(int(total_credito)).replace(',','.')"/> GS. </strong>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                    </t>
+
+                                </tbody>
+                                <tr>
+                                   <tr>
+                                                <td colspan="8" style="text-align:right;">
+                                                    <strong>TOTAL
+                                                        <span t-esc="'{0:,.0f}'.format(int(total_credito+total_contado)).replace(',','.')"/> GS. </strong>
+                                                </td>
+                                            </tr>
+                                </tr>
+                            </table>
+                        </t>
+
+                        <t t-set="tipo_factura" t-value="[]"/>
+                        <t t-if="notasdeCredito">
+                            <t t-foreach="notasdeCredito" t-as="c">
+                                <t t-set="tipo_factura" t-value="tipo_factura+[c['tipo_factura']]"/>
+                            </t>
+                            <br/>
+                            <br/>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th colspan="8">
+                                        <span > Notas de Crédito</span>
+                                    </th>
+                                </tr>
+                                <t t-foreach="set(tipo_factura)" t-as="tipo">
+                                    <t t-set="totalNotas" t-value="0"/>
+                                    <tr>
+                                        <td colspan="8" style="text-align:center;">
+                                            <strong t-esc="tipo" style="text-transform:uppercase;text-align:center;"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Fecha
+                                        </th>
+                                        <th>
+                                            Nro Recibo
+                                        </th>
+                                        <th>
+                                            Factura
+                                        </th>
+                                        <th>
+                                            Tipo de Pago
+                                        </th>
+                                        <th>
+                                            Banco
+                                        </th>
+                                        <th>
+                                            Nro Cheque
+                                        </th>
+                                        <th>
+                                            Nro Documento
+                                        </th>
+                                        <th>
+                                            Monto
+                                        </th>
+                                    </tr>
+                                    <t t-foreach="notasdeCredito" t-as="c">
+                                        <t t-if="c['tipo_factura'] == tipo">
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="c['date']"/>
+                                                </td>
+                                                <td>
+                                                    <t t-if="tipo == 'credito'">
+                                                        <span t-esc="c['nro_recibo']"/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="c['facturas']"/>
+                                                </td>
+                                                <td>
+                                                    Nota de Crédito
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+                                                    <span t-esc="c['nro_documento']"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'{0:,.0f}'.format(int(c['amount'])).replace(',','.')"/>
+                                                    <t t-set="totalNotas" t-value="int(c['amount']) + totalNotas"/>
+                                                    <t t-if="c['interes']">
+                                                        <br></br><br></br>
+                                                        <span>
+                                                            Interés
+                                                        </span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <tr>
+                                        <td colspan="8" style="text-align:right;">
+                                            <strong>TOTAL
+                                                <span t-esc="'{0:,.0f}'.format(int(totalNotas)).replace(',','.')"/> GS. </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>
+
+                        <div class="footer" style="padding-top:10px;" >
+                            <table style="border:none;width:100%">
+                                <tr style="border:none">
+                                    <td style="padding:5px">
+                                        <span class="fs-12 text-right">Emitido por: <span t-field="docs.user_id"/>   </span>
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime(' %H:%M %d-%m-%Y ')"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report id="reporte_sesion_caja" model="account.caja.session" string="Reporte de sesión de caja" report_type="qweb-pdf" name="account_cajas.template_reporte_sesion_caja" paperformat="paperformat_reporte_sesion"/>
+    </data>
+</odoo>

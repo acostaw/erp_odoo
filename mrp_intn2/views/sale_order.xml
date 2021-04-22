@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="mrp_intn2.sale_order_form_view" model="ir.ui.view">
+            <field name="name">mrp_intn2.sale_order_form_view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='picking_ids']" position="replace">
+                    <field name="picking_ids" invisible="True"/>
+                </xpath>
+                <xpath expr="//button[@name='action_view_delivery']" position="replace">
+                    <button name="action_view_delivery" invisible="True"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="marcar_pago_exonerado_manual" type="object" string="Exonerar pago de este expediente" attrs="{'invisible':['|',('state','not in',['draft','sent']),('pago_exonerado','=',True)]}" groups="mrp_intn2.exonerar_pago_manual"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

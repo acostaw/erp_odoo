@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="email_template_vencimiento" model="mail.template">
+            <field name="name">Vencimiento de Verificación - Enviar por email</field>
+            <field name="model_id" ref="intn_informe_bascula.model_informes_bascula"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' % (object.user_id.name, object.user_id.email) or '')|safe}</field>
+            <field name="subject">${object.user_id.company_id.name} Constancia (${object.name or 'n/a'})</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+<!--            <field name="report_template" ref="intn_constancias.reporte_constancia"/>-->
+<!--            <field name="report_name">Constancia_${(object.name or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>-->
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+                Estimad@ ${object.partner_id.name}
+                <br/><br/>
+
+                    Le recordamos que el Informe de Verificación de IPNA - Báscula N° ${object.name or 'n/a'} está próximo a vencer (${format_tz(object.fecha_vencimiento, tz='UTC', format='%d-%m-%Y')}). <br/><br/>
+
+                No dude en ponerse en contacto con nosotros si tiene alguna pregunta.
+
+            ]]></field>
+        </record>
+
+
+
+        <record id="email_template_confirmacion" model="mail.template">
+            <field name="name">Informe de Verificación de IPNA - Báscula - Enviar por email</field>
+            <field name="model_id" ref="intn_informe_bascula.model_informes_bascula"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' % (object.user_id.name, object.user_id.email) or '')|safe}</field>
+            <field name="subject">${object.user_id.company_id.name} Constancia (${object.name or 'n/a'})</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="report_template" ref="intn_informe_bascula.reporte_bascula"/>
+            <field name="report_name">Informe_${(object.name or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+                Estimad@ ${object.partner_id.name}
+                <br/><br/>
+
+                    Adjuntamos el Informe de Verificación de IPNA - Báscula N° (${object.name or 'n/a'}), el cual se encuentra <b>${object.evaluacion_final_estado or 'n/a'}</b> <br/><br/><br/><br/>
+
+                No dude en ponerse en contacto con nosotros si tiene alguna pregunta.
+
+            ]]></field>
+        </record>
+    </data>
+</odoo>

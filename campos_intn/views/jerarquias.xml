@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- window action -->
+
+    <!--________________________ORGANISMOS_____________________________________-->
+    <record model="ir.actions.act_window" id="intn_organismo_lista">
+        <field name="name">Organismos
+        </field>
+        <field name="res_model">intn.organismos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crea un nuevo organismo
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="organismo_tree_view">
+        <field name="name">organismo_tree_view</field>
+        <field name="model">intn.organismos</field>
+        <field name="arch" type="xml">
+            <tree string="Organismos">
+                <field name="name"/>
+                <field name="observacion"/>
+                <field name="terms"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="partner_id"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="organismo_form_view">
+        <field name="name">organismo_form_view</field>
+        <field name="model">intn.organismos</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="observacion"/>
+                            <field name="terms"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="necesita_contrato"/>
+                            <field name="active"/>
+                            
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="organismo_search_view">
+        <field name="name">organismo.search</field>
+        <field name="model">intn.organismos</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="observacion"/>
+                <field name="partner_id"/>
+                <field name="necesita_contrato"/>
+            </search>
+        </field>
+    </record>
+
+    <!--________________________UNIDADES_____________________________________-->
+    <record model="ir.actions.act_window" id="intn_unidad_lista">
+        <field name="name">Unidades</field>
+        <field name="res_model">intn.unidades</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="unidad_tree_view">
+        <field name="name">unidad_tree_view</field>
+        <field name="model">intn.unidades</field>
+        <field name="arch" type="xml">
+            <tree string="Unidades">
+                <field name="complete_name"/>
+                <field name="observacion"/>
+                <field name="terms"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="unidad_form_view">
+        <field name="name">unidad_form_view</field>
+        <field name="model">intn.unidades</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="observacion"/>
+                            <field name="terms"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="necesita_contrato"/>
+                            <field name="organismo_id"/>
+                            <field name="sequence_id"/>
+                            <field name="genera_ordenes_cantidad"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="unidad_search_view">
+        <field name="name">unidad.search</field>
+        <field name="model">intn.unidades</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="observacion"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="organismo_id"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!--________________________DEPARTAMENTOS_____________________________________-->
+    <record model="ir.actions.act_window" id="intn_departamento_lista">
+        <field name="name">Departamentos</field>
+        <field name="res_model">intn.departamentos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="departamento_tree_view">
+        <field name="name">departamento_tree_view</field>
+        <field name="model">intn.departamentos</field>
+        <field name="arch" type="xml">
+            <tree string="Departamentos">
+                <field name="complete_name"/>
+                <field name="observacion"/>
+                <field name="terms"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="departamento_form_view">
+        <field name="name">departamento_form_view</field>
+        <field name="model">intn.departamentos</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="observacion"/>
+                            <field name="terms"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="necesita_contrato"/>
+                            <field name="unidad_id"/>
+                            <field name="sequence_id"/>
+                            
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="departamento_search_view">
+        <field name="name">departamento.search</field>
+        <field name="model">intn.departamentos</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="observacion"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="unidad_id"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!--________________________COORDINACIONES_____________________________________-->
+    <record model="ir.actions.act_window" id="intn_coordinacion_lista">
+        <field name="name">Coordinaciones</field>
+        <field name="res_model">intn.coordinaciones</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="coordinacion_tree_view">
+        <field name="name">coordinacion_tree_view</field>
+        <field name="model">intn.coordinaciones</field>
+        <field name="arch" type="xml">
+            <tree string="Idea list">
+                <field name="complete_name"/>
+                <field name="observacion"/>
+                <field name="terms"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="departamento_id"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="coordinacion_form_view">
+        <field name="name">coordinacion_form_view</field>
+        <field name="model">intn.coordinaciones</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="observacion"/>
+                            <field name="terms"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="necesita_contrato"/>
+                            <field name="departamento_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="coordinacion_search_view">
+        <field name="name">coordinacion.search</field>
+        <field name="model">intn.coordinaciones</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="observacion"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="departamento_id"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!--________________________LABORATORIOS_____________________________________-->
+    <record model="ir.actions.act_window" id="intn_laboratorio_lista">
+        <field name="name">Laboratorios</field>
+        <field name="res_model">intn.laboratorios</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="laboratorio_tree_view">
+        <field name="name">laboratorio_tree_view</field>
+        <field name="model">intn.laboratorios</field>
+        <field name="arch" type="xml">
+            <tree string="Laboratorios">
+                <field name="complete_name"/>
+                <field name="observacion"/>
+                <field name="terms"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="laboratorio_form_view">
+        <field name="name">laboratorio_form_view</field>
+        <field name="model">intn.laboratorios</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="observacion"/>
+                            <field name="terms"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="necesita_contrato"/>
+                            <field name="coordinacion_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="laboratorio_search_view">
+        <field name="name">laboratorio.search</field>
+        <field name="model">intn.laboratorios</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="observacion"/>
+                <field name="terms"/>
+                <field name="active"/>
+                <field name="necesita_contrato"/>
+                <field name="coordinacion_id"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!--________________________MENU____________________________________-->
+    <menuitem id="campos_intn.jerarquia_menu" name="Jerarquia" parent="sale.sale_menu_root"/>
+    <menuitem id="organismos_menu" name="Organismos" parent="campos_intn.jerarquia_menu"
+              action="intn_organismo_lista" sequence="10"/>
+    <menuitem id="unidades_menu" name="Unidades" parent="campos_intn.jerarquia_menu"
+              action="intn_unidad_lista" sequence="20"/>
+    <menuitem id="departamentos_menu" name="Departamentos" parent="campos_intn.jerarquia_menu"
+              action="intn_departamento_lista" sequence="30"/>
+    <menuitem id="coordinaciones_menu" name="Coordinaciones" parent="campos_intn.jerarquia_menu"
+              action="intn_coordinacion_lista" sequence="40"/>
+    <menuitem id="laboratorios_menu" name="Laboratorios" parent="campos_intn.jerarquia_menu"
+              action="intn_laboratorio_lista" sequence="50"/>
+
+</odoo>

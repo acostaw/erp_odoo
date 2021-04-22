@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <record id="uso_marca_intn.puede_asignar_solicitante" model="res.groups">
+            <field name="name">Puede asignar un solicitante en los expedientes por Uso de Marca</field>
+        </record>
+
+        <record model="uso_marca_sub_etapas" id="etapa_inicial1">
+            <field name="name">Revisión de la Solicitud de Certificación y Análisis de la Factibilidad</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_inicial2">
+            <field name="name">Evaluación: Visita a planta, verificación de equipos de ensayos y testificación de ensayos, evaluación del sistema de gestión y toma de muestras</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_inicial3">
+            <field name="name">Revisión y Recomendación del Proceso de Certificación</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_inicial4">
+            <field name="name">Decisión del proceso de Certificación: Estudio del cumplimiento de los requisitos establecidos en los documentos de referencia.</field>
+        </record>
+
+        <record model="uso_marca_sub_etapas" id="etapa_vigilancia1">
+            <field name="name">Evaluación: Visita a planta, verificación de equipos de ensayos, testificación de ensayos, evaluación  del sistema de gestión y toma de muestras</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_vigilancia2">
+            <field name="name">Evaluación: Toma de muestra de mercado</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_vigilancia3">
+            <field name="name">Revisión y Decisión del Proceso de Vigilancia del Uso de la Marca ONC de Conformidad</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_vigilancia4">
+            <field name="name">Verificación del Proceso de Vigilancia del Uso de la Marca ONN de Conformidad</field>
+        </record>
+
+        <record model="uso_marca_sub_etapas" id="etapa_gestion1">
+            <field name="name">Revisión de documentación por el RC</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion2">
+            <field name="name">Evaluación de la documentación in situ por el Equipo Auditor</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion3">
+            <field name="name">Revisión de los resultados de la evaluación por RC</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion4">
+            <field name="name">Estudio del cumplimiento de todos los requisitos establecidos en los Reglamentos por la DCSI</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion5">
+            <field name="name">Evaluación de la implementación in situ por el Equipo Auditor</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion6">
+            <field name="name">Estudio del cumplimiento de todos los requisitos establecidos en los Rglamentos y Recomendación por el Comité de Preservación de Imparcialidad</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion7">
+            <field name="name">Decisión de Otorgar Certificación del Sistema por la Dirección ONC</field>
+        </record>
+        <record model="uso_marca_sub_etapas" id="etapa_gestion8">
+            <field name="name">Emisión de constancia de realización de vigilancia por la Dirección del ONC</field>
+        </record>
+
+    </data>
+</odoo>

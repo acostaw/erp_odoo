@@ -1,0 +1,44 @@
+<odoo>
+    <record model="ir.ui.view" id="factura_servicios_report_wizard_form">
+        <field name="name">Detalle de Cobros</field>
+        <field name="model">factura_servicios.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Facturas por Servicios">
+                <group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="product_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                    <group>
+                        <field name="aqui_pago"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Imprimir PDF" type="object" class="oe_highlight" groups="report_factura_por_servicio.grupo_factura_servicio"/>
+                    <button name="get_report_xlsx" string="Imprimir XLSX" type="object" class="oe_highlight" groups="report_factura_por_servicio.grupo_factura_servicio"/>
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="factura_servicios_report_wizard_action"
+                name="Reporte Facturas por Servicios"
+                res_model="factura_servicios.report.wizard"
+                view_mode="form"
+                target="new"/>
+
+    <menuitem action="factura_servicios_report_wizard_action"
+              id="menu_factura_servicios_report_wizard"
+              groups="report_factura_por_servicio.grupo_factura_servicio"
+              parent="account.menu_finance_receivables"/>
+</odoo>

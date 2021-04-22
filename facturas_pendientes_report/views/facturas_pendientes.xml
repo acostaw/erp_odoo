@@ -1,0 +1,249 @@
+<odoo>
+    <record model="report.paperformat" id="paperformat_recap_report">
+        <field name="name">paperformat.recap.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">70</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="recap_report"
+            model="facturas_pendientes.report.wizard"
+            string="Facturas Pendientes de Cobro"
+            report_type="qweb-pdf"
+            name="facturas_pendientes_report.recap_report_view"
+            paperformat="paperformat_recap_report"
+            menu="False"/>
+
+    <template id="recap_report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+
+                    table {
+                    width: 100%;
+
+                    }
+
+                    .fs-12 {
+                    font-size: 14px;
+                    margin: 2px;
+                    }
+
+                    .text-center {
+                    text-align: center;
+                    }
+
+                    .text-right {
+                    text-align: right;
+                    }
+
+                    .bold {
+                    font-weight: bold;
+                    }
+
+                    .text-justify {
+                    text-align: justify;
+                    }
+
+                    table,
+                    th,
+                    tr{
+                    border: 1px solid black;
+                    border-collapse: collapse;
+
+                    }
+
+                    .td {
+                    border-right: 1px solid black;
+                    }
+
+                    .tr{
+                    border-collapse: collapse
+                    }
+                    .ml-5{
+                    margin-left:5x;
+                    }
+
+                    p{
+                    margin-top:0;
+                    margin-bottom:2px;
+                    margin-left:2px;
+                    }
+                    .w-90{
+                    width:100mm;
+                    }
+                    .w-15{
+                    width:20mm;
+                    }
+
+                    span:before {
+                    white-space: pre;
+                    }
+
+                    tr {
+                    page-break-inside: avoid;
+                    }
+
+
+                </style>
+                <table>
+                    <tr>
+                        <td style="width:20%;padding-left:60px;padding-top:10px;" class="text-left">
+                            <img src='/detalle_cobros_report/static/src/img/logo.png' style="max-height: 20%;"/>
+                        </td>
+                        <td class="text-center" style="margin-top:0;padding:10px;font-size:20px;">
+                            INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                            <p class="bold text-center" style="padding:15px;">FACTURAS PENDIENTES DE COBRO</p>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <table>
+                    <t t-if="date_start and date_end">
+                        <tr>
+                        <td style="width:50%;padding:10px;" >
+                            <span class="bold"> Fecha Inicio: </span>
+                            <t t-esc="date_start"/>
+                        </td>
+                        <td style="width:50%;padding:10px;" class="text-right">
+                            <span class="bold"> Fecha Fin: </span>
+                            <t t-esc="date_end"/>
+                        </td>
+                    </tr>
+                    </t>
+                </table>
+                <table>
+                    <thead>
+                        <tr class="text-center">
+                            <td style="padding-top:5px;padding-bottom:5px;border-left:1px solid white !important">
+                                Nro Factura
+                            </td>
+                            <td>
+                                Emision
+                            </td>
+                            <td>
+                                Vencimiento
+                            </td>
+                            <td style="width:250px;" >
+                                Nombre o Razón Social
+                            </td>
+                            <td>
+                                Teléfono
+                            </td>
+                            <td style="width:250px;" >
+                                Dirección
+                            </td>
+                            <td>
+                                Exp. Nro
+                            </td>
+                            <td>
+                                Monto
+                            </td>
+                            <td>
+                                Días de Atraso
+                            </td>
+                            <td>
+                                Interés a la Fecha
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="total" t-value="0"/>
+                        <t t-foreach="docs" t-as="d">
+                            <tr style="border:1 px solid white;padding-left:5px;font-size:12px;" class="text-center">
+                                <td style="border-left:1px solid white !important">
+                                        <t t-esc="d.fake_number"/>
+                                </td>
+                                <td>
+                                    <t t-esc="d.date_invoice.strftime('%d/%m/%Y')"/>
+                                </td>
+                                <td>
+                                    <t t-esc="d.date_due.strftime('%d/%m/%Y')"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-if="d.state != 'cancel'">
+                                        <t t-if="d.partner_id.parent_id">
+                                            <t t-esc="d.partner_id.parent_id.name"/>
+                                        </t>
+                                        <t t-if="not d.partner_id.parent_id">
+                                            <t t-esc="d.partner_id.name"/>
+                                        </t>
+                                    </t>
+                                </td>
+                                <td class="text-center">
+                                    <t t-if="d.state != 'cancel'">
+                                        <t t-if="d.partner_id.phone">
+                                            <t t-esc="d.partner_id.phone"/>
+                                        </t>
+                                        <t t-if="not d.partner_id.phone and d.partner_id.parent_id">
+                                            <t t-esc="d.partner_id.parent_id.phone"/>
+                                        </t>
+                                    </t>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="d.partner_id.street"/>
+                                </td>
+                                <td class="text-center">
+                                    <t t-esc="d.origin"/>
+                                </td>
+                                <td>
+                                    <t t-set="monto" t-value="d.amount_total"/>
+                                    <t class="text-right" t-esc="'{0:,.0f}'.format(int(monto)).replace(',','.')"/>
+                                    <t t-set="total" t-value="total+monto"/>
+                                </td>
+                                <td>
+                                    <t t-esc="d.dias_atraso"/>
+                                </td>
+                                <td>
+                                    <t t-esc="d.monto_interes"/>
+                                </td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td>
+
+                            </td>
+                        </tr>
+                        <tr style="padding-left:5px;">
+                            <td colspan="8" class="text-right bold" style="padding-left:10px;">
+                                Total Gral:
+                            </td>
+                            <td colspan="2" style="padding:10px;" class="bold">
+                                <t class="text-right" t-esc="'{0:,.0f}'.format(int(total)).replace(',','.')"/> Gs.
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="footer">
+                    <div class="row text-center" style="border-top: 1px solid black;">
+                        <div class="col col-3">
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                        </div>
+                        <div class="col col-3 offset-6 text-right">
+                            <ul class="list-inline mt-2">
+                                <li class="list-inline-item">Página:</li>
+                                <li class="list-inline-item">
+                                    <span class="page"/>
+                                </li>
+                                <li class="list-inline-item">/</li>
+                                <li class="list-inline-item">
+                                    <span class="topage"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="sale_order_portal.portal_invoice_page" model="ir.ui.view">
+            <field name="name">sale_order_portal.portal_invoice_page</field>
+            <field name="inherit_id" ref="account.portal_invoice_page"/>
+            <field name="arch" type="xml">
+                <xpath expr="//iframe[@id='invoice_html']" position="after">
+                    <t t-if="invoice.payment_ids">
+                        <div style="padding: 40px;margin-left: auto;margin-right: auto;">
+                            <table style="width:100%;border: 1px solid black;border-collapse: collapse;" >
+                                <tr style="border: 1px solid black;border-collapse: collapse;">
+                                    <td colspan="3" style="text-align:center;font-weight:bold;">
+                                        PAGOS
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:center;font-weight:bold;border: 1px solid black;border-collapse: collapse;">
+                                        Recibo/Comprobante
+                                    </td>
+                                    <td style="text-align:center;font-weight:bold;border: 1px solid black;border-collapse: collapse;">
+                                        Fecha
+                                    </td>
+                                    <td style="text-align:center;font-weight:bold;border: 1px solid black;border-collapse: collapse;">
+                                        Monto
+                                    </td>
+                                </tr>
+                                <t t-foreach="invoice.payment_ids" t-as="payment">
+                                    <tr>
+                                        <td style="border: 1px solid black;border-collapse: collapse;text-align:center;">
+                                            <t t-esc="payment.name"/>
+                                        </td>
+                                        <td style="border: 1px solid black;border-collapse: collapse;text-align:center;">
+                                            <span t-field="payment.payment_date"/>
+                                        </td>
+                                        <td style="border: 1px solid black;border-collapse: collapse;text-align:center;">
+                                            <span t-esc="payment.amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: invoice.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </t>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,141 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_wo" model="report.paperformat">
+            <field name="name">Orden de Trabajo</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">245</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="reporte_wo" string="Orden de trabajo" model="workorder.vehicle" report_type="qweb-html" name="intn_flotas.wo" paperformat="paperformat_wo" />
+        <template id="wo">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <style>
+                            div{
+                            #border-style: dashed;
+                            text-align:center;
+                            }
+                            .text-center{
+                            text-align:center;
+                            }
+                        </style>
+                        <t t-foreach="docs" t-as="s">
+                            <div style="margin-top:40mm;margin-left:95mm;width:10mm;height:5mm;">
+                                <t t-if="s.wo_type == 'ordinary'">
+                                    <span class="text-center">X</span>
+                                </t>
+                            </div>
+                            <div style="margin-top:3mm;margin-left:95mm;width:10mm;height:5mm;">
+                                <t t-if="s.wo_type == 'extraordinary'">
+                                    <span class="text-center">X</span>
+                                </t>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:5mm;margin-left:55mm;width:35mm;height:5mm;">
+                                    <span t-field="s.fuel_type" class="text-center"/>
+                                </div>
+                                <div style="margin-top:5mm;margin-left:20mm;width:27mm;height:5mm;">
+                                    <span t-field="s.license_plate" class="text-center"/>
+                                </div>
+                                <div style="margin-top:5mm;margin-left:35mm;width:35mm;height:5mm;">
+                                    <span t-field="s.nro_orden" class="text-center"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:3mm;margin-left:55mm;width:35mm;height:5mm;">
+                                    <span t-field="s.model_id" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:20mm;width:27mm;height:5mm;">
+                                    <span t-field="s.raspn" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:30mm;width:40mm;height:5mm;">
+                                    <span t-field="s.area_asignada" class="text-center"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:3mm;margin-left:68mm;width:150mm;height:5mm;">
+                                    <span t-field="s.driver_id" class="text-center"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:3mm;margin-left:97mm;width:20mm;height:5mm;">
+                                    <t t-esc="s.fecha_inicio.day" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:2mm;width:13mm;height:5mm;">
+                                    <t t-esc="s.fecha_inicio.month" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:2mm;width:20mm;height:5mm;">
+                                    <t t-esc="s.fecha_inicio.year" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:20mm;width:11mm;height:5mm;">
+                                    <t t-esc="s.fecha_fin.day" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:2mm;width:13mm;height:5mm;">
+                                    <t t-esc="s.fecha_fin.month" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:2mm;width:13mm;height:5mm;">
+                                    <t t-esc="s.fecha_fin.year" class="text-center"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:3mm;margin-left:100mm;width:55mm;height:5mm;">
+                                    <!--span t-field="s.hora_inicio" widget="float_time" class="text-center"/-->
+                                    <t t-esc="'%s:%s' % (str(s.hora_inicio).split('.')[0], int(float(str('%.2f' % s.hora_inicio).split('.')[1])/100*60))" />
+                                </div>
+                                <div style="margin-top:3mm;margin-left:25mm;width:38mm;height:5mm;">
+                                    <!--span t-field="s.hora_fin" widget="float_time" class="text-center"/-->
+                                    <t t-esc="'%s:%s' % (str(s.hora_fin).split('.')[0], int(float(str('%.2f' % s.hora_fin).split('.')[1])/100*60))" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:3mm;margin-left:55mm;width:95mm;height:5mm;">
+                                    <span t-field="s.km_salida" class="text-center"/>
+                                </div>
+                                <div style="margin-top:3mm;margin-left:27mm;width:40mm;height:5mm;">
+                                    <span t-field="s.km_vuelta" class="text-center"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:15mm;margin-left:45mm;width:185mm;height:5mm;">
+                                    <span t-field="s.order_id" class="text-center"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:10mm;margin-left:55mm;width:160mm;height:5mm;">
+                                    <t t-foreach="s.companion_ids" t-as="p">
+                                        <span style="margin-right:5px;">
+                                            <t t-esc="p.name"/>
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="margin-top:5mm;margin-left:55mm;width:15mm;height:5mm;">
+                                    <t t-esc="s.date.day" class="text-center"/>
+                                </div>
+                                <div style="margin-top:5mm;margin-left:4mm;width:18mm;height:5mm;">
+                                    <t t-esc="s.date.month" class="text-center"/>
+                                </div>
+                                <div style="margin-top:5mm;margin-left:4mm;width:18mm;height:5mm;">
+                                    <t t-esc="s.date.year" class="text-center"/>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

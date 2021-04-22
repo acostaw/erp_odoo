@@ -1,0 +1,379 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_devolucion_vehiculo" model="report.paperformat">
+            <field name="name">Devolución de vehiculo</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="reporte_pipa" string="Estado de Vehiculo" model="devolucion.vehiculo" report_type="qweb-pdf" name="intn_flotas.devolucion_vehiculo" paperformat="paperformat_devolucion_vehiculo" />
+        <template id="devolucion_vehiculo">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="s">
+                            <style>
+
+                                span{
+                                padding:5px;
+                                }
+                                table {
+                                width: 100%;
+                                border: none;
+                                border-collapse: collapse;
+
+                                }
+
+                                body {
+                                font-size: 14px !important;
+                                }
+
+                                .text-center {
+                                text-align: center;
+                                }
+
+                                .text-right {
+                                text-align: right;
+                                padding:5px;
+                                }
+
+                                .bold {
+                                font-weight: bold;
+                                }
+
+                                .text-justify {
+                                text-align: justify;
+                                padding-left:5px;
+                                }
+
+                                .tr{
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                padding:5px;
+                                }
+                                .td {
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                padding:5px;
+                                }
+
+                                p{
+                                margin-top:0;
+                                margin-bottom:2px;
+                                margin-left:2px;
+                                }
+
+                                .rows:after {
+                                content: "";
+                                display: table;
+                                clear: both;
+                                }
+
+                            </style>
+                            <table>
+                                <tr>
+                                    <td style="width:20%;" class="text-center">
+                                        <img src='/web/binary/company_logo' style="width:50%;padding-top:10px"/>
+                                    </td>
+                                    <td class="text-center bold" style="margin-top:0;">
+                                        <p style="font-size:18px;margin-top:-15px !important;">INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                                        </p>
+                                        <p style="font-size:12px;">
+                                            ESTADO DE VEHICULO
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="bold">Fecha:</span> <span t-field="s.date"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">Km:</span> <span t-field="s.km_vehiculo"/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="bold">Vehiculo marca:</span> <span t-field="s.vehicle_id.model_id"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">Chapa:</span> <span t-field="s.vehicle_id.license_plate"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">Móvil:</span> <span t-field="s.vehicle_id.nro_movil"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <h4 class="text-center bold">
+                                SITUACIÓN LEGAL DEL VEHÍCULO
+                            </h4>
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr class="tr">
+                                                    <td class="td text-center bold">
+                                                        DESCRIPCIÓN
+                                                    </td>
+                                                    <td class="td text-center bold">
+                                                        TIENE
+                                                    </td>
+                                                    <td class="td text-center bold">
+                                                        NO TIENE
+                                                    </td>
+                                                </tr>
+                                                <tr class="tr">
+                                                    <td class="td text-justify ">
+                                                        Titulo de propiedad
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.titulo_propiedad == 'si'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.titulo_propiedad == 'no'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td text-justify ">
+                                                        Certif. Inscripción M.O.P.C.
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.certificado_mopc == 'si'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.certificado_mopc  == 'no'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr class="tr">
+                                                    <td class="text-justify td">
+                                                        Cobertura de seguro
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.cobertura_seguro == 'si'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.cobertura_seguro  == 'no'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="width:10px;"/>
+                                        <td>
+                                            <table>
+                                                <tr class="tr">
+                                                    <td class="text-center bold td">
+                                                        DESCRIPCIÓN
+                                                    </td>
+                                                    <td class="text-center bold td">
+                                                        M. BUENO
+                                                    </td>
+                                                    <td class="text-center bold td">
+                                                        BUENO
+                                                    </td>
+                                                    <td class="text-center bold td">
+                                                        REGULAR
+                                                    </td>
+                                                    <td class="text-center bold td">
+                                                        MALO
+                                                    </td>
+                                                    <td class="text-center bold td">
+                                                        NO TIENE
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="text-justify td">
+                                                        TARJETA IDENTIFICATORIA
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.tarjeta_identificatoria == 'm_bueno'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.tarjeta_identificatoria == 'bueno'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.tarjeta_identificatoria == 'regular'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.tarjeta_identificatoria == 'malo'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.tarjeta_identificatoria == 'no_tiene'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-justify td">
+                                                        LOGOTIPO EN PUERTAS
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.logotipo_puertas == 'm_bueno'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.logotipo_puertas == 'bueno'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.logotipo_puertas == 'regular'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.logotipo_puertas == 'malo'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.logotipo_puertas == 'no_tiene'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-justify td">
+                                                        HABILITACIÓN
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.habilitacion == 'm_bueno'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.habilitacion == 'bueno'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.habilitacion == 'regular'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.habilitacion == 'malo'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                    <td class="td">
+                                                        <t t-if="s.habilitacion == 'no_tiene'">
+                                                            x
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                            <br/>
+                            <h4 class="text-center bold">
+                                SITUACIÓN GENERAL DEL VEHÍCULO
+                            </h4>
+                            <table>
+                                <tr class="tr">
+                                    <td class="text-center bold td">
+                                        DESCRIPCIÓN
+                                    </td>
+                                    <td class="text-center bold td">
+                                        M. BUENO
+                                    </td>
+                                    <td class="text-center bold td">
+                                        BUENO
+                                    </td>
+                                    <td class="text-center bold td">
+                                        REGULAR
+                                    </td>
+                                    <td class="text-center bold td">
+                                        MALO
+                                    </td>
+                                    <td class="text-center bold td">
+                                        NO TIENE
+                                    </td>
+                                </tr>
+                                <t t-foreach="s.situacion_general_ids" t-as="sg">
+                                    <tr class="tr">
+                                        <td class="td text-justify">
+                                            <t t-esc="sg.item_id.name"/>
+                                        </td>
+                                        <td class="td text-center bold">
+                                            <t t-if="sg.m_bueno">
+                                                x
+                                            </t>
+                                        </td>
+                                        <td class="td text-center bold">
+                                            <t t-if="sg.bueno">
+                                                x
+                                            </t>
+                                        </td>
+                                        <td class="td text-center bold">
+                                            <t t-if="sg.regular">
+                                                x
+                                            </t>
+                                        </td>
+                                        <td class="td text-center bold">
+                                            <t t-if="sg.malo">
+                                                x
+                                            </t>
+                                        </td>
+                                        <td class="td text-center bold">
+                                            <t t-if="sg.no_tiene">
+                                                x
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <br/>
+                            <div>
+                                <span class="text-justify bold">
+                                    OBSERVACIÓN:
+                                </span>
+                                <span class="text-justify" t-field="s.observacion"/>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

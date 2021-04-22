@@ -1,0 +1,465 @@
+<odoo>
+    <data>
+        <template id="intn_informe_bascula.informe">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <style>
+                            body{
+                            font-size:14px;
+                            }
+                            .fs-12{
+                            font-size:12px;
+                            }
+                            .fs-8{
+                            font-size:10px;
+                            }
+                            .bold{
+                            font-weight:bold;
+                            }
+                            .text-right{
+                            text-align: right;
+                            }
+
+                            .text-center{
+                            text-align: center;
+                            }
+
+                            .tabla{
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                            }
+                            .tabla th{
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                            }
+                            .tabla tr{
+                            border: 1px solid black;
+                            border-collapse: collapse;}
+                            table {
+                            width: 100%;
+                            }
+                        </style>
+                        <t t-foreach="docs" t-as="s">
+                            <table>
+                                <tr>
+                                    <td style="width:20%;" class="text-center">
+                                        <img src='/web/binary/company_logo' style="width:60%"/>
+                                    </td>
+                                    <td style="margin-top:0" class="bold">
+                                        INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA<br></br>
+                                        ORGANISMO NACIONAL DE METROLOGIA<br></br>
+                                        UNIDAD DE METROLOGIA LEGAL<br></br>
+                                        <span class="fs-12">Avda. Gral. Artigas N° 3973 Y Gral. Roa</span><br></br>
+                                        <span class="fs-12">Email: intn@intn.gov.py, metrologia@intn.gov.py    www.intn.com.py</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br></br>
+                            <h6 class="text-center bold">INFORME DE VERIFICACIÓN TÉCNICA DE IPNA - BASCULA
+                            </h6>
+                            <p class="text-right bold">No. <t t-esc="s.name"/></p>
+                            <h6 class="text-center bold">1. DATOS DEL CLIENTE</h6>
+                            <p class="text-right bold">CALCOMANIA Nro:<t t-esc="s.calcomania_nro"/></p>
+                            <table class="tabla" style="width:100%;page-break-inside: avoid;">
+                                <tr>
+                                    <td class="bold">
+                                        Cliente:
+                                    </td>
+                                    <td colspan="5">
+                                        <t t-esc="s.partner_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        Dirección:
+                                    </td>
+                                    <td colspan="5">
+                                        <t t-esc="s.street"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        Ciudad:
+                                    </td>
+                                    <td colspan="2">
+                                        <t t-esc="s.city"/>
+                                    </td>
+                                    <td class="bold">
+                                        Dpto.:
+                                    </td>
+                                    <td colspan="2">
+                                        <t t-esc="s.state_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        Fecha:
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.fecha"/>
+                                    </td>
+                                    <td class="bold">
+                                        N° Factura:
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.invoice_id.fake_number"/>
+                                    </td>
+                                    <td class="bold">
+                                        RUC:
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.ruc"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br>
+                            </br>
+                            <h6 class="text-center bold">2. IDENTIFICACIÓN DEL INSTRUMENTO</h6>
+                            <table class="tabla" style="width:100%;page-break-inside: avoid;">
+                                <tr>
+                                    <td class="bold">
+                                        Marca:
+                                    </td>
+                                    <td>
+                                        <t t-set="values" t-value="dict([('toledo', 'Toledo'), ('mettler_toledo', 'Mettler Toledo'), ('saturno','Saturno'), ('filizola', 'Filizola'), ('dina','Dina'), ('sin_datos', 'Sin datos'), ('otros','Otros'), (False,False)])"/>
+                                        <t t-esc="values[s.marca]"/>
+                                        <!--                                        <t t-esc="s.marca"/>-->
+                                    </td>
+                                    <td class="bold">
+                                        Tipo:
+                                    </td>
+                                    <td>
+                                        <t t-set="values" t-value="dict([('electronico', 'Electrónico'), ('mecanico', 'Mecánico'), ('hibrido','Híbrido'), (False,False)])"/>
+                                        <t t-esc="values[s.tipo]"/>
+<!--                                        <t t-esc="s.tipo"/>-->
+                                    </td>
+                                    <td colspan="2" class="bold text-center">
+                                        Rango
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        Carga máxima:
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.carga_maxima"/>
+                                    </td>
+                                    <td class="bold">
+                                        Carga mínima
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.carga_minima"/>
+                                    </td>
+                                    <td class="bold text-center">
+                                        Min
+                                    </td>
+                                    <td class="bold text-center">
+                                        Max
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        Rubro:
+                                    </td>
+                                    <td>
+                                        <t t-set="values" t-value="dict([('comercio', 'Comercio')])"/>
+                                        <t t-esc="values[s.rubro]"/>
+                                        <!--t t-esc="s.rubro"/-->
+                                    </td>
+                                    <td class="bold">
+                                        División:e=d
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.division_e_d"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="s.carga_minima"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <t t-esc="s.carga_maxima"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        Modelo:
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.modelo"/>
+                                    </td>
+                                    <td class="bold">
+                                        Clase
+                                    </td>
+                                    <td>
+                                        <t t-set="values" t-value="dict([('iii', 'III'), ('iv', 'IV'), (False,False)])"/>
+                                        <t t-esc="values[s.clase]"/>
+                                    </td>
+                                    <td colspan="2" rowspan="2">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bold">
+                                        No. de serie:
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.nro_serie"/>
+                                    </td>
+                                    <td class="bold">
+                                        Patrón de trabajo
+                                    </td>
+                                    <td>
+                                        <t t-esc="s.patron_trabajo"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br></br>
+                            <p style="page-break-inside: avoid;">
+                                <span class="bold">Evaluación visual del instrumento: </span><t t-set="values" t-value="dict([( 'bueno', 'Bueno'), ('aceptable', 'Aceptable'), ('malo','Malo'), (False,False)])"/>
+                                        <t t-esc="values[s.evaluacion_visual]"/>
+                            </p>
+                            <br></br>
+                            <div style="page-break-inside: avoid;">
+                                <h6 class="text-center bold">3. ENSAYOS Y EVALUACIÓN</h6>
+                                <table class="tabla" style="width:100%">
+                                    <tr>
+                                        <td colspan="5"/>
+                                        <td class="text-center fs-8">
+                                            APROBADO
+                                        </td>
+                                        <td class="text-center fs-8">
+                                            REPROBADO
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold">
+                                            3.1. Exentricidad de carga
+                                        </td>
+                                        <td>
+                                            Carga aplicada:
+                                        </td>
+                                        <td>
+                                            <t t-esc="s.exentricidad_carga_aplicada"/> kg
+                                        </td>
+                                        <td>
+                                            Máx. Error:
+                                        </td>
+                                        <td>
+                                            <t t-esc="s.exentricidad_max_error"/> kg
+                                        </td>
+                                        <td class="text-center ">
+                                            <t t-if="s.exentricidad_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                        <td class="text-center ">
+                                            <t t-if="not s.exentricidad_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold">
+                                            3.2. Fidelidad
+                                        </td>
+                                        <td>
+                                            Carga aplicada:
+                                        </td>
+                                        <td>
+                                            <t t-esc="s.fidelidad_carga_aplicada"/> kg
+                                        </td>
+                                        <td>
+                                            Máx. Error:
+                                        </td>
+                                        <td>
+                                            <t t-esc="s.fidelidad_max_error"/> kg
+                                        </td>
+                                        <td class="text-center ">
+                                            <t t-if="s.fidelidad_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                        <td class="text-center ">
+                                            <t t-if="not s.fidelidad_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold">
+                                            3.3. Exactitud de Cero
+                                        </td>
+                                        <td colspan="2">
+                                            Carga aplicada cercano al cero:
+                                        </td>
+                                        <td colspan="2">
+                                            <t t-esc="s.carga_aplicada_cero"/> kg
+                                        </td>
+                                        <td class="text-center ">
+                                            <t t-if="s.exactitud_cero_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-if="not s.exactitud_cero_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold">
+                                            3.4. Mobilidad
+                                        </td>
+                                        <td colspan="2">
+                                            Es sensible a una carga de:
+                                        </td>
+                                        <td colspan="2">
+                                            <t t-esc="s.sensibilidad_carga"/> kg
+                                        </td>
+                                        <td class="text-center ">
+                                            <t t-if="s.mobilidad_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-if="not s.mobilidad_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold">
+                                            3.5. Desempeño de Carga
+                                        </td>
+                                        <td colspan="2">
+                                            Máximo error encontrado
+                                        </td>
+                                        <td colspan="2">
+                                            <t t-esc="s.max_error_encontrado"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-if="s.desem_carga_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-if="not s.desem_carga_aprobado">
+                                                X
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br></br>
+                            <div style="page-break-inside: avoid;">
+                                <table class="tabla" style="width:100%">
+                                    <tr>
+                                        <td class="bold text-center">
+                                            Carga <br></br> kg
+                                        </td>
+                                        <td class="bold text-center">
+                                            Indicación <br></br> kg
+                                        </td>
+                                        <td class="bold text-center">
+                                            Error <br></br> kg
+                                        </td>
+                                        <td class="bold text-center">
+                                            MEP* <br></br> +-kg
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="s.line_ensayos_ids" t-as="line">
+                                        <tr>
+                                            <td class=" text-center">
+                                                <t t-esc="line.carga_kg"/>
+                                            </td>
+                                            <td class=" text-center">
+                                                <t t-esc="line.indicacion_kg"/>
+                                            </td>
+                                            <td class=" text-center">
+                                                <t t-esc="line.error_kg"/>
+                                            </td>
+                                            <td class=" text-center">
+                                                <t t-esc="line.mep_kg"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                            <br></br>
+                            <br></br>
+                            <p>
+                                <span class="bold">Evaluación final del instrumento: </span>
+                                <t t-esc="s.evaluacion_final_estado"/><br></br>
+                                <t t-esc="s.evaluacion_final_comentario"/>
+                            </p>
+                            <div class="text-right"> Válido por <t t-esc="s.vigencia_meses"/> meses</div>
+                            <br></br>
+                            <div style="page-break-inside: avoid;">
+                                <h6 class=" bold">4. OBSERVACIONES</h6>
+                                <span>- Conforme al ONM-RTM-01 el instrumento debe ser VERIFICADO al menos una vez dentro del calendario anual</span>
+                                <br></br>
+                                <span>- Es Responsabilidad de la empresa mantener el instrumento en buenas condiciones de uso, dentro del máximo error permitido, incluyendo los sellos (calcomanias) colocadas en cada instrumento.</span>
+                                <br></br><br></br><br></br><br></br><br></br><br></br>
+                            </div>
+                            <table style="page-break-inside: avoid;width:100%">
+                                <tr>
+                                    <td class="bold text-center">
+                                        <t t-esc="s.tecnico_id.name"/> - Técnico Metrólogo
+                                    </td>
+                                    <td class="text-center">
+                                        SELLO INTN
+                                    </td>
+                                    <td class="bold text-center" >
+                                        Firmante por el Cliente
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">SELLO</td>
+                                    <td/>
+                                    <td class="text-center">
+                                        Aclaración de la firma
+                                    </td>
+                                </tr>
+                            </table>
+                            <t t-if="s.state == 'done'">
+                                <div style="display:table-cell;vertical-align:top;">
+                                    <img t-att-src="image_data_uri(s.qr_code)" style="max-width:100px;max-height:100px;margin-left:15px"/>
+                                    <span style="margin-left:15px;font-size:14px">Consulte la validez de éste informe de manera online</span>
+                                </div>
+                            </t>
+                            <div class="footer">
+                                <span class="fs-8">* MEP: Máximo Error Permitido</span>
+                                <div class="row text-center" style="border-top: 1px solid black;">
+                                    <div class="col col-3 fs-8">
+                                        Fin del Informe.
+                                    </div>
+                                    <div class="col col-3 offset-6 text-right">
+                                        <ul class="list-inline mt-2">
+                                            <li class="list-inline-item">Página:</li>
+                                            <li class="list-inline-item">
+                                                <span class="page"/>
+                                            </li>
+                                            <li class="list-inline-item">/</li>
+                                            <li class="list-inline-item">
+                                                <span class="topage"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div>
+                                    UMLE-DVIR-F-03
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <report id="reporte_bascula" string="Informe de Verificación de IPNA - Bascula" model="informes.bascula" report_type="qweb-pdf" name="intn_informe_bascula.informe" paperformat="base.paperformat_euro" />
+    </data>
+</odoo>

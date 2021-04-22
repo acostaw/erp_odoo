@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="intn_contrato_action">
+        <field name="name">Contratos</field>
+        <field name="res_model">intn.contrato</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Cree un contrato
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_contrato_tree">
+        <field name="name">intn_contrato_tree</field>
+        <field name="model">intn.contrato</field>
+        <field name="arch" type="xml">
+            <tree string="Contratos">
+                <field name="name"/>
+                <field name="sale_order_id"/>
+                <field name="payment_term_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_contrato_form">
+        <field name="name">intn_contrato_form</field>
+        <field name="model">intn.contrato</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button string="Confirmar" type="object" name="confirmar_contrato" class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','draft')]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="sale_order_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="payment_term_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                   widget="selection"/>
+                            <field name="contrato_pdf" filename="pdf_name"/>
+                            <field name="pdf_name" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_contrato_search">
+        <field name="name">intn_contrato_search</field>
+        <field name="model">intn.contrato</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="sale_order_id"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="intn_contrato_menu" name="Contratos" parent="sale.sale_order_menu"
+              action="intn_contrato_action"/>
+
+</odoo>

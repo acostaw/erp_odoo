@@ -1,0 +1,31 @@
+<odoo>
+    <record id="sale_order_multi_select.view_order_form" model="ir.ui.view">
+        <field name="name">taller_multi_select.view_order_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']" position="before">
+                <div>
+                    <group>
+                        <group attrs="{'invisible': [('state', 'not in',['draft'])]}">
+                            <button name="%(action_select_multi_product_wizard)d" type="action" class="btn btn-outline-primary" icon="fa-plus"
+                                    attrs="{'invisible': [('state', 'not in',['draft'])]}" string="Agregar Múltiples Productos" /><br></br>
+                            <button name="seleccionarTodos" type="object" class="btn btn-outline-primary" icon="fa-check-square-o" string="Seleccionar Todo" groups="presupuestos_intn.grupo_modificar_costos"/>
+                            &#160;
+                            <button name="eliminarSeleccionados" type="object" class="btn btn-outline-primary" icon="fa-trash-o" string="Eliminar Seleccionados" groups="presupuestos_intn.grupo_modificar_costos"/>
+                        </group>
+                        <group>
+                            <field name="porcentaje_incremento"  attrs="{'invisible': [('state', 'not in',['draft'])]}"/>
+                            <button name="aumentarPrecios" type="object" class="btn btn-outline-primary" icon="fa-money" string="Incrementar Precios Seleccionados"  attrs="{'invisible': [('state', 'not in',['draft'])]}"/>
+                        </group>
+                    </group>
+                </div>
+            </xpath>
+
+            <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                <field name="select"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

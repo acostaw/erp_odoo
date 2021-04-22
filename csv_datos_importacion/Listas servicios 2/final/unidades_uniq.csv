@@ -1,0 +1,7 @@
+id,name,organismo_id/id
+unidad_intn_organismo_onc,UNIDAD INTN,organismo_onc
+unidad_intn_organismo_onn,UNIDAD INTN,organismo_onn
+unidad_oiat_organismo_oiat,OIAT,organismo_oiat
+unidad_quimica_industrial_organismo_oiat,QUIMICA INDUSTRIAL,organismo_oiat
+unidad_uaal_organismo_oiat,UAAL,organismo_oiat
+unidad_uqui_organismo_oiat,UQUI,organismo_oiat

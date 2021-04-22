@@ -1,0 +1,617 @@
+<odoo>
+    <data>
+        <template id="factura_autoimpresor.factura">
+            <t t-call="web.basic_layout">
+                <t t-name="account.report_invoice_document">
+                    <div class="row">
+                        <t t-foreach="range(0,1)" t-as="r">
+                            <t t-foreach="docs" t-as="o">
+                                <style>
+                                    .tabla{
+                                    border: 1px solid black;
+                                    border-collapse: collapse;
+                                    }
+                                    .tabla th{
+                                    border: 1px solid black;
+                                    border-collapse: collapse;
+                                    }
+                                    .tabla tr{
+                                    border: 1px solid black;
+                                    border-collapse: collapse;
+                                    }
+                                    table {
+                                    width: 100%;
+                                    }
+                                    .num_factura{
+                                    font-size:14px;
+                                    text-align:center;
+                                    }
+
+                                    .mt-5{
+                                    margin-top:5px;
+                                    }
+
+                                    .campos {
+                                    font-weight: bold;
+                                    font-size: 16px;
+                                    margin-left: 5px;
+                                    margin-bottom: 0;
+                                    margin-top: 0;
+                                    }
+
+                                    .campos2 {
+                                    font-weight: bold;
+                                    font-size: 8px;
+                                    margin-left: 5px;
+                                    margin-bottom: 0;
+                                    margin-top: 0;
+                                    }
+                                    .campos3 {
+                                    font-weight: bold;
+                                    font-size: 12px;
+                                    margin-left: 5px;
+                                    margin-bottom: 0;
+                                    margin-top: 0;
+                                    }
+                                    .fs-16{
+                                    font-size:16px;
+                                    }
+                                    .fs-14 {
+                                    font-size: 14px;
+                                    padding-left:5px;
+
+                                    }
+
+                                    .fs-12 {
+                                    font-size: 10px;
+                                    padding-left:5px;
+                                    line-height : 10pt;
+                                    }
+
+                                    .fs-10 {
+                                    font-size: 8px;
+                                    margin: 2px;
+                                    text-align: justify;
+                                    }
+
+                                    .subrayado {
+                                    border-bottom: 1px solid #000;
+                                    line-height: 0.1em;
+                                    margin-top: 0;
+                                    margin-bottom: 0;
+                                    }
+
+                                    .blank_row {
+                                    line-height: 150px;
+                                    }
+
+                                    .mt-80 {
+                                    margin-top: 50px;
+                                    }
+
+                                    .row:after {
+                                    content: "";
+                                    display: table;
+                                    clear: both;
+                                    }
+
+                                    .left {
+                                    margin-left:10px;
+                                    width: 32%;
+                                    }
+
+
+
+                                    h4{
+                                    font-size:14px;
+                                    text-align: center;
+                                    margin-bottom: 0;
+                                    font-weight: bold;
+                                    }
+
+                                    .text-left{
+                                    text-align: left;
+                                    }
+
+                                    .text-center{
+                                    text-align: center;
+                                    }
+
+                                    img {
+                                    padding-top:12px;
+                                    display: block;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    }
+                                    .w-5p{
+                                    width:5%;
+                                    }
+                                    .w-10p{
+                                    width:10%;
+                                    }
+                                    .w-15p{
+                                    width:15%;
+                                    }
+                                    .w-20p{
+                                    width:20%;
+                                    }
+                                    .w-25p{
+                                    width:25%;
+                                    }
+                                    .w-30p{
+                                    width:30%;
+                                    }
+
+                                    .w-40p{
+                                    width:40%;
+                                    }
+
+                                    .w-60p{
+                                    width:60%;
+                                    }
+                                    .w-70p{
+                                    width:70%;
+                                    }
+                                    .w-75p{
+                                    width:75%;
+                                    }
+                                    .w-30{
+                                    width:30mm;
+                                    }
+                                    .w-50{
+                                    width:50mm;
+                                    }
+                                    .w-75{
+                                    width:75mm;
+                                    }
+                                    .w-40{
+                                    width:40mm;
+                                    max-width:40mm;
+                                    }
+                                    .w-5{
+                                    width:5mm;
+                                    }
+                                    .w-10{
+                                    width:10mm;
+                                    }
+                                    .w-15{
+                                    width:15mm;
+                                    }
+                                    .text-right{
+                                    text-align: right
+                                    }
+
+                                    .fila {
+                                    border: 1px solid;
+                                    }
+
+                                    .columna {
+                                    border: 1px solid;
+                                    }
+                                    .lineaDetalle{
+                                    line-height: 14px;
+                                    height: 14px;
+                                    text-align:right
+                                    }
+                                    .ancho{
+                                    min-height:100px;
+                                    line-height: 12px;
+                                    height: 10px;
+                                    }
+
+                                    .t-detalle {
+                                    border: 1px solid black;
+                                    height:650px;
+                                    border-collapse: collapse;
+                                    }
+                                    .t-detalle td {
+                                    border-left: 1px solid black;
+                                    border-right: 1px solid black;
+                                    border-bottom: 0.5px solid white;
+                                    border-top: 0.5px solid white;
+                                    }
+                                    .t-detalle td:empty {
+                                    border-left: 1px solid black;
+                                    border-right: 1px solid black;
+                                    border-top: 0.5px solid white;
+                                    }
+                                    p{
+                                    margin-top:0;
+                                    margin-bottom:2px;
+                                    margin-left:2px;
+                                    }
+
+                                </style>
+                                <t t-if="r == 0">
+                                    <div class="col-xs-6" style="margin-left:2mm;">
+                                        <table class="tabla">
+                                            <tr>
+                                                <br></br>
+                                                <td colspan="2" rowspan="2" class="text-center" >
+                                                    <img src='/web/binary/company_logo' style="width:90%"/>
+                                                </td>
+                                                <td style="border-right: 1px solid black">
+                                                    <h6>INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                                                    </h6>
+                                                    <p class="subrayado"></p>
+                                                    <p class="fs-12">Avda. Gral. Artigas N° 3973 Y Gral. Roa</p>
+                                                    <p class="fs-12">Asunción, Paraguay</p>
+                                                    <p class="fs-12">Teléfonos: +595 21 288 6000</p>
+                                                    <p class="fs-12">Email: intn@intn.gov.py</p>
+                                                </td>
+                                                <td width="30%">
+                                                    <p class="campos">TIMBRADO N°
+                                                        <t t-foreach="o.journal_id.timbrados_ids" t-as="timb">
+                                                            <t t-if="timb.active == 1 ">
+                                                                <span class="fs-12" t-field="timb.name"/>
+                                                            </t>
+                                                        </t></p>
+                                                    <t t-foreach="o.journal_id.timbrados_ids" t-as="timb">
+                                                        <p class="campos">Válido hasta
+                                                            <t t-if="timb.active == 1 ">
+                                                                <span class="fs-12" t-field="timb.fin_vigencia"/>
+                                                            </t></p>
+                                                    </t>
+                                                    <p class="campos">RUC: 80000638-0</p>
+                                                    <br></br>
+                                                    <p class="campos">FACTURA N°</p>
+                                                    <p class="campos">
+                                                        <span class="num_factura text-center" t-field="o.fake_number"/>
+                                                    </p>
+
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table class="tabla">
+                                            <tr>
+                                                <td class="campos text-right">
+                                                    CONDICIÓN DE VENTA:
+                                                </td>
+                                                <t t-if="o.date_invoice==o.date_due">
+                                                    <td class="w-50 fs-16 ">Contado (X)</td>
+                                                    <td class="w-50 fs-16 ">Crédito ( )</td>
+                                                </t>
+                                                <t t-if="o.date_invoice!=o.date_due">
+                                                    <td class="w-30 fs-16 ">Contado ( )</td>
+                                                    <td class="w-30 fs-16 ">Crédito (X)</td>
+                                                </t>
+                                            </tr>
+                                        </table>
+
+                                        <table class="tabla">
+                                            <tr>
+                                                <td class="campos w-5p" style="padding-left:5px;">
+                                                    ASUNCIÓN:
+                                                </td>
+                                                <td class="w-75p fs-16 text-left">
+                                                    <span t-field="o.date_invoice"/>
+                                                </td>
+                                                <td class="campos w-5p">
+                                                    VENCIMIENTO:
+                                                </td>
+                                                <td class="w-15p fs-16 text-left">
+                                                    <span style="margin-left:5px" t-field="o.date_due"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="campos w-5" style="padding-left:5px;">
+                                                    SEÑORES:
+                                                </td>
+                                                <td class="w-50 fs-16 text-left">
+                                                    <t t-if="o.partner_id.parent_id">
+                                                        <span t-field="o.partner_id.parent_id.name"/>
+                                                    </t>
+                                                    <t t-if="not o.partner_id.parent_id">
+                                                        <span t-field="o.partner_id.name"/>
+                                                    </t>
+                                                </td>
+                                                <td class="campos w-5p">
+                                                    RUC:
+                                                </td>
+                                                <td class="w-5p fs-16 text-left">
+                                                    <t t-if="o.partner_id.parent_id">
+                                                        <span style="margin-left:5px" class="fs-16" t-field="o.partner_id.parent_id.vat"/>
+                                                    </t>
+                                                    <t t-if="not o.partner_id.parent_id">
+                                                        <span style="margin-left:5px" class="fs-16" t-field="o.partner_id.vat"/>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="campos w-5" style="padding-left:5px;">
+                                                    DIRECCIÓN:
+                                                </td>
+                                                <td colspan="3" class="fs-16 text-left" style="border-right: 1px solid black;">
+                                                    <span style="margin-left:5px" t-field="o.partner_id.street"/>
+                                                    -
+                                                    <span t-field="o.partner_id.city"/>
+                                                    -
+                                                    <span t-field="o.partner_id.state_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="campos w-5" style="padding-left:5px;">
+                                                    EMAIL:
+                                                </td>
+                                                <td class="w-50 fs-16 text-left">
+                                                    <span t-field="o.partner_id.email"/>
+                                                </td>
+                                                <td class="campos w-5p">
+                                                    TEL:
+                                                </td>
+                                                <td class="w-5p fs-16 text-left">
+                                                    <span style="margin-left:5px" t-field="o.partner_id.phone"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table class="tabla" id="tituloDetalle">
+                                            <tr class="text-center">
+                                                <th rowspan="2" class="w-10p mt-5">
+                                                    <p class="campos">COD.</p>
+                                                </th>
+                                                <th rowspan="2" class="w-10p mt-5">
+                                                    <p class="campos">CANT.</p>
+                                                </th>
+                                                <th rowspan="2" class="w-40p mt-5">
+                                                    <p class="campos">DESCRIPCION</p>
+                                                </th>
+                                                <th rowspan="2" class="w-10p">
+                                                    <p class="campos">PRECIO UNITARIO</p>
+                                                </th>
+                                                <th rowspan="1" class="w-30p" colspan="3">
+                                                    <p class="campos ">VALOR DE VENTA</p>
+                                                </th>
+                                            </tr>
+                                            <tr class="text-center">
+                                                <th class="w-10p">
+                                                    <p class="campos ">EXENTA</p>
+                                                </th>
+                                                <th class="w-10p">
+                                                    <p class="campos">IVA 5%</p>
+                                                </th>
+                                                <th class="w-10p">
+                                                    <p class="campos">IVA 10%</p>
+                                                </th>
+                                            </tr>
+                                        </table>
+
+                                        <table class="t-detalle">
+                                            <t t-set="subtotalExentas" t-value="0"/>
+                                            <t t-set="subtotalCinco" t-value="0"/>
+                                            <t t-set="subtotalDiez" t-value="0"/>
+                                            <t t-foreach="o.invoice_line_ids" t-as="l">
+                                                <tr class="fs-14" style="height:14px;line:height:14px">
+                                                    <td class="w-10p no-border lineaDetalle">
+                                                        <span t-field="l.product_id.default_code"/>
+                                                    </td>
+                                                    <td class="w-10p no-border lineaDetalle text-center">
+                                                        <span t-esc="'{0:,.0f}'.format(int(l.quantity)).replace(',','.')"/>
+                                                    </td>
+                                                    <td class="w-40p no-border lineaDetalle text-left">
+                                                        <t t-esc="l.display_name"/>
+                                                        <br/>
+                                                    </td>
+                                                    <td class="w-10p no-border lineaDetalle">
+                                                        <span t-esc="'{0:,.0f}'.format(int(l.price_unit)).replace(',','.')"/>
+                                                    </td>
+                                                    <t t-if="l.invoice_line_tax_ids.amount==0.0000">
+                                                        <td class="w-10p lineaDetalle" id="exentasCampo">
+                                                            <t t-set="subtotal1" t-value="l.price_unit * l.quantity"/>
+                                                            <span t-esc="'{0:,.0f}'.format(int(subtotal1)).replace(',','.')"/>
+                                                            <t t-set="subtotalExentas" t-value="subtotalExentas+subtotal1"/>
+                                                        </td>
+                                                        <td class="w-10p lineaDetalle" id="cincoCampo">
+                                                            <span></span>
+                                                        </td>
+                                                        <td class="w-10p lineaDetalle" id="diezCampo">
+                                                            <span></span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="l.invoice_line_tax_ids.amount==5.0000">
+                                                        <td class="w-10p lineaDetalle" id="exentasCampo">
+                                                            <span></span>
+                                                        </td>
+                                                        <td class="w-10p lineaDetalle" id="cincoCampo">
+                                                            <t t-set="subtotal1" t-value="l.price_unit * l.quantity"/>
+                                                            <span t-esc="'{0:,.0f}'.format(int(subtotal1)).replace(',','.')"/>
+                                                            <t t-set="subtotalCinco" t-value="subtotalCinco+subtotal1"/>
+                                                        </td>
+                                                        <td class="w-10p lineaDetalle" id="diezCampo">
+                                                            <span></span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="l.invoice_line_tax_ids.amount==10.0000">
+                                                        <td class="w-10p lineaDetalle" id="exentasCampo">
+                                                            <span></span>
+                                                        </td>
+                                                        <td class="w-10p lineaDetalle" id="cincoCampo">
+                                                            <span></span>
+                                                        </td>
+                                                        <td class="w-10p lineaDetalle" id="diezCampo">
+                                                            <t t-set="subtotal1" t-value="(l.price_unit - (l.price_unit*l.discount/100)) * l.quantity"/>
+                                                            <span t-esc="'{0:,.0f}'.format(int(subtotal1)).replace(',','.')"/>
+                                                            <t t-set="subtotalDiez" t-value="subtotalDiez+subtotal1"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                            <t t-foreach="o.journal_id.max_lineas-len(o.invoice_line_ids)" t-as="restante">
+                                                <tr>
+                                                    <td class="lineaDetalle"></td>
+                                                    <td class="lineaDetalle"></td>
+                                                    <td class="lineaDetalle"></td>
+                                                    <td class="lineaDetalle"></td>
+                                                    <td class="lineaDetalle"></td>
+                                                    <td class="lineaDetalle"></td>
+                                                    <td class="lineaDetalle"></td>
+                                                </tr>
+                                            </t>
+                                        </table>
+
+                                        <table class="tabla">
+                                            <tr class="fs-14">
+                                                <t t-set="subtotalExentas" t-value="0"/>
+                                                <t t-set="subtotalCinco" t-value="0"/>
+                                                <t t-set="subtotalDiez" t-value="0"/>
+                                                <t t-foreach="o.invoice_line_ids" t-as="l">
+                                                    <t t-if="l.invoice_line_tax_ids.amount==0.0000">
+                                                        <t t-set="subtotalEx" t-value="l.price_unit * l.quantity"/>
+                                                        <t t-set="subtotalExentas" t-value="subtotalExentas+subtotalEx"/>
+                                                    </t>
+                                                    <t t-if="l.invoice_line_tax_ids.amount==5.0000">
+                                                        <t t-set="subtotal5" t-value="l.price_unit * l.quantity"/>
+                                                        <t t-set="subtotalCinco" t-value="subtotalCinco+subtotal5"/>
+                                                    </t>
+                                                    <t t-if="l.invoice_line_tax_ids.amount==10.0000">
+                                                        <t t-set="subtotal10" t-value="l.price_unit * l.quantity"/>
+                                                        <t t-set="subtotalDiez" t-value="subtotalDiez+subtotal10"/>
+                                                    </t>
+                                                </t>
+                                                <td class="campos w-70p" colspan="4">
+                                                    <span class="campos" style="padding-top:10px;padding-bottom:10px;">SUB TOTALES: </span>
+                                                </td>
+                                                <td class="w-15 lineaDetalle" id="exentasCampo">
+                                                    <span t-esc="'{0:,.0f}'.format(int(subtotalExentas)).replace(',','.')"/>
+                                                </td>
+                                                <td class="w-10p lineaDetalle" id="cincoCampo">
+                                                    <span t-esc="'{0:,.0f}'.format(int(subtotalCinco)).replace(',','.')"/>
+                                                </td>
+                                                <td class="w-10p lineaDetalle" id="diezCampo">
+                                                    <span t-esc="'{0:,.0f}'.format(int(subtotalDiez)).replace(',','.')"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table class="tabla">
+                                            <tr class="fs-14">
+                                                <td class="campos w-20p">
+                                                    <span class="campos" style="padding-top:10px;padding-bottom:10px;">TOTAL A PAGAR: </span>
+                                                </td>
+                                                <td class="w-60p">
+                                                    <span>
+                                                        <t t-esc="o.currency_id.currency_unit_label"/>
+                                                    </span>
+                                                    <span></span>
+                                                    <span t-esc="o.amount_to_text(o.amount_total, o.currency_id)"/>
+                                                </td>
+                                                <td class="w-20p text-right">
+                                                    <t t-set="totalPagarNumeros" t-value="o.amount_total"/>
+                                                    <span class="text-right" t-esc="'{0:,.0f}'.format(int(totalPagarNumeros)).replace(',','.')"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table class="tabla" id="IVA">
+                                            <tr class="fs-14">
+                                                <t t-set="totalIVA" t-value="0"/>
+                                                <td class="text-left w-30p">
+                                                    <p class="campos">LIQUIDACIÓN DEL IVA: </p>
+                                                </td>
+                                                <td class="campos w-5p">
+                                                    5%:
+                                                </td>
+                                                <td id="ivaCincoCampo" class="w-10p">
+                                                    <t t-foreach="o.tax_line_ids" t-as="t">
+                                                        <t t-if="'IVA 5' in t.name">
+                                                            <t t-set="ivaCinco" t-value="t.amount"/>
+                                                            <span t-esc="'{0:,.0f}'.format(int(ivaCinco)).replace(',','.')"/>
+                                                            <t t-set="totalIVA" t-value="totalIVA+t.amount"/>
+                                                        </t>
+                                                    </t>
+                                                </td>
+                                                <td class="campos w-5p">
+                                                    10%:
+                                                </td>
+                                                <td id="ivaDiezCampo" class="w-10p">
+
+                                                    <t t-foreach="o.tax_line_ids" t-as="t">
+                                                        <t t-if="'IVA 10' in t.name">
+                                                            <t t-set="ivaDiez" t-value="t.amount"/>
+                                                            <span t-esc="'{0:,.0f}'.format(int(ivaDiez)).replace(',','.')"/>
+                                                            <t t-set="totalIVA" t-value="totalIVA+t.amount"/>
+                                                        </t>
+                                                    </t>
+
+                                                </td>
+                                                <td>
+                                                    <td class="campos w-20p;text-right">
+                                                        TOTAL IVA:
+                                                    </td>
+                                                    <td class="w-25p text-right">
+                                                        <span t-esc="'{0:,.0f}'.format(int(totalIVA)).replace(',','.')"/>
+                                                    </td>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table class="tabla">
+                                            <tr>
+                                                <td style="width:20%">
+                                                    <div style="display:table-cell;vertical-align:top;">
+
+                                                        <img t-att-src="image_data_uri(o.qr_code)" style="max-width:150px;max-height:150px;margin-left:15px"/>
+                                                        <!--br/>
+                                                        <span style="margin-left:15px;font-size:10px">Consulte ésta factura online</span-->
+                                                    </div>
+                                                </td>
+                                                <td style="font-size:10px;width:80%;padding:2px;">
+                                                    <div style="display:table-cell;vertical-align:top">
+                                                        <span>
+                                                            Ante cualquier consulta o reclamo, favor escribir a <t t-esc="res_company.email"/>
+                                                            o llamar al teléfono <t t-esc="res_company.phone"/>
+                                                        </span>
+                                                        <br/>
+                                                        <span>
+                                                            Puede realizar sus pagos vía transferencia bancaria a las siguientes cuentas:
+                                                        </span>
+                                                        <br/>
+                                                        <span>
+                                                            <b>Banco:</b> Visión
+                                                        </span>
+                                                        <br/>
+                                                        <span>
+                                                            <b>Titular:</b> Interfaces S.A.
+                                                        </span>
+                                                        <br/>
+                                                        <span>
+                                                            <b>RUC:</b> 80086539-1
+                                                        </span>
+                                                        <br/>
+                                                        <span>
+                                                            <b>Nro. de cuenta en Gs:</b> 5816308
+                                                        </span>
+                                                        <br/>
+                                                        <span>
+                                                            <b>Nro. de cuenta en USD:</b> 14469470
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+            </t>
+
+        </template>
+        <record id="factura_autoimpresor.paperformat_factura" model="report.paperformat">
+            <field name="name">Facturas</field>
+            <field name="format">A4</field>
+            <!--field name="page_height">216</field>
+            <field name="page_width">330</field-->
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">1</field>
+            <field name="dpi">90</field>
+        </record>
+        <report id="factura_autoimpresor.factura_report_action" print_report_name="(object.fake_number)" model="account.invoice" string="Factura Autoimpresor" report_type="qweb-pdf" paperformat="factura_autoimpresor.paperformat_factura" name="factura_autoimpresor.factura" />
+    </data>
+</odoo>

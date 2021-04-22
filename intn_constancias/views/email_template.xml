@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="intn_constancias.email_template" model="mail.template">
+            <field name="name">Constancia - Enviar por email</field>
+            <field name="model_id" ref="intn_constancias.model_intn_constancias"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">${(object.user_id.email and '%s &lt;%s&gt;' % (object.user_id.name, object.user_id.email) or '')|safe}</field>
+            <field name="subject">${object.user_id.company_id.name} Constancia (${object.name or 'n/a'})</field>
+            <field name="partner_to">${object.solicitante_id.id}</field>
+            <field name="report_template" ref="intn_constancias.reporte_constancia"/>
+            <field name="report_name">Constancia_${(object.name or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.solicitante_id.lang}</field>
+            <field name="body_html"><![CDATA[
+                Estimad@ ${object.solicitante_id.name} 
+                <br/><br/>
+
+                    Adjuntamos la constancia DCPR N° (${object.name or 'n/a'}) <br/><br/>
+
+                No dude en ponerse en contacto con nosotros si tiene alguna pregunta.
+
+            ]]></field>
+        </record>
+    </data>
+</odoo>

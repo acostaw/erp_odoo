@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="solicitud_trabajo_list_view">
+        <field name="name">Solicitud Interna de trabajo
+        </field>
+        <field name="res_model">solicitud.trabajo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree una nueva Solicitud Interna de trabajo
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="solicitud_trabajo_tree_view">
+        <field name="name">solicitud_trabajo_tree_view</field>
+        <field name="model">solicitud.trabajo</field>
+        <field name="arch" type="xml">
+            <tree string="Solicitud Interna de trabajo">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="dpto_solicitante_id"/>
+                <field name="dpto_receptor_id"/>
+                <field name="responsable_receptor"/>
+                <field name="fecha_realizacion"/>
+                <field name="pipa_id"/>
+                <field name="state"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="solicitud_trabajo_form_view">
+        <field name="name">solicitud_trabajo_form_view</field>
+        <field name="model">solicitud.trabajo</field>
+        <field name="arch" type="xml">
+            <form>
+                <header name="header">
+                    <field name="state" widget="statusbar"/>
+                    <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button string="Cancelar" type="object" name="button_cancelar" attrs="{'invisible':[('state','!=','done')]}"/>
+                </header>
+                <sheet>
+                    <h2 name="titulo">
+                        <field name="name" class="oe_title" readonly="True"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="pipa_id" attrs="{'invisible':[('pipa_id','=',False)]}" readonly="1"/>
+                            <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="organismo_solicitante_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="unidad_solicitante_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="dpto_solicitante_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="organismo_receptor_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="unidad_receptor_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="dpto_receptor_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="descripcion" widget="html" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    </group>
+                    <notebook>
+                        <sheet string="Receptor">
+                            <page string="Receptor">
+                                <group>
+                                    <group>
+                                        <field name="responsable_receptor"/>
+                                        <field name="talonario_pedido_id" domain="[('pedido_materiales_equipos','=',True),('state','=','done')]"/>
+                                        <field name="talonario_retiro_id" domain="[('retiro_materiales_equipos','=',True),('state','=','done')]"/>
+                                    </group>
+                                    <group>
+                                        <field name="fecha_recepcion"/>
+                                        <field name="costo_aprox"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </sheet>
+                        <sheet string="Conclusión">
+                            <page string="Conclusión">
+                                <group>
+                                    <group>
+                                        <field name="realizado" widget="radio" />
+                                    </group>
+                                    <group>
+                                        <field name="realizado_por" attrs="{'invisible':[('realizado','!=','si')],'required':[('realizado','=','si')]}"/>
+                                        <field name="fecha_realizacion" attrs="{'invisible':[('realizado','!=','si')],'required':[('realizado','=','si')]}"/>
+                                        <field name="motivo_no_realizado" attrs="{'invisible':[('realizado','!=','no')],'required':[('realizado','=','no')]}"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="observaciones"/>
+                                </group>
+                            </page>
+                        </sheet>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="solicitud_trabajo_search_view">
+        <field name="name">solicitud_trabajo_search_view</field>
+        <field name="model">solicitud.trabajo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="organismo_solicitante_id"/>
+                <field name="dpto_solicitante_id"/>
+                <field name="organismo_receptor_id"/>
+                <field name="dpto_receptor_id"/>
+                <field name="responsable_receptor"/>
+                <field name="realizado"/>
+                <field name="fecha_realizacion"/>
+                <field name="pipa_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="intn_flotas.solicitud_trabajo_menu" name="Solicitud Interna de trabajo" parent="intn_flotas.solicitud_reparaciones_menu" action="solicitud_trabajo_list_view"/>
+
+</odoo>

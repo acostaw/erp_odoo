@@ -1,0 +1,98 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="intn_products_templates">
+            <field name="name">
+                Modificacion de vista de Productos
+            </field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='sale_ok']" position="before">
+                    <field name="determinacion" placeholder="Determinación"/>
+                    
+                </xpath>
+
+                <xpath expr="//label[@for='standard_price']" position="before">
+                    <field name="verificacion_insitu"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page name="jerarquia" string="Jerarquía">
+                        <group>
+                            <field name="organismo_id" options="{'no_create': True}"/>
+                            <field name="unidad_id" attrs="{'readonly':[('organismo_id','=',False)]}"
+                                   options="{'no_create': True}"/>
+                            <field name="departamento_id" attrs="{'readonly':[('unidad_id','=',False)]}"
+                                   options="{'no_create': True}"/>
+                            <field name="coordinacion_id" attrs="{'readonly':[('departamento_id','=',False)]}"
+                                   options="{'no_create': True}"/>
+                            <field name="laboratorio_id" attrs="{'readonly':[('coordinacion_id','=',False)]}"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="intn_jerarquia_search_view">
+            <field name="name">product.template.search</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <separator/>
+                    <field name="determinacion"/>
+                    <field name="organismo_id"/>
+                    <field name="unidad_id" operator="child_of"/>
+                    <field name="departamento_id" operator="child_of"/>
+                    <field name="coordinacion_id" operator="child_of"/>
+                    <field name="laboratorio_id" operator="child_of"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="intn_jerarquia_productos_tree_view">
+            <field name="name">jerarquia_productos_tree_view</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='default_code']" position="replace"></xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="determinacion"/>
+                    <field name="organismo_id"/>
+                    <field name="unidad_id"/>
+                    <field name="departamento_id"/>
+                    <field name="coordinacion_id"/>
+                    <field name="laboratorio_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="campos_intn_product_template_tree_view">
+            <field name="name">campos_intn_product_template_tree_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="determinacion"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="campos_intn_product_template_kanban_view">
+            <field name="name">campos_intn_product_template_kanban_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                     - <field name="determinacion"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+
+

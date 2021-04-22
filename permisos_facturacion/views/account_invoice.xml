@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="permisos_facturacion.account_invoice_form_view">
+            <field name="name">permisos_facturacion.account_invoice_form_view
+            </field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='discount']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_invoice_cancel']" position="attributes">
+                    <attribute name="groups">permisos_facturacion.anular_facturas</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_invoice']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_invoice_draft']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_actualizar_nro_factura']" position="attributes">
+                    <attribute name="groups">permisos_facturacion.actualizar_nro_factura</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="permisos_facturacion.account_invoice_supplier_form_view">
+            <field name="name">permisos_facturacion.account_invoice_supplier_form_view
+            </field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_invoice_draft']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="permisos_facturacion.account_invoice_readonly_date" model="ir.ui.view">
+            <field name="name">permisos_facturacion.account_invoice_readonly_date</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('permisos_facturacion.editar_fecha_factura') ])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_invoice']" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="permisos_facturacion.account_invoice_readonly_discount" model="ir.ui.view">
+            <field name="name">permisos_facturacion.account_invoice_readonly_discount</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('permisos_facturacion.group_aplicar_descuentos') ])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page/field/tree/field[@name='discount']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>
+

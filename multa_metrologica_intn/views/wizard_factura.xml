@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="multa_metrologica_intn.wizard_factura_form">
+            <field name="name">multa_metrologica_intn.wizard_factura_form</field>
+            <field name="model">multa_metrologica_intn.wizard_factura</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="multa_origen" readonly="True"/>
+                            <field name="partner_id" readonly="True"/>
+                            <field name="jornales" readonly="True"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

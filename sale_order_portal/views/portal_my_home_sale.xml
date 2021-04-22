@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="sale_order_portal.portal_my_home_sale" model="ir.ui.view">
+            <field name="name">sale_order_portal.portal_my_home_sale</field>
+            <field name="inherit_id" ref="sale.portal_my_home_sale"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-call='portal.portal_docs_entry']" position="replace">
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

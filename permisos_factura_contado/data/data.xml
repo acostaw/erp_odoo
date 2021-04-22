@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="permisos_factura_contado.emite_facturas_contado" model="res.groups">
+            <field name="name">Emite facturas contado</field>
+        </record>
+    </data>
+</odoo>

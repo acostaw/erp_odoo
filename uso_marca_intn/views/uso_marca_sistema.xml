@@ -1,0 +1,273 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_sistema" model="report.paperformat">
+            <field name="name">Uso de Marca Sistema de Gestión</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="reporte_uso_marca_sistema"
+                string="Uso de Marca Sistema de Gestión"
+                model="sale.order"
+                report_type="qweb-pdf"
+                name="uso_marca_intn.uso_marca_sistema"
+                paperformat="paperformat_sistema"
+        />
+
+        <template id="uso_marca_sistema">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="row">
+                            <t t-foreach="docs" t-as="s">
+                                <style>
+
+                                    table {
+                                    width: 100%;
+
+                                    }
+
+                                    .fs-12 {
+                                    font-size: 14px;
+                                    margin: 2px;
+                                    }
+
+                                    .text-center {
+                                    text-align: center;
+                                    }
+
+                                    .text-right {
+                                    text-align: right;
+                                    }
+
+                                    .bold {
+                                    font-weight: bold;
+                                    }
+
+                                    .text-justify {
+                                    text-align: justify;
+                                    }
+
+                                    table,
+                                    th,
+                                    tr {
+                                    border: 1px solid black;
+                                    border-collapse: collapse;
+
+                                    }
+
+                                    p{
+                                    margin-top:0;
+                                    margin-bottom:2px;
+                                    margin-left:2px;
+                                    }
+
+                                    .rows:after {
+                                    content: "";
+                                    display: table;
+                                    clear: both;
+                                    }
+
+
+                                </style>
+                                <div class="page">
+                                    <table style="border:1px solid white !important;">
+                                        <tr style="border:1px solid white !important;">
+                                            <td style="width:20%;" class="text-center">
+                                                <img src='/uso_marca_intn/static/src/img/logo_intn_largo.png' style="max-height: 70px;"/>
+                                            </td>
+                                            <td class="text-right" style="margin-top:0">
+                                                <img src='/uso_marca_intn/static/src/img/gobierno_nacional.png' style="max-height: 100px;"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br></br>
+                                    <br></br>
+                                    <div class="text-right">
+                                        <p class="text-right">
+                                            Asunción,
+                                            <span t-field="s.fecha_letras"/>
+                                        </p>
+                                        <p>
+                                            <span class="bold">
+                                                Nota de Presupuesto N°:
+                                            </span>
+                                            <span t-field="s.name"/>
+                                        </p>
+                                    </div>
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <div class="text-justify bold">
+                                        <p> Señor/es</p>
+                                        <p>
+                                            <span t-field="s.partner_id"/>
+                                        </p>
+                                        <p>
+                                            PRESENTE:
+                                            <hr style="width:100px;border: 1px solid black;margin-top:1px;"></hr>
+                                        </p>
+                                    </div>
+                                    <div class="text-justify">
+                                        <p>Tengo el agrado de dirigirme a usted y por su intermedio donde corresponda, a fin de presentarle la propuesta para el Servicio  de Certificación
+                                            de Sistemas de Gestión de Calidad para la empresa <span t-field="s.partner_id"/>
+                                        </p>
+                                        <br></br>
+                                        <p>
+                                            Detalle del programa y costo respectivo:
+                                        </p>
+                                    </div>
+                                    <br></br>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td class="text-center bold" style="margin-left:5px;">
+                                                    ALCANCE
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td >
+                                                    <p style="margin-left:5px;">
+                                                        <span t-field="s.alcance"/>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center bold" style="margin-left:5px;">
+                                                    DIRECCIÓN DE LA EMPRESA
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td >
+                                                    <p style="margin-left:5px;">
+                                                        <span t-field="s.partner_id.street"/> <span t-field="s.partner_id.city"/> <span t-field="s.partner_id.country_id"/>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br></br>
+                                        <table>
+                                            <t  t-foreach="s.etapas_lines_ids.sorted(key=lambda record: record.sequence, reverse=False)" t-as="e">
+                                                <tr style="border: 1px solid black;">
+                                                    <t t-if="e.display_type=='line_section'">
+                                                        <td class="text-center bold" style="border: 1px solid black;font-size:16px;width:70%;">
+                                                            <span t-field="e.name"/>
+                                                        </td>
+                                                        <td class="text-center bold" style="border: 1px solid black;font-size:16px;width:30%">
+                                                            FRECUENCIA
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                                <tr style="border: 1px solid black">
+                                                    <t t-if="e.display_type=='line_note'">
+                                                        <td class="text-center" colspan="2" style="font-style: italic !important;border: 1px solid black;font-size:16px;width:100%;">
+                                                            <span t-field="e.name"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                                <tr style="border: 1px solid black">
+                                                    <t t-if="e.sub_etapas">
+                                                        <td class="text-justify" style="padding:10px;border: 1px solid black" >
+                                                            <span t-field="e.sub_etapas.name"/>
+                                                        </td>
+                                                        <td class="text-center" style="padding:10px;border: 1px solid black">
+                                                            <span t-field="e.duracion"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                        <br></br>
+                                        <p class="text-center bold" style="padding-top:20px;">
+                                            <span style="font-size:18">MÉTODO DE PAGO</span>
+                                        </p>
+                                        <table>
+                                            <t  t-foreach="s.metodos_pago_ids.sorted(key=lambda record: record.sequence, reverse=False)" t-as="m">
+                                                <tr style="border: 1px solid black;">
+                                                    <t t-if="m.display_type=='line_section'">
+                                                        <td class="text-center bold" style="border: 1px solid black;font-size:16px;width:70%;">
+                                                            <span t-field="m.name"/>
+                                                        </td>
+                                                        <td class="text-center bold" style="border: 1px solid black;font-size:16px;width:30%">
+                                                            MONTO
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="m.display_type=='line_note'">
+                                                        <td class="text-center" colspan="2" style="font-style: italic !important;border: 1px solid black;font-size:16px;width:100%;">
+                                                            <span t-field="m.name"/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                                <tr style="border: 1px solid black">
+                                                    <t t-if="m.sub_etapas">
+                                                        <td class="text-justify" style="padding:10px;border: 1px solid black" >
+                                                            <span t-field="m.sub_etapas.name"/>
+                                                        </td>
+                                                        <td class="text-center" style="padding:10px;border: 1px solid black">
+                                                            <span t-field="m.monto"/> Gs.
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                    </div>
+                                    <br></br>
+                                    <div>
+                                        <p class="text-left bold terms">
+                                            <span t-field="s.note"/>
+                                        </p>
+                                    </div>
+                                    <br></br>
+
+                                    <br></br>
+                                    <div>
+                                        <p class="bold text-justify">NOTAS ESPECIALES:</p>
+                                        <hr style="border: 1px solid black;width:180px;margin-top:1px"></hr>
+                                        <p class="text-justify">
+                                            Una vez aprobado el presupuesto, se abona en oficina del INTN precio a los servicios haciendo referencia a la
+                                            <span class="bold"> Nota de Presupuesto N° </span><span t-field="s.name"/>, conforme al avance de cada <span class="bold">Etapa</span>,
+                                            posteriormente responsables del Departamento de Certificación de Sistemas se pondrán en contacto para acordar las fechas de Visitas de Auditoría,
+                                            en el marco de cada <span class="bold">Etapa</span>.
+                                        </p>
+                                        <br></br>
+                                        <p class="text-justify terms">
+                                            <span t-field="s.notas_especiales"/>
+                                        </p>
+                                        <br></br>
+                                    </div>
+                                    <div>
+                                        <p class="text-center">
+                                            Sin otro particular y atento a cualquier consulta, le saludo atentamente.
+                                        </p>
+                                        <br></br>
+                                        <br></br>
+                                        <br></br>
+
+                                        <p class="text-right bold">
+                                            Lic. Albino Domínguez Cantero
+                                        </p>
+                                        <p class="text-right bold">
+                                            Jefe Dpto. de Costos
+                                        </p>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

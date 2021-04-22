@@ -1,0 +1,121 @@
+<odoo>
+    <data>
+        <template id="listado_basculas">
+            <t t-call="portal.portal_layout">
+                <t t-set="title">Catastro de Básculas | INTN </t>
+                <style>
+
+                    .searchButton {
+                    height: 36px;
+                    border: 1px solid #7288D3;
+                    background: #7288D3;
+                    text-align: center;
+                    color: #fff;
+                    cursor: pointer;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    width: 40px;
+                    }
+
+                    .cancelButton {
+                    height: 36px;
+                    border: 1px solid #7288D3;
+                    background: #7288D3;
+                    text-align: center;
+                    color: #fff;
+                    cursor: pointer;
+                    font-size: 20px;
+                    border-radius: 5px;
+                    width: 40px;
+                    }
+
+                    @media only screen and (min-width: 768px) {
+                    #map_div{
+                    width:100%;
+                    min-height:800px;
+                    }
+                    }
+                    @media only screen and (max-width: 768px) {
+                    #map_div{
+                    width:100%;
+                    min-height:800px;
+                    }
+                    }
+
+
+                    input {
+                    width: 40px;
+                    padding: 8px;
+                    margin: 0 4px 0 0;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    height: 40px;
+                    border: 1px solid #fff;
+                    }
+
+
+                    input {
+                    order: 0;
+                    align-self: auto;
+                    }
+
+                    input{
+                    width:100% !important;
+                    }
+                </style>
+                <div class="container">
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <h2 style="text-align:center;margin:30px;">CATASTRO DE BÁSCULAS</h2>
+
+                        <div style="background:#ccc">
+                            <h3 class="busqueda" style="padding:15px;padding-bottom:0;color:white">Criterios de búsqueda</h3>
+                            <div class="container">
+                                <div class="row" style="margin:0 !important">
+                                    <div class="col-lg-3" style="padding: 15px;">
+                                        <input id="searchTerm" name="searchTerm" type="text" placeholder="Empresa (razón social, RUC)"/>
+                                    </div>
+                                    <div class="col-lg-2" style="padding: 15px;">
+                                        <div class="select" style="height:100%;width:100%">
+                                            <select name="dpto" id="dpto" style="height:100%;width:100%">
+                                                <option value="0">Departamento</option>
+                                                <t t-foreach="departamentos" t-as="d">
+                                                    <option t-att-value="d.id" t-esc="d.name"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2" style="padding: 15px;">
+                                        <input id="ciudad" name="ciudad" type="text" placeholder="Ciudad"/>
+                                    </div>
+                                    <div class="col-lg-3" style="padding: 15px;">
+                                        <div class="select" style="height:100%;width:100%">
+                                            <select name="estado" id="estado" style="height:100%;width:100%">
+                                                <option value="0">Estado</option>
+                                                <option value="aprobado">Aprobado</option>
+                                                <option value="reprobado">Reprobado</option>
+                                                <option value="vencido">Vencido</option>
+                                                <option value="desperfecto">Imposibilidad de Verificación por Desperfecto</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-le-12" style="padding: 15px;margin:auto">
+                                        <button class="searchButton" id="searchButton">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        <button type="cancel" class="cancelButton" id="cancelButton">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="map_div" style="margin-left:auto;margin-right:auto;margin-bottom:30px;margin-top   :30px;"></div>
+                    </div>
+                </div>
+            </t>
+            <script src="/intn_informe_bascula_web/static/src/js/main_map.js" type="text/javascript"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC3c5d_xWqpILcP2_45Boz0JjysSEYGQ0&amp;callback=initMap"></script>
+        </template>
+    </data>
+</odoo>

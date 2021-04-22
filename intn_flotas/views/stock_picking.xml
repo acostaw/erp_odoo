@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">intn_flotas.view_picking_form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+             <field name="groups" eval="[(4, ref('fleet.fleet_group_manager'))]"/>
+            <field name="arch" type="xml">
+                <!--xpath expr="/form/header/button[3]" position="replace">
+                     <button name="button_validate" attrs="{'invisible': ['|',('state', 'in', ('waiting','confirmed')), ('show_validate', '=', False)]}"
+                             string="Validar" type="object" class="oe_highlight" groups="stock.group_stock_user"/>
+                </xpath>
+                <xpath expr="/form/header/button[4]" position="replace">
+                    <button name="button_validate" attrs="{'invisible': ['|', ('state', 'not in', ('waiting', 'confirmed')), ('show_validate', '=', False)]}"
+                            string="Validate" type="object" groups="stock.group_stock_user" class="o_btn_validate"/>
+                </xpath-->
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="necesita_aprobacion" invisible="1"/>
+                    <field name="puede_aprobar" invisible="1"/>
+                    <field name="aprobado" attrs="{'readonly': [('puede_aprobar','=',False)],'invisible':[('necesita_aprobacion','=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="organismo_solicitante_id" attrs="{'readonly': [('state','in',['done','cancel'])]}"/>
+                    <field name="unidad_solicitante_id" attrs="{'readonly': [('state','in',['done','cancel'])]}"/>
+                    <field name="dpto_solicitante_id" attrs="{'readonly': [('state','in',['done','cancel'])]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field[@name='move_line_ids_without_package']/tree/field[@name='qty_done']" position="after">
+                    <field name="actividad_id"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_uom']" position="after">
+                    <field name="actividad_id"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

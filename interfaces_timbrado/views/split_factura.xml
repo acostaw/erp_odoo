@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="interfaces_timbrado.split_factura_wizard_view" model="ir.ui.view">
+            <field name="name">interfaces_timbrado.split_factura_wizard</field>
+            <field name="model">interfaces_timbrado.split_factura</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <p>La cantidad de líneas de la factura supera la cantidad máxima que se puede imprimir.
+                            </p>
+                            <p>Por favor elija que desea hacer:</p>
+                            <field name="dividir_facturas" widget="radio"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Confirmar" type="object" name="button_confirmar"
+                                class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

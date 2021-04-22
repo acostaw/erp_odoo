@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <template id="button_render_js" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script src="intn_constancias_multiples/static/src/js/action_call.js" type="text/javascript"/>
+            <script src="intn_constancias_multiples/static/src/js/widget.js" type="text/javascript"/>
+        </xpath>
+    </template>
+
+    <record model="ir.actions.act_window" id="plantilla_constancias_list_view">
+        <field name="name">Plantillas de Constancia
+        </field>
+        <field name="res_model">plantilla.constancias</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree una nueva plantilla de constancia
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="plantilla_constancias_tree_view">
+        <field name="name">plantilla_constancias_tree_view</field>
+        <field name="model">plantilla.constancias</field>
+        <field name="arch" type="xml">
+            <tree string="Plantilla de Constancias">
+                <field name="name"/>
+                <field name="fields_ids"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="plantilla_constancias_form_view">
+        <field name="name">plantilla_constancias_form_view</field>
+        <field name="model">plantilla.constancias</field>
+        <field name="arch" type="xml">
+            <form>
+                <header name="header">
+                </header>
+                <sheet>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="model_id"/>
+                    </group>
+                    <notebook>
+                        <sheet string="Campos">
+                            <page string="Campos">
+                                <field name="fields_ids" mode="tree" nolabel="1" domain="[('model_id', '=', model_id)]" context="{'default_plantilla_constancia_id':id}">
+                                    <tree string="Campos" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="fields_id" domain="[('model_id', '=', parent.model_id)]" context="{'default_model_id':parent.model_id}">
+                                        </field>
+                                        <field name="field_description"/>
+                                        <field name="model_id"/>
+                                        <field name="ttype"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </sheet>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="plantilla_constancias_search_view">
+        <field name="name">plantilla_constancias_search_view</field>
+        <field name="model">plantilla.constancias</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="fields_ids"/>
+            </search>
+        </field>
+    </record>
+
+
+
+
+    <!--________________________MENU____________________________________-->
+    <menuitem id="intn_constancias_multiples.plantilla_constancias_menu" name="Plantillas de Constancias" parent="mrp.menu_mrp_manufacturing" action="plantilla_constancias_list_view"/>
+
+</odoo>

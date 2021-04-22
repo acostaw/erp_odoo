@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="solicitudes_servicio.solicitudes_view">
+        <field name="name">Solicitudes de Servicio
+        </field>
+        <field name="res_model">solicitudes.servicio</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree una nueva solicitud de servicio
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="solicitudes_servicio.solicitudes_tree_view">
+        <field name="name">solicitudes_servicio.solicitudes_tree_view</field>
+        <field name="model">solicitudes.servicio</field>
+        <field name="arch" type="xml">
+            <tree string="Solicitudes de Servicio">
+                <field name="name"/>
+                <field name="fecha_solicitud"/>
+                <field name="partner_id"/>
+                <field name="bascula_id"/>
+                <field name="organismo_id"/>
+                <field name="tecnico_id"/>
+                <field name="state"/>
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="solicitudes_servicio.solicitudes_form_view">
+        <field name="name">solicitudes_servicio.solicitudes_form_view</field>
+        <field name="model">solicitudes.servicio</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,draft,done,cancel"/>
+                    <button string="Convertir a borrador" type="object" name="button_draft" class="oe_highlight"
+                            attrs="{'invisible':[('state','not in',['pending'])]}"/>
+                    <button string="Confirmar" type="object" name="button_confirmar" class="oe_highlight"
+                            attrs="{'invisible':[('state','not in',['draft'])]}"/>
+                    <button string="Crear expediente" type="object" name="button_expediente" class="oe_highlight"
+                            attrs="{'invisible':['|',('state','not in',['done']),('order_id','!=',False)]}"/>
+                    <button string="Cancelar" type="object" name="button_cancelar" class="oe_highlight"
+                            attrs="{'invisible':[('state','not in',['done'])]}"/>
+                </header>
+                <sheet>
+                    <h2>
+                        <field name="name" class="oe_title" readonly="True"/>
+                    </h2>
+                    <group>
+                        <group>
+                            <field name="fecha_solicitud" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="fecha_estimada" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="tecnico_id" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="organismo_id" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="order_id" attrs="{'readonly':1}"/>
+                        </group>
+                        <group>
+                            <field name="bascula_id" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="partner_id" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="vat" attrs="{'readonly':1}"/>
+                            <field name="partner_shipping_id" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="state_id" attrs="{'readonly':1}"/>
+                            <field name="rubro_id" attrs="{'readonly':1}"/>
+                            <field name="contact_id" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                            <field name="phone" attrs="{'readonly':1}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Servicios solicitados">
+                            <field name="servicios_ids" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" mode="tree" nolabel="1">
+                                  <tree string="Servicios" editable="bottom">
+                                      <field name="product_id"/>
+                                      <field name="name"/>
+                                      <field name="product_uom_qty"/>
+                                      <field name="product_uom"/>
+<!--                                      <field name="price_unit"/>-->
+<!--                                      <field name="tax_id" widget="many2many_tags"/>-->
+<!--                                      <field name="price_total"/>-->
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Detalle del servicio">
+                            <field name="detalle_servicio" widget="html" attrs="{'readonly':[('state','not in',['pending','draft'])]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="solicitudes_servicio.solicitudes_search_view">
+        <field name="name">solicitudes_servicio.solicitudes_search_view</field>
+        <field name="model">solicitudes.servicio</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="bascula_id"/>
+                <field name="partner_id"/>
+                <field name="vat"/>
+                <field name="organismo_id"/>
+                <field name="tecnico_id"/>
+                <field name="detalle_servicio"/>
+                <field name="order_id"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="solicitudes_menu" name="Solicitudes de servicio" parent="sale.sale_order_menu"
+              action="solicitudes_servicio.solicitudes_view" sequence="0"/>
+</odoo>

@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="taller_multi_select.list">
+      <field name="name">taller_multi_select list</field>
+      <field name="model">taller_multi_select.taller_multi_select</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="taller_multi_select.action_window">
+      <field name="name">taller_multi_select window</field>
+      <field name="res_model">taller_multi_select.taller_multi_select</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="taller_multi_select.action_server">
+      <field name="name">taller_multi_select server</field>
+      <field name="model_id" ref="model_taller_multi_select_taller_multi_select"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="taller_multi_select" id="taller_multi_select.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="taller_multi_select.menu_1" parent="taller_multi_select.menu_root"/>
+    <menuitem name="Menu 2" id="taller_multi_select.menu_2" parent="taller_multi_select.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="taller_multi_select.menu_1_list" parent="taller_multi_select.menu_1"
+              action="taller_multi_select.action_window"/>
+    <menuitem name="Server to list" id="taller_multi_select" parent="taller_multi_select.menu_2"
+              action="taller_multi_select.action_server"/>
+-->
+  </data>
+</odoo>

@@ -1,0 +1,44 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="solicitudes_servicio.view_partner_form">
+            <field name="name">solicitudes_servicio.view_partner_form
+            </field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='internal_notes']" position="before">
+                    <page string="Básculas">
+                        <field name="bascula_ids" mode="tree">
+                            <tree string="Task Detail" editable="0" delete="0" create="0">
+                                <field name="no_serie"/>
+                                <field name="marca" />
+                                <field name="modelo" />
+                                <field name="rubro"/>
+                                <field name="tipo" />
+                                <field name="clase" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="solicitudes_servicio.view_res_partner_filter" model="ir.ui.view">
+            <field name="name">intn_informe_bascula.view_res_partner_filter</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='phone']" position="after">
+                    <field name="city"/>
+                    <field name="state_id"/>
+                    <field name="bascula_ids" string="Básculas" filter_domain="['|',('bascula_ids.no_serie','ilike',self),('bascula_ids.state','ilike',self)]"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+

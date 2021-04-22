@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ITAX_10" model="account.tax.template">
+      <field name="chart_template_id" ref="py_chart_template"/>
+      <field name="name">IVA 10% Venta</field>
+      <field name="description">IVA 10%</field>
+      <field name="amount">10</field>
+      <field name="amount_type">percent</field>
+      <field name="price_include">True</field>
+      <field name="include_base_amount">True</field>
+      <field name="type_tax_use">sale</field>
+      <field name="refund_account_id" ref="__coapy__99"/>
+      <field name="account_id" ref="__coapy__99"/>
+      <field name="tax_group_id" ref="tax_group_iva_10"/>
+    </record>
+
+    <record id="OTAX_10" model="account.tax.template">
+      <field name="chart_template_id" ref="py_chart_template"/>
+      <field name="name">IVA 10% Compra</field>
+      <field name="description">IVA 10%</field>
+      <field name="amount">10</field>
+      <field name="amount_type">percent</field>
+      <field name="price_include">True</field>
+      <field name="include_base_amount">True</field>
+      <field name="type_tax_use">purchase</field>
+      <field name="refund_account_id" ref="__coapy__17"/>
+      <field name="account_id" ref="__coapy__17"/>
+      <field name="tax_group_id" ref="tax_group_iva_10"/>
+    </record>
+
+    <record id="ITAX_5" model="account.tax.template">
+      <field name="chart_template_id" ref="py_chart_template"/>
+      <field name="name">IVA 5% Venta</field>
+      <field name="description">IVA 5%</field>
+      <field name="amount">5</field>
+      <field name="price_include">True</field>
+      <field name="include_base_amount">True</field>
+      <field name="amount_type">percent</field>
+      <field name="type_tax_use">sale</field>
+      <field name="refund_account_id" ref="__coapy__99"/>
+      <field name="account_id" ref="__coapy__99"/>
+      <field name="tax_group_id" ref="tax_group_iva_5"/>
+    </record>
+
+    <record id="OTAX_5" model="account.tax.template">
+      <field name="chart_template_id" ref="py_chart_template"/>
+      <field name="name">IVA 5% Compra</field>
+      <field name="description">IVA 5%</field>
+      <field name="amount">5</field>
+      <field name="amount_type">percent</field>
+      <field name="price_include">True</field>
+      <field name="include_base_amount">True</field>
+      <field name="type_tax_use">purchase</field>
+      <field name="refund_account_id" ref="__coapy__17"/>
+      <field name="account_id" ref="__coapy__17"/>
+      <field name="tax_group_id" ref="tax_group_iva_5"/>
+    </record>
+
+    <record id="ITAX_EX" model="account.tax.template">
+      <field name="chart_template_id" ref="py_chart_template"/>
+      <field name="name">IVA Exenta Venta</field>
+      <field name="description">Exentas</field>
+      <field name="amount">0</field>
+      <field name="price_include">True</field>
+      <field name="include_base_amount">True</field>
+      <field name="amount_type">percent</field>
+      <field name="type_tax_use">sale</field>
+      <field name="refund_account_id" ref="__coapy__99"/>
+      <field name="account_id" ref="__coapy__99"/>
+      <field name="tax_group_id" ref="tax_group_iva_ex"/>
+    </record>
+
+    <record id="OTAX_EX" model="account.tax.template">
+      <field name="chart_template_id" ref="py_chart_template"/>
+      <field name="name">IVA Exenta Compra</field>
+      <field name="description">Exentas</field>
+      <field name="amount">0</field>
+      <field name="price_include">True</field>
+      <field name="include_base_amount">True</field>
+      <field name="amount_type">percent</field>
+      <field name="type_tax_use">purchase</field>
+      <field name="refund_account_id" ref="__coapy__17"/>
+      <field name="account_id" ref="__coapy__17"/>
+      <field name="tax_group_id" ref="tax_group_iva_ex"/>
+    </record>
+</odoo>

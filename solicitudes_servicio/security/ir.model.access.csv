@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_solicitudes_servicio_solicitudes_servicio,solicitudes_servicio.solicitudes_servicio,solicitudes_servicio.model_solicitudes_servicio,solicitudes_servicio.puede_administrar_solicitudes,1,1,1,1
+access_servicios_line_servicios_line,solicitudes_servicio.servicios_line,solicitudes_servicio.model_servicios_line,solicitudes_servicio.puede_administrar_solicitudes,1,1,1,1
+access_servicios_line_servicios_line_portal,solicitudes_servicio.servicios_line.portal,solicitudes_servicio.model_servicios_line,base.group_portal,1,0,1,0
+access_solicitudes_servicio_solicitudes_servicio_portal,solicitudes_servicio.solicitudes_servicio.portal,solicitudes_servicio.model_solicitudes_servicio,base.group_portal,1,0,1,0
+
+
+
+product.pricelist.portal,product.pricelist.portal,product.model_product_pricelist,base.group_portal,1,0,0,0
+product.pricelist.item.portal,product.pricelist.item.portal,product.model_product_pricelist_item,base.group_portal,1,0,0,0
+product.template.portal,product.template.portal,product.model_product_template,base.group_portal,1,0,0,0
+product.product.item.portal,product.product.item.portal,product.model_product_product,base.group_portal,1,0,0,0
+
+
+
+group_user.intn_bascula,group_user.intn_bascula,solicitudes_servicio.model_intn_bascula,base.group_user,1,1,1,1
+group_portal.intn_bascula,group_portal.intn_bascula,solicitudes_servicio.model_intn_bascula,base.group_portal,1,1,1,1

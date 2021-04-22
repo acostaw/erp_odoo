@@ -1,0 +1,501 @@
+<odoo>
+    <record model="report.paperformat" id="paperformat_recap_report">
+        <field name="name">paperformat.recap.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_right">3</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">3</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">70</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="recap_report"
+            model="informes_bascula.report.wizard"
+            string="Listado de servicios de verificacón de báscula"
+            report_type="qweb-pdf"
+            name="intn_informe_bascula.recap_report_view"
+            paperformat="paperformat_recap_report"
+            menu="False"/>
+
+    <template id="recap_report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+
+                    .pd-5{
+                    padding:5px !important;
+                    }
+                    table {
+                    width: 100%;
+
+                    }
+
+                    .fs-12 {
+                    font-size: 14px;
+                    margin: 2px;
+                    }
+
+                    .text-center {
+                    text-align: center;
+                    }
+
+                    .text-right {
+                    text-align: right;
+                    }
+
+                    .bold {
+                    font-weight: bold;
+                    }
+
+                    .text-justify {
+                    text-align: justify;
+                    }
+
+                    table,
+                    th,
+                    tr{
+                    border: 1px solid black;
+                    border-collapse: collapse;
+
+                    }
+
+                    .tr{
+                    border-collapse: collapse
+                    }
+                    .ml-5{
+                    margin-left:5x;
+                    }
+
+
+                    p{
+                    margin-top:0;
+                    margin-bottom:2px;
+                    margin-left:2px;
+                    }
+                    .w-90{
+                    width:100mm;
+                    }
+                    .w-15{
+                    width:20mm;
+                    }
+                    .t-detalle {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    }
+                    .t-detalle td {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-bottom: 0.5px solid white;
+                    border-top: 0.5px solid white;
+                    }
+                    .t-detalle td:empty {
+                    border-left: 1px solid black;
+                    border-right: 1px solid black;
+                    border-top: 0.5px solid white;
+                    }
+
+                    .rows:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                    }
+
+                    thead { display: table-header-group; }
+                    tfoot { display: table-row-group; }
+                    tr { page-break-inside: avoid; }
+
+                </style>
+                <table>
+                    <tr>
+                        <td style="width:20%;padding-left:60px;padding-top:10px;" class="text-left">
+                            <img src="/intn_informe_bascula/static/src/img/logo.png" style="max-height: 20%;"/>
+                        </td>
+                        <td class="text-center" style="margin-top:0;padding:10px;font-size:20px;">
+                            INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                            <p class="bold text-center" style="padding:15px;">
+                                LISTADO DE SERVICIOS DE VERIFICACIÓN DE BÁSCULA
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <table>
+                    <tr>
+                        <td style="width:50%;padding:10px;">
+                            <span class="bold"> Fecha Inicio: </span>
+                            <t t-esc="date_start"/>
+                        </td>
+                        <td style="width:50%;padding:10px;" class="text-right">
+                            <span class="bold"> Fecha Fin: </span>
+                            <t t-esc="date_end"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span class="bold"> Funcionarios comisionados: </span>
+                            <t t-foreach="users" t-as="user">
+                                <t t-esc="user.name"/>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+                <br></br>
+                <table style="page-break-inside:auto !important;">
+                    <thead>
+                        <tr style="border: 1px solid black;border-collapse: collapse;font-size:13px">
+                            <td rowspan="2" class="text-center bold" style="padding-left:10px;">
+                                N°
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                FECHA
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                RAZÓN SOCIAL
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                DEPARTAMENTO
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                CIUDAD
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                DIRECCIÔN
+                            </td>
+                            <td class="text-center bold" colspan="3">
+                                BASCULA
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                INGRESO POR SERVICIOS
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                FACTURA INTN Nº
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                Calcomanias Aprob Nº
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                Calcomanias Reprob Nº
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                Informe Técnico Nº
+                            </td>
+                            <td rowspan="2" class="text-center bold">
+                                Informe Técnico Anulado
+                            </td>
+                        </tr>
+                        <tr style=";font-size:12px">
+                            <td class="text-center bold">
+                                APROB.
+                            </td>
+                            <td class="text-center bold">
+                                REPROB.
+                            </td>
+                            <td class="text-center bold">
+                                CANT.
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <t t-set="contador_aprobadas" t-value="0"/>
+                            <t t-set="contador_reprobadas" t-value="0"/>
+                            <t t-set="total_facturado" t-value="0"/>
+                            <t t-set="contador" t-value="0"/>
+                            <t t-foreach="docs" t-as="d">
+                                <tr style="font-size:12px;">
+                                    <td class="text-center pd-5">
+                                         <t t-set="contador" t-value="contador +1"/>
+                                        <t t-esc="contador"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-esc="d.fecha.strftime('%d/%m/%Y')"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-esc="d.partner_id.display_name"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-esc="d.partner_id.state_id.name"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-esc="d.partner_id.city"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-esc="d.partner_id.street"/> <t t-esc="d.partner_id.street2"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-if="d.evaluacion_final_estado == 'APROBADO'">
+                                            X
+                                            <t t-set="contador_aprobadas" t-value="contador_aprobadas +1"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-if="d.evaluacion_final_estado == 'REPROBADO'">
+                                            X
+                                        </t>
+                                        <t t-set="contador_reprobadas" t-value="contador_reprobadas +1"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        1
+                                    </td>
+                                    <td style="text-align:right;" class="pd-5">
+                                        <t t-esc="'{0:,.0f}'.format(int(d.invoice_id.amount_total)).replace(',','.')"/> Gs.
+                                        <t t-set="total_facturado" t-value="total_facturado + d.invoice_id.amount_total"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-esc="d.invoice_id.display_name"/>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-if="d.evaluacion_final_estado == 'APROBADO'">
+                                            <t t-esc="d.calcomania_nro"/>
+                                        </t>
+                                    </td>
+                                    <td class="text-center pd-5">
+                                        <t t-if="d.evaluacion_final_estado == 'REPROBADO'">
+                                            <t t-esc="d.calcomania_nro"/>
+                                        </t>
+                                    </td>
+                                    <td class="pd-5">
+                                        <t t-if="d.state == 'done'">
+                                            <t t-esc="d.name"/>
+                                        </t>
+                                    </td>
+                                    <td class="pd-5">
+                                        <t t-if="d.state == 'cancel'">
+                                            <t t-esc="d.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tr>
+                        <tr style="font-size:12px;">
+                            <td colspan="6">
+                            </td>
+                            <td class="text-center bold pd-5">
+                                <t t-esc="contador_aprobadas"/>
+                            </td>
+                            <td class="text-center bold pd-5">
+                                <t t-esc="contador_reprobadas"/>
+                            </td>
+                            <td class="text-center bold pd-5">
+                                <t t-esc="contador"/>
+                            </td>
+                            <td style="text-align:right" class="bold pd-5">
+                                <t t-esc="'{0:,.0f}'.format(int(total_facturado)).replace(',','.')"/> Gs.
+                            </td>
+                            <td colspan="5">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br></br>
+                <p style="padding-left:10px;" class="bold">
+                    RESUMEN DE ACTIVIDADES
+                </p>
+                <table style="page-break-inside:auto !important;width:40%">
+                    <tr style="font-size:12px;">
+                        <td class="bold pd-5">
+                            TOTAL DE COMERCIOS:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador"/>
+                        </td>
+                        <td class="bold pd-5">
+                            CALCOMANIAS APROBADAS:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador_aprobadas"/>
+                        </td>
+                    </tr>
+                    <tr style="font-size:12px;">
+                        <td class="bold pd-5">
+                            BASCULA APROB.:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador_aprobadas"/>
+                        </td>
+                        <td class="bold pd-5">
+                            CALCOMANIAS REPROBADAS:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador_reprobadas"/>
+                        </td>
+                    </tr>
+                    <tr style="font-size:12px">
+                        <td class="bold pd-5">
+                            BASCULA REPROB:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador_reprobadas"/>
+                        </td>
+                        <td class="bold pd-5">
+                            TOTAL DE INFORMES UTILIZADOS:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador"/>
+                        </td>
+                    </tr>
+                    <tr style="font-size:12px;">
+                        <td class="bold pd-5">
+                            TOTALES BASCULA:
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="contador"/>
+                        </td>
+                        <td class="bold pd-5">
+                            MONTO TOTAL (Gs):
+                        </td>
+                        <td class="pd-5">
+                            <t t-esc="'{0:,.0f}'.format(int(total_facturado)).replace(',','.')"/>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                </br>
+                <table style="page-break-inside:auto !important;">
+                    <thead>
+                        <tr style="font-size:12px;">
+                            <td rowspan="2" colspan="2">
+
+                            </td>
+                            <td class="bold" rowspan="2">
+                                Mes
+                            </td>
+                            <td class="bold" rowspan="2">
+                                Departamento
+                            </td>
+                            <td class="bold" rowspan="2">
+                                Distrito
+                            </td>
+                            <td rowspan="2">
+
+                            </td>
+                            <td colspan="2" class="bold text-center">
+                                BÁSCULA
+                            </td>
+                            <td rowspan="2" class="bold">
+                                Cantidad de básculas
+                            </td>
+                            <td rowspan="2" class="bold">
+                                Ingreso por Prestación de Servicios
+                            </td>
+                            <td rowspan="2" class="bold">
+                                Cantidad de comercios
+                            </td>
+                        </tr>
+                        <tr style="font-size:12px;">
+                            <td class="bold text-center">
+                                APROB.
+                            </td>
+                            <td class="bold text-center">
+                                REPROB.
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="meses" t-as="mes">
+                            <t t-foreach="departamentos" t-as="departamento">
+                                <t t-foreach="ciudades" t-as="ciudad">
+                                    <t t-set="cont" t-value="0"/>
+                                    <t t-set="cont_apr" t-value="0"/>
+                                    <t t-set="cont_rep" t-value="0"/>
+                                    <t t-set="ingreso_resumen" t-value="0"/>
+                                    <t t-foreach="docs" t-as="inf">
+                                        <t t-if="inf.fecha.strftime('%m') == mes">
+                                            <t t-if="inf.city == ciudad">
+                                                <t t-if="inf.state_id.id == departamento.id">
+                                                    <t t-set="cont" t-value="cont + 1"/>
+                                                    <t t-if="inf.evaluacion_final_estado == 'APROBADO'">
+
+                                                    </t>
+                                                    <t t-if="inf.evaluacion_final_estado == 'REPROBADO'">
+                                                        <t t-set="cont_rep" t-value="cont_rep + 1"/>
+                                                    </t>
+                                                    <t t-set="ingreso_resumen" t-value="ingreso_resumen + inf.invoice_id.amount_total"/>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    <tr style="font-size:12px;">
+                                        <td colspan="2"/>
+                                        <td>
+                                            <t t-set="values" t-value="dict([('01', 'Enero'), ('02', 'Febrero'),('03','Marzo'),('04','Abril'),('05','Mayo'),('06','Junio'),('07','Julio'),('08','Agosto'),('09','Setiembre'),('10','Octubre'),('11','Noviembre'),('12','Diciembre')])"/>
+                                            <t t-esc="values[mes]"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="departamento.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="ciudad"/>
+                                        </td>
+                                        <td/>
+                                        <td class="text-center">
+                                            <t t-esc="cont_apr"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="cont_rep"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="cont"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="'{0:,.0f}'.format(int(total_facturado)).replace(',','.')"/> Gs.
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="cont"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </t>
+                        <tr style="font-size:12px">
+                            <td colspan="5" style="text-align:right" class="pd-5 bold">
+                                TOTALES
+                            </td>
+                            <td/>
+                            <td class="bold text-center">
+                                <t t-esc="contador_aprobadas"/>
+                            </td>
+                            <td class="bold text-center">
+                                <t t-esc="contador_reprobadas"/>
+                            </td>
+                            <td class="bold text-center">
+                                <t t-esc="contador"/>
+                            </td>
+                            <td  class="bold" >
+                                <t t-esc="'{0:,.0f}'.format(int(total_facturado)).replace(',','.')"/> Gs.
+                            </td>
+                            <td class="bold text-center">
+                                <t t-esc="contador"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="footer">
+                    <div class="row text-center" style="border-top: 1px solid black;">
+                        <div class="col col-3">
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                        </div>
+                        <div class="col col-3 offset-6 text-right">
+                            <ul class="list-inline mt-2">
+                                <li class="list-inline-item">Página:</li>
+                                <li class="list-inline-item">
+                                    <span class="page"/>
+                                </li>
+                                <li class="list-inline-item">/</li>
+                                <li class="list-inline-item">
+                                    <span class="topage"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="intn_informe_bascula.intn_bascula_form_view">
+            <field name="name">intn_informe_bascula.intn_bascula_form_view
+            </field>
+            <field name="model">intn.bascula</field>
+            <field name="inherit_id" ref="solicitudes_servicio.intn_bascula_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_see_informes" type="object" class="oe_stat_button" icon="fa-file-text-o" attrs="{'invisible': [('informes_count','&lt;', 1)]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="informes_count"/></span>
+                                <span class="o_stat_text">Informes de Verificación</span>
+                            </div>
+                        </button>
+                </xpath>
+                <xpath expr="//group[@id='grupo_encargado']" position="after">
+                    <notebook>
+                        <sheet string="Resultados último Informe de Verificación">
+                            <page string="Resultados último Informe de Verificación">
+                                <group>
+                                    <field name="ultimo_informe_id" readonly="1"/>
+                                    <field name="fecha_verificacion" readonly="1"/>
+                                    <field name="fecha_vencimiento" readonly="1"/>
+                                    <field name="resumen_incidencia" readonly="1" widget="html"/>
+                                    <field name="desperfecto_detalle" readonly="1" widget="html"/>
+                                    <field name="evaluacion" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                </group>
+                            </page>
+                        </sheet>
+                        <sheet string="Registro de Informes de Verificación">
+                            <page string="Registro de Informes de Verificación">
+                                <group>
+                                    <field name="informes_ids" mode="tree" nolabel="1">
+                                        <tree string="Task Detail" editable="0" delete="0" create="0">
+                                            <field name="partner_id"/>
+                                            <field name="name"/>
+                                            <field name="order_id"/>
+                                            <field name="invoice_id"/>
+                                            <field name="fecha"/>
+                                            <field name="fecha_vencimiento"/>
+                                            <field name="tecnico_id"/>
+                                            <field name="resumen_incidencia"/>
+                                            <field name="desperfecto_detalle" string="Resumen de desperfectos" />
+                                            <field name="state"/>
+                                            <field name="state_bascula"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </sheet>
+                    </notebook>
+                </xpath>
+
+            </field>
+        </record>
+
+</odoo>

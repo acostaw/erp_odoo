@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="intn_resPartner">
+            <field name="name">
+                Modificacion de vista Clientes
+            </field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="industry_id" position="attributes">
+                    <attribute name="string">Factor Económico</attribute>
+                </field>
+                <xpath expr="//label[@for='street']" position="before">
+                    <field name="es_entidad_estado"/>
+                    <field name="es_extranjero"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="view_res_partner_direccion_search" model="ir.ui.view">
+            <field name="name">view_res_partner_direccion_search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="street" string="Direccion"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+
+</odoo>
+
+

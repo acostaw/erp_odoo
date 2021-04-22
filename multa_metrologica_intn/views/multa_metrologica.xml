@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="multa_metrologica_intn_list_view">
+        <field name="name">Multa Metrológica</field>
+        <field name="res_model">multa_metrologica_intn</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Cree una nueva resolución por multa metrológica
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="multa_metrologica_intn_tree_view">
+        <field name="name">multa_metrologica_intn_tree_view</field>
+        <field name="model">multa_metrologica_intn</field>
+        <field name="arch" type="xml">
+            <tree string="Multa Metrológica">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="jornales"/>
+                <field name="state"/>
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="multa_metrologica_intn_form_view">
+        <field name="name">multa_metrologica_intn_form_view</field>
+        <field name="model">multa_metrologica_intn</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    <button string="Crear factura" type="object" name="button_wizard_factura" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('invoice_count', '=', 0)]}">
+                            <field name="invoice_count" widget="statinfo" string="Facturas"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="partner_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="jornales" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="resolucion_pdf" filename="pdf_name"/>
+                            <field name="pdf_name" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="multa_metrologica_intn_search_view">
+        <field name="name">multa_metrologica_intn_search_view</field>
+        <field name="model">multa_metrologica_intn</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="multa_metrologica_intn_menu" name="Multa Metrológica" parent="sale.sale_menu_root"
+              action="multa_metrologica_intn_list_view"/>
+</odoo>
+
+
+

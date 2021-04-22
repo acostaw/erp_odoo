@@ -1,0 +1,146 @@
+<odoo>
+    <data>
+        <record id="mrp_intn2.mrp_production_workorder_form_view" model="ir.ui.view">
+            <field name="name">mrp_production_workorder_form_view</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='time_ids']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//page[3]" position="attributes">
+                    <attribute name="groups">mrp.group_mrp_user</attribute>
+                </xpath>
+                <xpath expr="//page[4]" position="attributes">
+                    <attribute name="groups">mrp.group_mrp_user</attribute>
+                </xpath>
+                <xpath expr="//field[@name='production_id']" position="before">
+                    <field name="derivado" string="Derivado desde" readonly="True"/>
+                    <field name="devolucion_exigida" string="Devolucion exigida" readonly="True"/>
+                    <field name="solicitud_interna_id"/>
+                </xpath>
+                <xpath expr="//button[@name='button_scrap']" position="before">
+                    <field name="user_derivado" invisible="1"/>
+                    <button type="object" name="button_derivar" string="Derivar orden" attrs="{'invisible':['|',('state','!=','ready'),('derivado','!=',False)]}"/>
+                    <button type="object" name="button_solicitud_interna" string="Solicitud Interna" attrs="{'invisible':['|',('state','!=','ready'),('derivado','!=',False)]}" groups="mrp_intn2.grupo_solicitud_interna"/>
+
+                </xpath>
+                <xpath expr="//group[1]/group[1]" position="after">
+                    <group>
+                        <!--                        <field name="sale_order_compute" invisible="1"/>-->
+                        <!--                        <field name="sale_order_id" string="Numero de Expediente" readonly="1"/>-->
+                        <field name="sale_order" string="Número de Expediente" readonly="1" attrs="{'invisible':[('user_derivado','=',True)]}"/>
+                        <field name="partner_id" string="Cliente" readonly="1" attrs="{'invisible':[('user_derivado','=',True)]}" force_save="1"/>
+                        <field name="numero_informe" string="Número de Informe" readonly="0"/>
+                    </group>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Descripciones Adicionales">
+                        <group>
+                            <field name="descripcion_trabajos" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="materiales_entregados" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Retirado Por">
+                        <group>
+                            <field name="nombre_retiro" />
+                            <field name="ci_retiro" />
+                            <field name="fecha_retiro" />
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook" position="after">
+                    <group string="Observación">
+                        <field name="observacion" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mrp_workcenter_derivar_wizard_view" model="ir.ui.view">
+            <field name="name">mrp_workcenter_derivar_wizard_view</field>
+            <field name="model">mrp.workorder.derivar</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="workorder_id" readonly="True" attrs="{'invisible': [('workorder_id', '=', False)]}"/>
+                            <field name="workorder_ids" readonly="True" widget="many2many_tags" attrs="{'invisible': [('workorder_ids', '=', False)]}"/>
+                            <field name="workcenter_id"/>
+                            <field name="exigir_devolucion"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Derivar" type="object" name="button_derivar" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mrp_intn2.mrp_production_workorder_search_view" model="ir.ui.view">
+            <field name="name">mrp_intn2.mrp_production_workorder_search_view</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='production']" position="after">
+                    <field name="user_derivado" invisible="1"/>
+                    <filter string="Nro de Expediente" name="sale_order" domain="[]" context="{'group_by':'sale_order_id'}" attrs="{'invisible':[('user_derivado','=',True)]}"/>
+                    <filter string="Cliente" name="partner_id" domain="[]" context="{'group_by':'partner_id'}" />
+                    <filter string="Nro de Informe" name="informe" domain="[]" context="{'group_by':'numero_informe'}"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="product_id"/>
+                    <field name="production_id"/>
+                    <field name="sale_order_id" string="Numero de Expediente"/>
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="numero_informe" string="Numero de Informe"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mrp_intn2.view_mrp_production_work_order_search" model="ir.ui.view">
+            <field name="name">mrp_intn2.view_mrp_production_work_order_search</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_work_order_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='ready']" position="before">
+                    <field name="user_derivado" invisible="1"/>
+                    <filter string="Nro de Expediente" name="sale_order" domain="[]" context="{'group_by':'sale_order_id'}"/>
+                    <filter string="Cliente" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Nro de Informe" name="informe" domain="[]" context="{'group_by':'numero_informe'}"/>
+                </xpath>
+                <xpath expr="//field[@name='workcenter_id']" position="after">
+                    <field name="production_id"/>
+                    <field name="sale_order_id" string="Numero de Expediente" />
+                    <field name="partner_id" string="Cliente" />
+                    <field name="numero_informe" string="Numero de Informe"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="mrp_intn2.mrp_production_workorder_tree_view" model="ir.ui.view">
+            <field name="name">mrp_intn2.mrp_production_workorder_tree_view</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='production_id']" position="after">
+                    <!--                        <field name="sale_order_compute" invisible="1"/>-->
+                    <field name="user_derivado" invisible="1"/>
+                    <field name="sale_order_id" string="Numero de Expediente"/>
+                    <field name="numero_informe" string="Numero de Informe"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

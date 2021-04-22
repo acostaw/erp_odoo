@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_expediente" model="report.paperformat">
+        <field name="name">Expediente</field>
+        <!--field name="default" eval="True"/-->
+        <field name="format">custom</field>
+        <field name="page_height">216</field>
+        <field name="page_width">333</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">15</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">20</field>
+        <field name="margin_right">20</field>
+        <field name="header_line" eval="True"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record model='ir.actions.report' id='sale.action_report_saleorder'>
+        <field name="name">Expediente</field>
+        <field name="print_report_name">(object.state in ('draft', 'sent') and 'Expediente - %s' % (object.name)) or 'Expediente - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="paperformat_expediente"/>
+    </record>
+
+    <template id="presupuestos_intn.expediente" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <t t-call="web.basic_layout">
+                <div class="row">
+                    <style>
+                        .subrayado {
+                        border-bottom: 1px solid #000;
+                        line-height: 0.1em;
+                        margin-top: 0;
+                        }
+
+                        table {
+                        width: 100%;
+
+                        }
+
+                        .fs-12 {
+                        font-size: 14px;
+                        margin: 2px;
+                        }
+
+                        .text-center {
+                        text-align: center;
+                        }
+
+                        .text-right {
+                        text-align: right;
+                        }
+
+                        .bold {
+                        font-weight: bold;
+                        }
+
+                        .text-justify {
+                        text-align: justify;
+                        }
+
+                        table,
+                        th,
+                        tr {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+
+                        }
+
+                        .td {
+                        border-right: 1px solid black;
+                        }
+
+                        .centrado {
+                        margin-left: 20%;
+                        }
+
+                        .izquierda {
+                        margin-left: 45%;
+                        }
+                        .tr{
+                        border-collapse: collapse
+                        }
+                        .ml-5{
+                        margin-left:5x;
+                        }
+
+
+                        p{
+                        margin-top:0;
+                        margin-bottom:2px;
+                        margin-left:2px;
+                        }
+                        .w-90{
+                        width:100mm;
+                        }
+                        .w-15{
+                        width:20mm;
+                        }
+                        .t-detalle {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                        }
+                        .t-detalle td {
+                        border-left: 1px solid black;
+                        border-right: 1px solid black;
+                        border-bottom: 0.5px solid white;
+                        border-top: 0.5px solid white;
+                        }
+                        .t-detalle td:empty {
+                        border-left: 1px solid black;
+                        border-right: 1px solid black;
+                        border-top: 0.5px solid white;
+                        }
+
+                        .terms {
+                        <!--                                    white-space: -pre-wrap;-->
+                        max-width:800px;
+                        }
+
+                        .column1 {
+                        float: left;
+                        width: 60%;
+                        padding: 10px;
+                        }
+                        .column2 {
+                        float: left;
+                        width: 40%;
+                        padding: 10px;
+                        }
+
+                        .rows:after {
+                        content: "";
+                        display: table;
+                        clear: both;
+                        }
+                        span:before {
+                        content: '\n';
+                        white-space: pre;
+                        }
+
+
+                    </style>
+                    <div class="page">
+                        <table>
+                            <tr>
+                                <td style="width:20%;" class="text-center">
+                                    <img src='/web/binary/company_logo' style="width:50%"/>
+                                </td>
+                                <td class="text-center" style="margin-top:0">
+                                    <p>INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                                    </p>
+                                    <p class="bold text-center">SOLICITUD DE SERVICIO AL INTN</p>
+                                    <p class="text-right" style="padding-right:5px;">
+                                        <span class="bold">
+                                            RUC:
+                                        </span>
+                                        <t t-if="doc.partner_id.parent_id">
+                                            <span t-field="doc.partner_id.parent_id.vat"/>
+                                        </t>
+                                        <t t-if="not doc.partner_id.parent_id">
+                                            <span t-field="doc.partner_id.vat"/>
+                                        </t>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <br></br>
+                        <p>
+                            <span class="bold">
+                                Nombre y Apellido / Razón Social:
+                            </span>
+                            <span t-field="doc.partner_id"/>
+                        </p>
+                        <p>
+                            <span class="bold">
+                                Dirección:
+                            </span>
+                            <span t-field="doc.partner_invoice_id.street"/>
+                        </p>
+                        <br></br>
+                        <p class="bold text-justify">
+                            Por la presente, solicito a la Dirección General del INTN, se sirva ordenar por
+                            donde corresponda la
+                            realización de los sgtdoc. trabajos:
+                        </p>
+                        <p class="text-justify">
+                            <span t-field="doc.descripcion_trabajos"/>
+                        </p>
+                        <br></br>
+                        <p class="bold text-center">
+                            Cantidad y detalle del Material Entregado
+                        </p>
+                        <p class="text-justify">
+                            <span t-field="doc.materiales_entregados"/>
+                        </p>
+                        <br></br>
+                        <p class="bold text-center">
+                            PROGRAMA DE TRABAJO
+                        </p>
+                        <table class="t-detalle">
+                            <tr>
+                                <td class="bold text-center w-90">
+                                    DETERMINACIÓN
+                                </td>
+                                <td class="bold text-center w-15">
+                                    CANT.
+                                </td>
+                                <t t-if="doc.es_metrologia">
+                                    <td class="bold text-center w-15">
+                                        UNIDAD
+                                    </td>
+                                </t>
+                                <td class="bold text-center w-15">
+                                    PRECIO UNI.
+                                </td>
+                                <td class="bold text-center w-15">
+                                    SUBTOTAL
+                                </td>
+                            </tr>
+                            <t t-foreach="doc.order_line" t-as="l">
+                                <tr>
+                                    <t t-if="l.display_type">
+                                        <td class="bold" colspan="4" style="border: 1px solid black;font-size:16px;width:70%;">
+                                            <span t-field="l.name"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="not l.display_type">
+                                        <td class=" text-left w-90" style="padding-left:5px;">
+                                            <span t-field="l.name"/>
+                                        </td>
+                                        <td class="w-15 text-center">
+                                            <t t-esc="l.product_uom_qty" />
+                                            <!--                                                        <span t-esc="'{0:,.0f}'.format(int(l.product_uom_qty)).replace(',','.')"/>-->
+                                        </td>
+                                        <t t-if="doc.es_metrologia">
+                                            <td class="w-15 text-center">
+                                                <span t-field="l.product_uom"/>
+                                            </td>
+                                        </t>
+                                        <td class="w-15 text-center">
+                                            <span t-esc="'{0:,.0f}'.format(int(l.price_unit)).replace(',','.')"/>
+                                        </td>
+                                        <td class="w-15 text-center">
+                                            <span t-esc="'{0:,.0f}'.format(l.product_uom_qty*int(l.price_unit)).replace(',','.')"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="w-90" colspan="2">
+                                </td>
+                                <t t-if="doc.es_metrologia">
+                                    <td class="bold text-center w-15">
+                                        <span></span>
+                                    </td>
+                                </t>
+                                <td class="w-15 bold text-center">
+                                    Costo
+                                </td>
+                                <td class="w-15 bold text-center">
+                                    <t t-set="totalPagarNumeros" t-value="doc.amount_total"/>
+                                    <span t-esc="'{0:,.0f}'.format(int(totalPagarNumeros)).replace(',','.')"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br></br>
+                        <t t-if="doc.notas_especiales">
+                            <div style="page-break-inside: avoid;">
+                                <p class="bold">
+                                    NOTAS ESPECIALES
+                                </p>
+                                <p class="text-justify">
+                                    <span t-field="doc.notas_especiales"/>
+                                </p>
+                            </div>
+                        </t>
+                        <br></br>
+                        <t t-if="doc.fecha_entrega">
+                            <table>
+                                <tr>
+                                    <td style="width:60mm">
+                                        <span class="bold">Tiempo estimado de entrega:</span>
+                                    </td>
+                                    <td style="width:30mm">
+                                        <span t-field="doc.fecha_entrega"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+
+                        <table style="page-break-inside: avoid;">
+                            <tr>
+                                <td style="padding-left:5px;">
+                                    <span class="bold">Responsable:</span>
+                                </td>
+                                <td colspan="3">
+                                    <span t-field="doc.departamento_responsable"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:5px;">
+                                    <span class="bold">Llamar a:</span>
+                                </td>
+                                <td colspan="3">
+                                    <span t-field="doc.partner_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:20mm;padding-left:5px;">
+                                    <span class="bold ">Telef:</span>
+                                </td>
+                                <td style="width:40mm">
+                                    <span t-field="doc.partner_id.phone"/>
+                                </td>
+                                <td style="width:20mm">
+                                    <span class="bold izquierda">Cel:</span>
+                                </td>
+                                <td style="width:40mm">
+                                    <span t-field="doc.partner_id.mobile"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br></br>
+                        <div style="page-break-inside: avoid;">
+                            <p class="fs-12 bold" style="text-align:justify;">
+                                NOTA: Los materiales serán sometidos a ensayos destructivos, por lo que a partir de
+                                la entrega de los
+                                resultados, el recurrente renuncia a todo reclamo en propiedad y el INTN queda
+                                autorizado a disponer de los
+                                mismos, a excepción de los equipos de medición y los materiales que por expreso
+                                pedido en la solicitud serán
+                                reutilizadodoc.
+                                <br></br>
+                                <t t-if="doc.fecha_entrega">
+                                    El tiempo estimado de entrega empieza a contarse desde el día de confirmación del
+                                    presupuesto.
+                                </t>
+                            </p>
+                        </div>
+                        <br></br>
+                        <div>
+                            <div class="row" style="page-break-inside: avoid;margin-left:10px;">
+                                <div class="column1" >
+                                    <table class="t-detalle" >
+                                        <tr>
+                                            <td colspan="2" class="text-center bold" style="width:40mm">INTN</td>
+                                            <td colspan="2" style="width:70mm" class="bold text-center">RETIRADO</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-center bold">PTYF</td>
+                                            <th colspan="1" style="padding-left:5px;border-right:1px solid white">
+                                                <span class="bold">TOTAL (      )</span>
+                                            </th>
+                                            <th colspan="1" style="padding-left:5px;">
+                                                <span class="bold">PARCIAL (    )</span>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding:5px;" class="bold">Nro. Entrada:
+                                                <span t-field="doc.name"/>
+                                            </td>
+                                            <td colspan="2" style="padding-left:5px;">Por:</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding-left:5px;" class="bold">Fecha:
+                                                <span t-field="doc.create_date" t-options='{"format":"dd/MM/yyyy"}'/>
+                                            </td>
+                                            <td colspan="2" style="padding-left:5px;">C.I:</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="td">
+                                                <span></span>
+                                            </td>
+                                            <td colspan="2" style="padding-left:5px;">Fecha:</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="td">
+                                                <span></span>
+                                            </td>
+                                            <td colspan="2" style="padding-left:5px;">Hora:</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="td">
+                                                <span></span>
+                                            </td>
+                                            <td colspan="2" style="padding-left:5px;">Firma:</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="column2" style="padding-left:5px;">
+                                    <table style="border: 1px solid white !important;">
+                                        <tr style="border: 1px solid white !important;">
+                                            <td>
+                                                <br></br>
+                                                <hr></hr>
+                                                <p class="text-center bold">
+                                                    Firma y Alcaración
+                                                </p>
+                                                <p class="text-left bold">
+                                                    Conformidad y Aceptación del Solicitante
+                                                </p>
+                                                <p class="text-left " >
+                                                    <span t-field="doc.solicitante"/>
+                                                </p>
+                                                <p class="text-left bold" >
+                                                    C.I.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br></br>
+                            <t t-if="doc.termsAdministrativos != '' ">
+                                <p style="page-break-before:always;">
+                                    <div name="condiciones_tecnicas" style="padding-bottom:20px;">
+                                        <t t-if="doc.termsAdministrativos != '' ">
+                                            <p class="bold text-center">CONDICIONES TECNICAS PARA EL SERVICIO</p>
+                                            <hr></hr>
+                                            <t t-if="doc.termsAdministrativos != '' ">
+                                                <div class="terms text-justify">
+                                                    <p class="text-justify" style="white-space: pre-wrap;" t-field="doc.termsAdministrativos"/>
+                                                </div>
+                                                <hr></hr>
+                                            </t>
+                                        </t>
+                                    </div>
+                                    <t t-if="doc.state == 'draft'">
+                                        <div name="condiciones_administrativas">
+                                            <p class="bold text-center">CONDICIONES ADMINISTRATIVAS PARA EL SERVICIO</p>
+                                            <hr></hr>
+                                            <table>
+                                                <tr>
+                                                    <td class="text-justify" style="padding:5px;">
+                                                        El costo de servicios solicitados al INTN deberá ser abonado por adelantado. El cliente podrá solicitar y realizar las gestiones para la emisión de una factura crédito al Departamento de Tesorería,
+                                                        siempre y cuando no tenga facturas pendientes de pago.
+                                                        <p class="bold">FORMAS DE PAGO:</p>
+                                                        <p>
+                                                            - VENTANILLA (CAJA) en nuestras instalaciones Avda. Artigas 3973 c/ Gral. Roa en efectivo o en cheque a nombre del INTN
+                                                        </p>
+                                                        <p>
+                                                            - DEPÓSITO O TRANSFERENCIAS BANCARIAS A LA CTA. CTE. <span class="bold"> INTN N° 438360/3 CARGO BANCO NACIONAL DE FOMENTO</span> y comunicar del mismo enviando la copia del comprobante de depósito mencionando el número de factura abonada,
+                                                            al correo <span class="bold">facturacion@intn.gov.py </span> .En caso de depósitos previa facturación, remitir copia del presupuesto abonado y del comprobante del depósito a dicho correo del departamento de tesorería habilitado.
+                                                        </p>
+                                                        <p>
+                                                            - RED AQUÍ PAGO de todo el país, la factura deberá ser cancelada durante el plazo establecido en el vencimiento. La falta de pago de la misma ocasionará la mora automática del cliente generándose un interés mensual del 2%.
+                                                        </p>
+                                                        <p class="bold">
+                                                            CONTACTOS EN EL DEPARTAMENTO DE TESORERÍA
+                                                        </p>
+                                                        <p>
+                                                            - Número Telefónico: +595 21 288 60000 internos: 1316 - 1317 -1318 -1319
+                                                        </p>
+                                                        <p>
+                                                            - Personal: Nelson Villalba: nvillalba@intn.gov.py, Rebeca Sartorio: rsartorio@intn.gov.py, Gisella Gamarra: ggamarra@intn.gov.py
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </t>
+                                </p>
+                            </t>
+                        </div>
+
+                        <div class="footer" style="padding-top:10px;" >
+                            <div class="row">
+                                <div style="width:30%">
+                                    <t t-if="doc.es_metrologia">
+                                        <span class="fs-12 text-left"><span t-esc="version_metrologia"/> / <span t-field="doc.confirmation_date" t-options='{"format":"dd/MM/yyyy"}'/></span>
+                                    </t>
+                                </div>
+                                <div style="width:70%">
+                                    <span class="fs-12 text-right">Elaborado por: <span t-field="doc.user_id"/></span>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

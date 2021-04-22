@@ -1,0 +1,243 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_pipa" model="report.paperformat">
+            <field name="name">Informe Provisional de Avería en institucional (P.I.P.A.)</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="reporte_pipa" string="Informe Provisional de Avería en institucional (P.I.P.A.)" model="informe.provisional.averia" report_type="qweb-pdf" name="intn_flotas.pipa" paperformat="paperformat_pipa" />
+        <template id="pipa">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="s">
+                            <style>
+
+                                span{
+                                padding:5px;
+                                }
+                                tr{
+                                height:10px;
+                                }
+                                table {
+                                width: 100%;
+                                border: 1px solid black;
+                                border-collapse: collapse;
+
+                                }
+
+                                .fs-12 {
+                                font-size: 14px;
+                                margin: 2px;
+                                }
+
+                                .text-center {
+                                text-align: center;
+                                }
+
+                                .text-right {
+                                text-align: right;
+                                padding:5px;
+                                }
+
+                                .bold {
+                                font-weight: bold;
+                                }
+
+                                .text-justify {
+                                text-align: justify;
+                                }
+
+                                tr {
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                padding:5px;
+                                }
+
+                                p{
+                                margin-top:0;
+                                margin-bottom:2px;
+                                margin-left:2px;
+                                }
+                                .w-90{
+                                width:100mm;
+                                }
+                                .w-15{
+                                width:20mm;
+                                }
+                                .t-detalle {
+                                border: 1px solid black;
+                                border-collapse: collapse;
+                                }
+                                .t-detalle td {
+                                border-left: 1px solid black;
+                                border-right: 1px solid black;
+                                border-bottom: 0.5px solid black;
+                                border-top: 0.5px solid black;
+                                border-collapse: collapse;
+                                }
+                                .t-detalle td:empty {
+                                border-left: 1px solid black;
+                                border-right: 1px solid black;
+                                border-top: 0.5px solid black;
+                                border-collapse: collapse;
+                                }
+
+                                .terms {
+                                <!--                                    white-space: -pre-wrap;-->
+                                max-width:800px;
+                                }
+
+                                .column1 {
+                                float: left;
+                                width: 60%;
+                                padding: 10px;
+                                }
+                                .column2 {
+                                float: left;
+                                width: 40%;
+                                padding: 10px;
+                                }
+
+                                .rows:after {
+                                content: "";
+                                display: table;
+                                clear: both;
+                                }
+                                span:before {
+                                content: '\n';
+                                white-space: pre;
+                                }
+
+
+                            </style>
+                            <table>
+                                <tr>
+                                    <td style="width:20%;" class="text-center">
+                                        <img src='/web/binary/company_logo' style="width:50%;padding-top:10px"/>
+                                        <p class="text-center bold" style="padding:10px">PROFORMA</p>
+                                    </td>
+                                    <td class="text-center bold" style="margin-top:0;">
+                                        <p style="font-size:18px;margin-top:-15px !important;">INSTITUTO NACIONAL DE TECNOLOGÍA, NORMALIZACIÓN Y METROLOGÍA
+                                        </p>
+                                        <p style="font-size:12px;"> Departamento de Taller y Transporte - DTT</p>
+                                        <p style="font-size:12px;">
+                                            INFORME PROVISIONAL DE AVERIA EN MOVIL INSTITUCIONAL
+                                        </p>
+                                    </td>
+                                    <td style="font-size:12px;width:15%" class="text-center bold">
+                                        <p style="margin-top:-15px;"><br/><br/>PROFORMA DE INFORME PROVISIONAL DE AVERIA EN MOVIL INSTITUCIONAL</p>
+                                        <span t-field="s.name"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="margin-top:100px;">
+                                <tr>
+                                    <td style="width:50%">
+                                        <span class="bold">
+                                            A:
+                                        </span>
+                                        DEPARTAMENTO DE TALLER Y TRASPORTE
+                                    </td>
+                                    <td>
+                                        <span class="bold">
+                                            FECHA:
+                                        </span>
+                                        <span t-field="s.date"/>
+                                    </td>
+                                </tr>
+                                <tr/>
+                                <tr>
+                                    <td>
+                                        <span class="bold">
+                                            DE:
+                                        </span>
+                                        <span t-field="s.driver_id"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">
+                                            MÓVIL NRO:
+                                        </span>
+                                        <t t-esc="s.vehicle_id.nro_movil" />
+                                    </td>
+                                </tr>
+                                <tr/>
+                                <tr>
+                                    <td>
+                                        <span class="bold">
+                                            ORGANISMO/UNIDAD:
+                                        </span>
+                                        <span t-field="s.organismo_id"/> / <span t-field="s.unidad_id"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">
+                                            KILOMETRAJE ACTUAL:
+                                        </span>
+                                        <span t-field="s.km_actual"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="bold">
+                                            O.T. N°:
+                                        </span>
+                                        <span t-field="s.wo_vehicle_id"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">
+                                            Vigencia desde:
+                                        </span>
+                                        <span t-field="s.vigencia_desde"/>
+                                    </td>
+                                    <td>
+                                        <span class="bold">
+                                            Vigencia hasta:
+                                        </span>
+                                        <span t-field="s.vigencia_hasta"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <div id="descripcion">
+                                <span class="bold">
+                                    BREVE DESCRIPCIÓN DE LA AVERIA:
+                                </span>
+                                <t t-raw="s.descripcion_averia" />
+                            </div>
+                            <div class="row">
+                                <div style="padding-top:80px;" class="col-md-3 offset-md-9">
+                                    <p class="text-center">
+                                        _______________________________<br/>
+                                        <span>Firma</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <br/>
+                            <div>
+                                <span class="text-justify bold">
+                                    OBSERVACIÓN: El usuario se compromete a elaborar un informe formal por los conductos correspondientes en un plazo no mayor a 24hs.
+                                </span>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

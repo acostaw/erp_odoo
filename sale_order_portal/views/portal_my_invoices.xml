@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="sale_order_portal.portal_my_invoices" model="ir.ui.view">
+            <field name="name">sale_order_portal.portal_my_invoices</field>
+            <field name="inherit_id" ref="account.portal_my_invoices"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-call='portal.portal_layout']" position="inside">
+                <style>
+                    .fa-fw{
+                        width:auto !important;
+                    }
+                </style>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+    <data noupdate="1">
+        <record model="ir.ui.view" id="intn_limite_lineas_factura">
+            <field name="name">Modificacion para establecer un limite de lineas</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Resetear Cantidad de Impresiones" type="object" name="resetearImpresiones" attrs="{'invisible':('type','not in',['out_refund'])}" groups="interfaces_facturas.group_resetear_impresiones"/>
+                </xpath>
+
+                <xpath expr="//button[@name='action_invoice_cancel']" position="replace">
+                    <button name="action_invoice_cancel" type="object" states="draft,open,in_payment,paid" string="Anular" modifiers="{'invisible':[['state','not in',['draft','open','in_payment','paid']]]}" options="{}"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']" position="after">
+                    <field name="limite_excedido" invisible="1"/>
+                    <div>
+                        <span style="font-size:14px;font-weight:bold;" attrs="{'invisible':[('limite_excedido','=',False)]}"> Detalle de la Factura:  </span>
+                         <field name="descripcion_detalle" attrs="{'invisible':[('limite_excedido','=',False)]}"/>
+                        <field name="origin" attrs="{'invisible':[('limite_excedido','=',False)]}" readonly="1"></field>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='date_invoice']" position="before">
+                    <field name="descuento" attrs="{'readonly': [('state', 'in', ['open', 'in_payment', 'paid'])]}"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside" >
+                    <page name="Pagos" string="Pagos">
+                        <group>
+                            <field name="detalle_pago"/>
+                            <field name="monto_pago"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

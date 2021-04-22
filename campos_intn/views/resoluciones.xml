@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="intn_resoluciones_lista">
+        <field name="name">Resoluciones
+        </field>
+        <field name="res_model">campos_intn.resoluciones</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Crea una nueva resolucion
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_resoluciones_tree_view">
+        <field name="name">resoluciones_tree_view</field>
+        <field name="model">campos_intn.resoluciones</field>
+        <field name="arch" type="xml">
+            <tree string="Resoluciones">
+                <field name="name"/>
+                <field name="nro_expediente"/>
+                <field name="porcentaje_descuento"/>
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="intn_resoluciones_form_view">
+        <field name="name">resoluciones.form</field>
+        <field name="model">campos_intn.resoluciones</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    <button string="Confirmar" type="object" name="confirmarResolucion" class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','draft')]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="nro_expediente" attrs="{'readonly':[('state','!=','draft')]}"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="porcentaje_descuento" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="aplica_costos_adicionales" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="resolucion_pdf" filename="pdf_name"/>
+                            <field name="pdf_name" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="intn_resoluciones_search_view">
+        <field name="name">resoluciones.search</field>
+        <field name="model">campos_intn.resoluciones</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="nro_expediente"/>
+            </search>
+        </field>
+    </record>
+
+
+    <menuitem id="resoluciones_menu" name="Resoluciones" parent="sale.sale_order_menu"
+              action="intn_resoluciones_lista"/>
+</odoo>
+
+
+

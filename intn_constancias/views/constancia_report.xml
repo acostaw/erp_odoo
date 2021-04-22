@@ -1,0 +1,225 @@
+<odoo>
+    <data>
+
+        <record id="paperformat_constancia" model="report.paperformat">
+            <field name="name">Constancia</field>
+            <!--field name="default" eval="True"/-->
+            <field name="format">custom</field>
+            <field name="page_height">216</field>
+            <field name="page_width">333</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="reporte_constancia" string="Constancia" model="intn.constancias" report_type="qweb-pdf" name="intn_constancias.constancia" paperformat="paperformat_constancia" />
+        <template id="constancia">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div class="row">
+                            <t t-foreach="docs" t-as="s">
+                                <style>
+                                    table {
+                                    width: 100%;
+                                    }
+
+                                    .fs-14 {
+                                    font-size: 16px;
+                                    padding: 10px;
+                                    }
+                                     .fs-16 {
+                                    font-size: 20px;
+                                    padding: 10px;
+                                    }
+                                     .fs-18 {
+                                    font-size: 22px;
+                                    padding: 10px;
+                                    }
+
+                                    .text-center {
+                                    text-align: center;
+                                    }
+
+                                    .text-right {
+                                    text-align: right;
+                                    }
+
+                                    .bold {
+                                    font-weight: bold;
+                                    }
+
+                                    .text-justify {
+                                    text-align: justify;
+                                    }
+
+                                    table,
+                                    td,
+                                    tr {
+                                    border: 1px solid black;
+                                    border-collapse: collapse;
+
+                                    }
+
+                                    p{
+                                    margin-top:0;
+                                    margin-bottom:2px;
+                                    margin-left:2px;
+                                    }
+
+                                </style>
+                                <div class="page">
+                                    <table style="border:1px solid white !important;">
+                                        <tr style="border:1px solid white !important;">
+                                            <td style="width:40%;border:1px solid white !important;" class="text-center">
+                                                <img src='/intn_constancias/static/src/img/logo_intn_largo.png' style="max-height: 70px;"/>
+                                            </td>
+                                            <td class="text-center" style="margin-top:0;border:1px solid white !important;">
+                                                <img src='/intn_constancias/static/src/img/gobierno_nacional.png' style="max-height: 100px;"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br></br>
+                                    <br></br>
+                                    <div class="text-center">
+                                        <p class="text-center bold fs-18">
+                                            CONSTANCIA
+                                        </p>
+                                    </div>
+                                    <br></br>
+                                    <div class="text-right">
+                                        <p class="text-right bold fs-16">
+                                            DCPR N° <span t-esc="s.name"/>
+                                        </p>
+                                    </div>
+                                    <br></br>
+                                    <br></br>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td class="bold fs-14">
+                                                    Solicitante
+                                                </td>
+                                                <t t-if="s.nombre_imprimir">
+                                                    <td class="fs-14" colspan="3">
+                                                        <span t-esc="s.nombre_imprimir"/>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td class="fs-14" colspan="3">
+                                                        <span t-esc="s.solicitante_id.name"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                            <tr>
+                                                <td class="bold fs-14">
+                                                    Expediente INTN N°
+                                                </td>
+                                                <td>
+                                                    <p class="fs-14">
+                                                        <span t-field="s.order_id.name"/>
+                                                    </p>
+                                                </td>
+                                                <td class="bold fs-14">
+                                                    Fecha
+                                                </td>
+                                                <td>
+                                                    <p class="bold fs-14">
+                                                        <span t-field="s.fecha_expediente" t-options='{"format":"yyyy/MM/dd"}'/>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bold fs-14">
+                                                    Departamento Ejecutor:
+                                                </td>
+                                                <td class="fs-14" colspan="3">
+                                                    <span t-esc="s.departamento_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class="bold text-center fs-14">
+                                                    Descripción del Informe
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class=" fs-14">
+                                                    <span t-raw="s.descripcion1"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class=" fs-14">
+                                                    <span t-raw="s.descripcion2"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="bold fs-14">
+                                                    Fecha del Informe:
+                                                </td>
+                                                <td class="bold fs-14" colspan="3">
+                                                    <span t-field="s.fecha_informe" t-options='{"format":"yyyy/MM/dd"}'/>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr class="mt-3">
+                                                <td style="border-right:none !important" colspan="1">
+                                                    <div style="display:table-cell;vertical-align:top;">
+
+                                                        <img t-att-src="image_data_uri(s.qr_code)" style="max-width:150px;max-height:150px;margin-left:15px"/>
+                                                        <!--br/>-->
+                                                        <!--                                                        <span style="margin-left:15px;font-size:14px">Consulte la validez de ésta constancia online</span>-->
+                                                    </div>
+                                                </td>
+                                                <td class="bold fs-16" colspan="3" style="border-left:none !important">
+                                                    <p style="margin-top:100px;padding:15px" class="text-right">
+                                                        LIC. ERIKA ETCHEVERRY<br></br>
+                                                        Directora ONC-INTN
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <span class="bold fs-14">Nota: </span>
+                                                    <span class="fs-14" style="font-style:italic"> Este informe solo puede ser reproducido en forma completa.</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br></br>
+                                    </div>
+                                    <div class="footer">
+                                        <div class="row" style="font-size:10px;">
+                                            <p style="text-align:justify;font-size:10px;">
+                                                <br></br>
+                                                <span class="bold"> Tembipota:</span> Oipytyvõ tekoaty, mba’eapopyha, ñemureko ha
+                                                opaite mba’e’aporãme, taha’e jehapereka, kuave’ẽmby ñepytyvõmby, mbojojaha, mba’era’ãha, tendyry ñangareko rupive, avei kuatia mboaje ha jesareko
+                                                iporãve hag̃ua mba’eapopy, kuave’ẽmby, tapichakuéra jeikoporã ha tekomo’ã, tembiapo omomba’eguasúva tekoaty ha tekoha reheve.
+                                                <span class="bold"> Misión: </span>Contribuir con la sociedad, la industria, el comercio, el sector productivo, mediante la investigación, servicios de asistencia técnica,
+                                                normalización, metrología, seguridad eléctrica, certificación e inspección, para el mejoramiento de la calidad de los productos, los servicios, el
+                                                bienestar y seguridad de las personas, con un enfoque de responsabilidad social y ambiental.
+                                                <br></br>
+                                                <span class="bold">Tembihecha:</span>Temimoĩmby hembiapopyahukuaáva ha ojepytaso añetéva, ojehechakuáva tetãpýre ha tetã ambue rupi omog̃uahẽ porã rehe kuave’ẽmbyeta
+                                                puruharakuérape, imba’apoharakuéra ikatupyry ha imba’erechakuaágui, ha upéichante avei oipytyvõhaguére tekoatýpe.
+                                                <span class="bold"> Visión: </span>Ser una institución innovadora y competitiva, reconocida nacional e internacionalmente por la calidad de sus servicios, la excelencia profesional
+                                                y humana de su gente, y su contribución
+                                                a la sociedad.
+                                            </p>
+                                            <p style="text-align:center;font-size:10px;">
+                                                Avda. Artigas 3973 y Gral. Roa / C.C. | Teléf.: 288 6000 | www.intn.gov.py | e-mail: intn@intn.gov.py   | Asunción – Paraguay
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

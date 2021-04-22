@@ -1,0 +1,73 @@
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="reporte_compraventa_venta_wizard">
+            <field name="name">Libro de Ventas</field>
+            <field name="model">reporte_compraventa.wizardventa</field>
+            <field name="arch" type="xml">
+
+                <form string="Libro de Ventas">
+                    <group>
+                        <group>
+                            <field name="fecha_inicio"/>                            
+                        </group>
+                        <group>
+                            <field name="fecha_fin"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Exportar a xlsx" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="reporte_compraventa_compra_wizard">
+            <field name="name">Libro de Compras</field>
+            <field name="model">reporte_compraventa.wizardcompra</field>
+            <field name="arch" type="xml">
+                <form string="Libro de Compras">
+                    <group>
+                        <group>
+                            <field name="fecha_inicio"/>
+                        </group>
+                        <group>
+                            <field name="fecha_fin"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_xlsx" string="Exportar a xlsx" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+        <act_window id="llamar_reporte_compra"
+                    name="Libro de Compras"
+                    res_model="reporte_compraventa.wizardcompra"
+                    view_mode="form"
+                    target="new"
+                    multi="True"
+
+        />
+        <act_window id="llamar_reporte_venta"
+                    name="Libro de Ventas"
+                    res_model="reporte_compraventa.wizardventa"
+                    view_mode="form"
+                    target="new"
+                    multi="True"
+
+        />
+
+        <menuitem id="wizard_libro_compras" parent="account.menu_finance_payables" name="Libro de Compras" sequence="10"
+                  action="llamar_reporte_compra"/>
+
+        <menuitem id="wizard_libro_ventas" parent="account.menu_finance_receivables" name="Libro de Ventas"
+                  sequence="10"
+                  action="llamar_reporte_venta"/>
+
+    </data>
+</odoo>

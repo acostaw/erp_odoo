@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.actions.act_window" id="intn_bascula_list_view">
+        <field name="name">Básculas
+        </field>
+        <field name="res_model">intn.bascula</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Agregue una nueva identificacion de bascula
+            </p>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="intn_bascula_tree_view">
+        <field name="name">intn_bascula_tree_view</field>
+        <field name="model">intn.bascula</field>
+        <field name="arch" type="xml">
+            <tree string="Básculas">
+                <field name="marca" />
+                <field name="modelo" />
+                <field name="rubro"/>
+                <field name="tipo" />
+                <field name="clase" />
+                <!--field name="evaluacion" /-->
+                <field name="partner_id"/>
+                <field name="state" />
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="intn_bascula_form_view">
+        <field name="name">intn_basculas_form_view</field>
+        <field name="model">intn.bascula</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                    </div>
+                    <h2 name="titulo">
+                        <field name="name" class="oe_title" readonly="True"/>
+                    </h2>
+                    <group string="Identificacion del instrumento">
+                        <group >
+                            <field name="marca" />
+                            <field name="carga_max" />
+                            <field name="rubro" />
+                            <field name="modelo" />
+                            <field name="no_serie"/>
+                        </group>
+                        <group>
+                            <field name="tipo" />
+                            <field name="carga_min" />
+                            <field name="division" />
+                            <field name="clase" />
+                        </group>
+                    </group>
+                    <group id="grupo_encargado">
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="encargado" />
+                        </group>
+                    </group>
+
+
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="intn_bascula_search_view">
+        <field name="name">intn_basculas_search_view</field>
+        <field name="model">intn.bascula</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="marca" />
+                <field name="modelo" />
+                <field name="rubro"/>
+                <field name="tipo" />
+                <field name="clase" />
+                <field name="partner_id" />
+                <!--field name="evaluacion" /-->
+                <field name="state" />
+            </search>
+        </field>
+    </record>
+
+
+    <!--________________________MENU____________________________________-->
+    <menuitem id="solicitudes_servicio.intn_bascula_menu" name="Básculas" parent="mrp.menu_mrp_manufacturing" action="intn_bascula_list_view"/>
+
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_presupuesto_metrologia_presupuesto_metrologia,presupuesto_metrologia.presupuesto_metrologia,model_presupuesto_metrologia_presupuesto_metrologia,,1,0,0,0

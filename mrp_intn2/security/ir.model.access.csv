@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_grupo_expedientes_consulta_so,access_grupo_expedientes_consulta_so,sale.model_sale_order,grupo_expedientes_consulta,1,0,0,0
+access_grupo_expedientes_consulta_pa,access_grupo_expedientes_consulta_pa,sale.model_product_attribute_custom_value,grupo_expedientes_consulta,1,0,0,0
+access_grupo_expedientes_consulta_ai,access_grupo_expedientes_consulta_ai,account.model_account_invoice,grupo_expedientes_consulta,1,0,0,0
+access_grupo_expedientes_consulta_ail,access_grupo_expedientes_consulta_ail,account.model_account_invoice_line,grupo_expedientes_consulta,1,0,0,0
+sale.order manufacturing.user,sale.order manufacturing.user,sale.model_sale_order,mrp.group_mrp_user,1,,,
+sale.order stock worker,sale.order stock worker,sale.model_sale_order,stock.group_stock_user,1,,,
+,,,,,,,
+access_grupo_solicitud_interna,access_grupo_solicitud_interna,mrp_intn2.model_mrp_workorder_solicitud_interna,grupo_solicitud_interna,1,1,1,1

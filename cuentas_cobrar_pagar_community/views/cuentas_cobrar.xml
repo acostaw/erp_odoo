@@ -1,0 +1,119 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="cuentas_cobrar_pagar_community.cuentas_cobrar_list_view">
+      <field name="name">cuentas_cobrar_pagar_community.cuentas_cobrar_list_view</field>
+      <field name="model">account.move.line</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="partner_id" invisible="True"/>
+          <field name="date"/>
+          <field name="account_id" invisible="True"/>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="currency_id"/>
+          <field name="amount_currency"/>
+          <field name="debit"/>
+          <field name="credit"/>
+          <field name="balance" string="Saldo"/>
+
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="cuentas_cobrar_pagar_community.cuentas_pagar_list_view">
+      <field name="name">cuentas_cobrar_pagar_community.cuentas_pagar_list_view</field>
+      <field name="model">account.move.line</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="partner_id" invisible="True"/>
+          <field name="date"/>
+          <field name="account_id" invisible="True"/>
+          <field name="name"/>
+          <field name="ref"/>
+          <field name="currency_id"/>
+          <field name="amount_currency"/>
+          <field name="debit"/>
+          <field name="credit"/>
+          <field name="balance" string="Saldo"/>
+
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="cuentas_cobrar_pagar_community.cuentas_cobrar_search_view">
+      <field name="name">cuentas_cobrar_pagar_community.cuentas_cobrar_search_view</field>
+      <field name="model">account.move.line</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="partner_id" string="Cliente" filter_domain="['|',('partner_id.name','ilike',self),('partner_id.vat','ilike',self)]"/>
+          <filter string="Cliente" name="cliente" domain="[]" context="{'group_by':'partner_id'}"/>
+        </search>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="cuentas_cobrar_pagar_community.cuentas_pagar_search_view">
+      <field name="name">cuentas_cobrar_pagar_community.cuentas_pagar_search_view</field>
+      <field name="model">account.move.line</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="partner_id" string="Proveedor" filter_domain="['|',('partner_id.name','ilike',self),('partner_id.vat','ilike',self)]"/>
+          <filter string="Proveedor" name="proveedor" domain="[]" context="{'group_by':'partner_id'}"/>
+        </search>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="cuentas_cobrar_pagar_community.cuentas_cobrar_action_window">
+      <field name="name">Cuentas a cobrar</field>
+      <field name="res_model">account.move.line</field>
+      <field name="view_id" ref="cuentas_cobrar_pagar_community.cuentas_cobrar_list_view"/>
+      <field name="search_view_id" ref="cuentas_cobrar_pagar_community.cuentas_cobrar_search_view"/>
+      <field name="domain">[('account_id.user_type_id.type','=','receivable')]</field>
+      <field name="context">{'search_default_cliente':1}</field>
+      <field name="view_mode">tree</field>
+    </record>
+    <record model="ir.actions.act_window" id="cuentas_cobrar_pagar_community.cuentas_pagar_action_window">
+      <field name="name">Cuentas a pagar</field>
+      <field name="res_model">account.move.line</field>
+      <field name="view_id" ref="cuentas_cobrar_pagar_community.cuentas_pagar_list_view"/>
+      <field name="search_view_id" ref="cuentas_cobrar_pagar_community.cuentas_pagar_search_view"/>
+      <field name="domain">[('account_id.user_type_id.type','=','payable')]</field>
+      <field name="context">{'search_default_proveedor':1}</field>
+      <field name="view_mode">tree</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="cuentas_cobrar_pagar_community.action_server">
+      <field name="name">cuentas_cobrar_pagar_community server</field>
+      <field name="model_id" ref="model_cuentas_cobrar_pagar_community_cuentas_cobrar_pagar_community"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="cuentas_cobrar_pagar_community" id="cuentas_cobrar_pagar_community.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="cuentas_cobrar_pagar_community.menu_1" parent="cuentas_cobrar_pagar_community.menu_root"/>
+    <menuitem name="Menu 2" id="cuentas_cobrar_pagar_community.menu_2" parent="cuentas_cobrar_pagar_community.menu_root"/>
+    -->
+    <!-- actions -->
+
+    <menuitem name="Cuentas a cobrar" id="cuentas_cobrar_pagar_community.menu_cobrar" parent="account.menu_finance_receivables" action="cuentas_cobrar_pagar_community.cuentas_cobrar_action_window"/>
+    <menuitem name="Cuentas a pagar" id="cuentas_cobrar_pagar_community.menu_pagar" parent="account.menu_finance_payables" action="cuentas_cobrar_pagar_community.cuentas_pagar_action_window"/>
+
+
+  </data>
+</odoo>

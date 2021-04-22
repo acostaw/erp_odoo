@@ -1,0 +1,269 @@
+<odoo>
+    <data>
+        <template id="account_cajas.template_reporte_sesion_caja">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <h2>Extracto de caja: <span t-field="docs.name"/>
+                        </h2>
+                        <strong style="width:15%;display:inline-block">Caja: </strong>
+                        <span  t-field="docs.caja_id"/>
+                        <br/>
+                        <strong style="width:15%;display:inline-block">Cajero: </strong>
+                        <span t-field="docs.user_id"/>
+                        <br/>
+                        <strong style="width:15%;display:inline-block">Estado: </strong>
+                        <span t-field="docs.state"/>
+                        <br/>
+                        <strong style="width:15%;display:inline-block">Apertura: </strong>
+                        <span t-field="docs.fecha_hora_inicio"/>
+                        <br/>
+                        <strong style="width:15%;display:inline-block">Cierre: </strong>
+                        <span t-field="docs.fecha_hora_fin"/>
+                        <br/>
+
+                        <h4>Métodos de pago</h4>
+                        <t t-foreach="docs.statement_ids" t-as="statement">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr style="background-color:grey">
+                                        <th colspan="4">
+                                            <span t-field="statement.journal_id"/>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Saldo de apertura
+                                        </th>
+                                        <th>
+                                            Transacciones
+                                        </th>
+                                        <th>
+                                            Saldo de cierre
+                                        </th>
+                                        <th>
+                                            Diferencia
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:right">
+                                            <span t-field="statement.balance_start"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-field="statement.total_entry_encoding"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-field="statement.balance_end_real"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-field="statement.difference"/>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="tipo_pago" t-value="[]"/>
+
+                                    <t t-foreach="statement.line_ids" t-as="line">
+                                        <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                            <t t-foreach="entry.payment_id" t-as="payment">
+                                                <t t-set="tipo_pago" t-value="tipo_pago+[payment.tipo_pago]"/>
+                                            </t>
+                                        </t>
+                                    </t>
+
+                                    <t t-foreach="set(tipo_pago)" t-as="tipo">
+                                        <t t-set="total" t-value="0"/>
+                                        <t t-if="tipo != 'efectivo'">
+                                            <tr>
+                                                <td colspan="5" style="text-align:center;">
+                                                    <strong t-esc="tipo" style="text-transform:uppercase;text-align:center;"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <tr>
+                                            <th>
+                                                Fecha
+                                            </th>
+                                            <th>
+                                                Nro Recibo
+                                            </th>
+                                            <th>
+                                                Factura
+                                            </th>
+                                            <th>
+                                                Tipo de Pago
+                                            </th>
+                                            <th>
+                                                Banco
+                                            </th>
+                                            <th>
+                                                Nro Cheque
+                                            </th>
+                                            <th>
+                                                Nro Documento
+                                            </th>
+                                            <th>
+                                                Monto
+                                            </th>
+                                        </tr>
+                                        <t t-foreach="statement.line_ids" t-as="line">
+                                            <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                <t t-foreach="entry.payment_id" t-as="payment">
+                                                    <t t-if="tipo==payment.tipo_pago">
+                                                        <tr>
+                                                            <td>
+                                                                <span t-field="line.date"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="line.name"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                                    <t t-foreach="entry.payment_id" t-as="payment">
+                                                                        <t t-foreach="payment.paid_invoice_ids" t-as="invoice">
+                                                                            <t t-set="etiqueta" t-value="invoice.fake_number"/>
+                                                                            <t t-esc="etiqueta"/>
+                                                                        </t>
+                                                                    </t>
+                                                                </t>
+                                                            </td>
+                                                            <td>
+                                                                <t t-if="line.partner_id.parent_id">
+                                                                    <span t-field="line.partner_id.parent_id"/>
+                                                                </t>
+                                                                <t t-if="not line.partner_id.parent_id">
+                                                                    <span t-field="line.partner_id"/>
+                                                                </t>
+                                                            </td>
+                                                            <td>
+                                                                <span t-field="line.ref"/>
+
+                                                            </td>
+                                                            <td style="text-align:right">
+                                                                <span t-field="line.amount"/>
+                                                                <t t-set="total" t-value="total+line.amount"/>
+                                                                <t t-foreach="line.journal_entry_ids" t-as="entry">
+                                                                    <t t-foreach="entry.payment_id" t-as="payment">
+                                                                        <t t-foreach="payment.invoice_ids" t-as="invoice">
+                                                                            <t t-if="invoice.factura_origen_mora">
+                                                                                <p>
+                                                                                    Interés
+                                                                                </p>
+                                                                            </t>
+                                                                        </t>
+                                                                    </t>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+
+                                        </t>
+                                        <t t-if="tipo != 'efectivo'">
+                                            <tr>
+                                                <td colspan="5" style="text-align:right;">
+                                                    <strong>TOTAL
+                                                        <span t-esc="'{0:,.0f}'.format(int(total)).replace(',','.')"/> GS. </strong>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                    </t>
+
+
+                                </tbody>
+
+                            </table>
+                        </t>
+
+                        <t t-if="notasdeCredito">
+                            <br/>
+                            <br/>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr style="background-color:grey">
+                                        <th colspan="5">
+                                            <span > Notas de Crédito</span>
+                                        </th>
+                                    </tr>
+                                    <th>
+                                        Fecha
+                                    </th>
+                                    <th>
+                                        Nro Recibo
+                                    </th>
+                                    <th>
+                                        Factura
+                                    </th>
+                                    <th>
+                                        Tipo de Pago
+                                    </th>
+                                    <th>
+                                        Banco
+                                    </th>
+                                    <th>
+                                        Nro Cheque
+                                    </th>
+                                    <th>
+                                        Nro Documento
+                                    </th>
+                                    <th>
+                                        Monto
+                                    </th>
+                                </thead>
+                                <t t-set="totalNotas" t-value="0"/>
+                                <tbody>
+                                    <t t-foreach="notasdeCredito" t-as="c">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="c['date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="c['nro_recibo']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="c['facturas']"/>
+                                            </td>
+                                            <td>
+                                                Nota de Crédito
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+                                                <span t-esc="c['nro_documento']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="'{0:,.0f}'.format(int(c['amount'])).replace(',','.')"/>
+                                                <t t-set="totalNotas" t-value="int(c['amount']) + totalNotas"/>
+                                                <t t-if="c['interes']">
+                                                    <p>
+                                                        Interés
+                                                    </p>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr>
+                                        <td colspan="5" style="text-align:right;">
+                                            <strong>TOTAL
+                                                <span t-esc="'{0:,.0f}'.format(int(totalNotas)).replace(',','.')"/> GS. </strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report id="reporte_sesion_caja" model="account.caja.session" string="Reporte de sesión de caja" report_type="qweb-pdf" name="account_cajas.template_reporte_sesion_caja" />
+    </data>
+</odoo>

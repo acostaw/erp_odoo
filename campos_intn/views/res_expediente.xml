@@ -1,0 +1,101 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="intn_resExpediente">
+            <field name="name">
+                Modificacion de vista Presupuestos
+            </field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//button[@name='print_quotation']" position="replace">
+
+                    <attribute name = "invisible">1</attribute>
+
+                </xpath>
+
+                <xpath expr="//div[@class='oe_title']" position="after">
+                    <group>
+                        <span style="color:DarkRed;font-style:italic;font-size:16px;"
+                              attrs="{'invisible':[('necesita_contrato','=',False)]}">
+                            Se
+                            necesita un contrato confirmado para éste
+                            expediente, debido a que un servicio solicitado pertenece a una jerarquía que así lo requiere
+                        </span>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="resolucion_id" readonly="True" />
+                    <field name="pago_exonerado" readonly="True"/>
+                    <field name="necesita_contrato" invisible="True"/>
+                    <field name="contrato_id" readonly="True"/>
+                    <field name="solicitante"/>
+                </xpath>
+                <xpath expr="//field[@name='confirmation_date']" position="after">
+                    <field name="fecha_entrega"/>
+                </xpath>
+
+                <xpath expr="//field[@name='payment_term_id']" position="replace">
+                    <field name="payment_term_id" options="{'no_create': True}" attrs="{'readonly':[('contrato_id','!=',False)]}"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Costos Adicionales">
+                        <group string="Traslado">
+                            <field name="precio_combustible" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="distancia_ida" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="costo_peaje" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="vehiculo_id" widget="selection" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="vehiculo_con_carga" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="costo_translado"/>
+                        </group>
+                        <group string="Traslado Dpto Muestreo">
+                            <field name="ciudad_muestreo_id" options="{'no_create': True}" attrs="{'readonly':[('state','!=','draft')]}" />
+                            <field name="costo_translado_muestreo" readonly="1"/>
+                        </group>
+                        <group string="Viáticos">
+                            <field name="departamento_id" widget="selection"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="cantidad_tecnicos" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="dias_pernoctados" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="dias_no_pernoctados" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="costo_viatico"/>
+                        </group>
+                        <group string="Costos Administrativos Ventas de Normas al Exterior" groups="campos_intn.costos_administatrivos_onn">
+                            <field name="porcentaje_gastos_administrativos"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="gastos_administrativos"
+                                   attrs="{'readonly':1}"/>
+                        </group>
+                        <group string="Costos Adicionales en relación a horas extraordinarias y nocturnas" groups="campos_intn.costos_administatrivos_onn">
+                            <field name="sueldo"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="horas_extras"
+                                   attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="costo_horas_extras"/>
+                        </group>
+
+                        <group style="text-align:center;">
+                            <button id="costo_adicional" name="set_linea_viatico" type="object" class="btn btn-primary" style="text-align:center;">
+                                Guardar Costo Adicional
+                            </button>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Descripciones Adicionales">
+                        <group>
+                                <field name="descripcion_trabajos" style=' height: 100px'/>
+                        </group>
+                        <group>
+                                <field name="materiales_entregados" style='height: 100px'/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>
+
+

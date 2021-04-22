@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data >
+        
+        <record id="reporte_servicios_jerarquias_tree_view" model="ir.ui.view">
+            <field name="name">reporte_servicios_jerarquias</field>
+            <field name="model">sale.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="product_id" string="Producto"/>
+                    <field name="product_uom_qty"  string="Cantidad"/>
+                    <field name="price_total"/>
+                    <field name="organismo_id"/>
+                    <field name="unidad_id"/>
+                    <field name="departamento_id"/>
+                    <field name="laboratorio_id"/>
+                    <field name="coordinacion_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="reporte_servicios_jerarquia_action_window" model="ir.actions.act_window">
+            <field name="name">Ventas de servicios por Jerarquía</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.report</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="reporte_servicios_jerarquia.reporte_servicios_jerarquias_tree_view"/>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_reporte_servicios_jerarquia" name="Servicios por jerarquia" parent="sale.menu_sale_report" action="reporte_servicios_jerarquia_action_window" sequence="5"/>
+        
+    </data>
+</odoo>

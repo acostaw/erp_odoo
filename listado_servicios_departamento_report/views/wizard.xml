@@ -1,0 +1,38 @@
+<odoo>
+    <record model="ir.ui.view" id="recap_report_wizard">
+        <field name="name"> Listado Servicios Facturados por Departamentos de Pais</field>
+        <field name="model">listado_servicios_departamento.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Informe de Metas por Departamentos">
+                <group>
+                    <group>
+                        <field name="organismo_id"/>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Imprimir" type="object" class="oe_highlight"/>
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_recap_report_wizard"
+                name="Informe de Metas por Departamentos"
+                res_model="listado_servicios_departamento.report.wizard"
+                view_mode="form"
+                target="new"/>
+
+    <menuitem action="action_recap_report_wizard"
+              id="menu_listado_servicios_departamento_report_wizard"
+              parent="account.menu_finance_receivables"/>
+</odoo>

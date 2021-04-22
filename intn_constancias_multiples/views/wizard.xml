@@ -1,0 +1,28 @@
+<odoo>
+    <record model="ir.ui.view" id="tipo_constancias_wizard">
+        <field name="name">Tipo de Constancias Wizard</field>
+        <field name="model">tipo.constancias.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Tipo de Constancias">
+                <group>
+                    <group>
+                        <field name="tipo_constancia_id"/>
+                        <field name="order_id" domain="[('state', '=', 'sale')]"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_constancia" string="Crear" type="object" class="oe_highlight"/>
+<!--                    <button name="%(intn_constancias_multiples.constancias_multiples_form_view)d" string="Crear" type="action" class="oe_highlight"/>-->
+                    <button string="Cancelar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_wizard"
+                name="Tipo de Constancias"
+                res_model="tipo.constancias.wizard"
+                view_mode="form"
+                target="new"/>
+</odoo>

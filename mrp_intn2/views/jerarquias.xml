@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mrp_intn2.organismos_form_view">
+            <field name="name">mrp_intn2.organismos_form_view</field>
+            <field name="model">intn.organismos</field>
+            <field name="inherit_id" ref="campos_intn.organismo_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                            <field name="user_ids"  widget="many2many_list"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="mrp_intn2.unidades_form_view">
+            <field name="name">mrp_intn2.unidades_form_view</field>
+            <field name="model">intn.unidades</field>
+            <field name="inherit_id" ref="campos_intn.unidad_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                            <field name="user_ids"  widget="many2many_list"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="mrp_intn2.departamentos_form_view">
+            <field name="name">mrp_intn2.departamentos_form_view</field>
+            <field name="model">intn.departamentos</field>
+            <field name="inherit_id" ref="campos_intn.departamento_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                            <field name="user_ids"  widget="many2many_list"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="mrp_intn2.coordinaciones_form_view">
+            <field name="name">mrp_intn2.coordinaciones_form_view</field>
+            <field name="model">intn.coordinaciones</field>
+            <field name="inherit_id" ref="campos_intn.coordinacion_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                            <field name="user_ids"  widget="many2many_list"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="mrp_intn2.laboratorios_form_view">
+            <field name="name">mrp_intn2.laboratorios_form_view</field>
+            <field name="model">intn.laboratorios</field>
+            <field name="inherit_id" ref="campos_intn.laboratorio_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                            <field name="user_ids"  widget="many2many_list"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
